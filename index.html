@@ -3830,7 +3830,16 @@ ex_warn=These figures are starting estimates, not verified data. Before spending
 
 (function(){
 const T=(l,s)=>{const o={};s.split('\n').forEach(x=>{const i=x.indexOf('=');if(i>0)o[x.slice(0,i).trim()]=x.slice(i+1).trim()});Object.assign(I18N[l],o)};
-T('fr',`b_launch=Phase de préparation
+T('fr',`go_title=Objectifs mensuels
+go_h=Un objectif par mois à atteindre, en plus du scénario. Laisse vide pour garder la valeur du scénario central. Ils partent vers le Suivi, qui compare chaque mois au réel.
+go_fill=Remplir avec le scénario central
+go_filled=Objectifs remplis, tu peux les modifier
+go_month=Mois
+go_plan_rev=CA du scénario
+go_rev=CA visé
+go_plan_net=Résultat du scénario
+go_net=Résultat visé
+b_launch=Phase de préparation
 b_launch_l=Mois de préparation avant la première vente
 b_launch_h=Pendant ces mois, tu paies les charges fixes mais tu ne vends rien : équipe, statut, prototype, scans, déplacements, pilote. Les scénarios s'ajoutent à ce délai.
 gate_title=Validation du projet
@@ -3843,7 +3852,16 @@ gate_h=Le bouton copie tout le dossier : chiffres mois par mois, produits, charg
 ex_valid_t=Projet validé complet (exemple)
 ex_valid_h=Un projet dont les 7 dimensions sont solides, avec preuves, tests, actions et prévisionnel. Les preuves sont fictives : remplace-les par les tiennes.
 ex_valid_go=Charger le projet validé`);
-T('en',`b_launch=Preparation phase
+T('en',`go_title=Monthly goals
+go_h=One target per month to reach, on top of the scenario. Leave blank to keep the central scenario value. They go to the Tracker, which compares each month with actuals.
+go_fill=Fill with the central scenario
+go_filled=Goals filled, you can edit them
+go_month=Month
+go_plan_rev=Scenario revenue
+go_rev=Target revenue
+go_plan_net=Scenario result
+go_net=Target result
+b_launch=Preparation phase
 b_launch_l=Months of preparation before the first sale
 b_launch_h=During these months you pay fixed costs but sell nothing: team, legal setup, prototype, scans, travel, pilot. Scenarios add to this delay.
 gate_title=Project validation
@@ -3933,7 +3951,7 @@ function stdRows(){
  fund:[{id:uid(),name:t('ln_own'),amt:null}]};
 }
 function newProject(name,cur){const r=stdRows();return{id:uid(),name:name,created:Date.now(),updated:Date.now(),example:false,cur:cur||S.cur,
- launch:0,country:'',sector:'',problem:'',customer:'',
+ launch:0,goals:[],goalsN:[],country:'',sector:'',problem:'',customer:'',
  invest:r.invest,fund:r.fund,loan:{amt:null,rate:null,months:null},rev:r.rev,fixed:r.fixed,tax:null,horizon:12,
  scn:{pf:100,vf:100,cf:100,ff:100,delay:0},
  cv:{partners:'',activities:'',resources:'',value:'',relations:'',channels:'',segments:'',costs:'',revenue:''},
@@ -4311,8 +4329,15 @@ function risksHTML(p){
  return p.risks.length?'<div class="tablewrap"><table class="sheet"><thead><tr><th>'+t('k_text')+'</th><th>'+t('col_type')+'</th><th>'+t('k_prob')+'</th><th>'+t('k_impact')+'</th><th>'+t('k_score')+'</th><th>'+t('k_mitig')+'</th><th class="x"></th></tr></thead><tbody>'+
   p.risks.map((r,i)=>'<tr><td>'+cell('risks.'+i+'.text',r.text,'text',{label:t('k_text')})+'</td><td>'+selc('risks.'+i+'.cat',r.cat,cats)+'</td><td>'+selc('risks.'+i+'.prob',r.prob,lv,{num:1})+'</td><td>'+selc('risks.'+i+'.impact',r.impact,lv,{num:1})+'</td><td><span class="score '+scoreCls(rskScore(r))+'" id="rs'+i+'">'+rskScore(r)+'</span></td><td>'+cell('risks.'+i+'.mitig',r.mitig,'text',{label:t('k_mitig')})+'</td><td class="x">'+delBtn('risks',i)+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted">'+t('k_empty')+'</p>';
 }
+function goalsCard(p){
+ const s=sim(p,SC.central),H=s.H;
+ if(!Array.isArray(p.goals))p.goals=[];if(!Array.isArray(p.goalsN))p.goalsN=[];
+ let rows='';
+ for(let i=0;i<H;i++)rows+='<tr><td>'+mlab(i+1)+(i<num(p.launch)?' <span class="hint">· '+t('b_launch')+'</span>':'')+'</td><td class="n calc">'+fm(s.rev[i],p.cur)+'</td><td>'+cell('goals.'+i,p.goals[i],'money',{ph:String(Math.round(s.rev[i])),label:t('go_rev')})+'</td><td class="n calc">'+fm(s.net[i],p.cur)+'</td><td>'+cell('goalsN.'+i,p.goalsN[i],'money',{ph:String(Math.round(s.net[i])),label:t('go_net')})+'</td></tr>';
+ return'<div class="card">'+head(t('go_title'),'<button class="btn sm ghost" data-act="goalsfill">'+I('spark')+t('go_fill')+'</button>')+'<p class="hint" style="margin-bottom:8px">'+t('go_h')+'</p><div class="tablewrap"><table class="sheet"><thead><tr><th>'+t('go_month')+'</th><th class="n">'+t('go_plan_rev')+'</th><th class="n">'+t('go_rev')+'</th><th class="n">'+t('go_plan_net')+'</th><th class="n">'+t('go_net')+'</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
 function tabPlan(p){
- return'<div class="stack"><div class="card">'+head(t('a_title'),'<button class="btn sm ghost" data-act="afrom">'+I('spark')+t('a_from')+'</button>')+'<div id="kan">'+kanbanHTML(p)+'</div></div>'+
+ return'<div class="stack">'+goalsCard(p)+'<div class="card">'+head(t('a_title'),'<button class="btn sm ghost" data-act="afrom">'+I('spark')+t('a_from')+'</button>')+'<div id="kan">'+kanbanHTML(p)+'</div></div>'+
  '<div class="card">'+head(t('k_title'),addBtn('risks',t('k_add')))+'<div id="risks">'+risksHTML(p)+'</div></div>'+
  '<div class="card">'+head(t('k_legal_t'))+'<div class="tests"><label class="chk"><input type="checkbox" data-bind="legal1" data-kind="chk"'+(p.legal1?' checked':'')+'><span>'+t('k_legal1')+'</span></label><label class="chk"><input type="checkbox" data-bind="legal2" data-kind="chk"'+(p.legal2?' checked':'')+'><span>'+t('k_legal2')+'</span></label></div><p class="hint">'+t('k_legal_n')+'</p></div></div>';
 }
@@ -4326,7 +4351,7 @@ function csvExport(p){
  if(num(p.loan.amt)>0)L.push('loan;'+t('b_loan')+';'+q(p.loan.amt)+';'+q(p.loan.rate)+';'+q(p.loan.months));return L.join('\n');
 }
 function tabFile(p){
- const cols=[['invest',t('c_invest'),'v1 = '+t('col_amt')],['fixed',t('b_fixed'),'v1 = '+t('col_amt')+' · v2 = m / y'],['revenue',t('b_revenue'),'v1 = '+t('col_price')+' · v2 = '+t('col_ucost')+' · v3 = '+t('col_qty')+' · v4 = '+t('col_g')],['own',t('b_funding'),'v1 = '+t('col_amt')],['launch',t('b_launch'),'v1 = '+t('unit_m')],['horizon',t('c_horizon'),'v1 = 12 / 24 / 36'],['action',t('a_title'),'v1 = '+t('unit_m')+' · v2 = '+t('col_amt')],['loan',t('b_loan'),'v1 = '+t('col_amt')+' · v2 = '+t('b_rate')+' · v3 = '+t('b_months')]];
+ const cols=[['invest',t('c_invest'),'v1 = '+t('col_amt')],['fixed',t('b_fixed'),'v1 = '+t('col_amt')+' · v2 = m / y'],['revenue',t('b_revenue'),'v1 = '+t('col_price')+' · v2 = '+t('col_ucost')+' · v3 = '+t('col_qty')+' · v4 = '+t('col_g')],['own',t('b_funding'),'v1 = '+t('col_amt')],['launch',t('b_launch'),'v1 = '+t('unit_m')],['horizon',t('c_horizon'),'v1 = 12 / 24 / 36'],['goal',t('go_title'),'v1 = '+t('go_month')+' · v2 = '+t('go_rev')+' · v3 = '+t('go_net')],['action',t('a_title'),'v1 = '+t('unit_m')+' · v2 = '+t('col_amt')],['loan',t('b_loan'),'v1 = '+t('col_amt')+' · v2 = '+t('b_rate')+' · v3 = '+t('b_months')]];
  return'<div class="stack"><div class="grid2"><div class="card stack">'+head(t('fi_title'))+
  '<label class="drop" id="drop" for="fileIn">'+I('upload')+'<b>'+t('fi_drop')+'</b><span class="hint">CSV · Excel (.xlsx, .xls) · TXT</span></label><input type="file" id="fileIn" accept=".csv,.tsv,.txt,.xlsx,.xls" hidden>'+
  '<div class="field"><label for="paste">'+t('fi_paste')+'</label><textarea class="mono" id="paste" placeholder="'+esc(csvTemplate())+'"></textarea></div><div class="row"><button class="btn primary" data-act="fimport">'+I('upload')+t('fi_import')+'</button></div><p class="hint">'+t('fi_note')+'</p></div>'+
@@ -5093,7 +5118,8 @@ function suiviPayload(p){
   risks:p.risks.map(r=>({text:r.text,prob:num(r.prob),impact:num(r.impact),mitig:r.mitig||''})),
   actions:p.actions.map(a=>({text:a.text,due:a.due||'',cost:num(a.cost),st:a.st})),
   comps:p.comps.map(c=>({name:c.name,price:num(c.price)})),
-  decision:p.decision,launch:num(p.launch)};
+  decision:p.decision,launch:num(p.launch),
+  goals:s.rev.map((r,i)=>num((p.goals||[])[i])>0?R(num(p.goals[i])):R(r)),goalsN:s.net.map((r,i)=>(p.goalsN||[])[i]!=null&&(p.goalsN||[])[i]!==''&&(p.goalsN||[])[i]!==null?R(num(p.goalsN[i])):R(r))};
 }
 
 /* ---------- render ---------- */
@@ -5185,9 +5211,10 @@ function secOf(c){c=nrm(c);
  if(/^(loan|emprunt|pret|credit)/.test(c))return'loan';
  if(/^(launch|lancement|prepa|phase)/.test(c))return'launch';
  if(/^(horizon|duree|duration)/.test(c))return'horizon';
- if(/^(action|etape|task|tache)/.test(c))return'action';return null}
+ if(/^(action|etape|task|tache)/.test(c))return'action';
+ if(/^(goal|objectif)/.test(c))return'goal';return null}
 function importRows(p,rows){
- const got={invest:[],fixed:[],rev:[],fund:[],loan:null,launch:null,horizon:null,actions:[]};let n=0;
+ const got={invest:[],fixed:[],rev:[],fund:[],loan:null,launch:null,horizon:null,actions:[],goals:[],goalsN:[]};let n=0;
  rows.forEach(r=>{const sec=secOf(r[0]);if(!sec)return;const nm=r[1]||'',a=parseNum(r[2]),b=parseNum(r[3]),c=parseNum(r[4]),d=parseNum(r[5]);
   if(sec==='invest'){got.invest.push({id:uid(),name:nm,amt:a});n++}
   else if(sec==='fund'){got.fund.push({id:uid(),name:nm,amt:a});n++}
@@ -5196,9 +5223,10 @@ function importRows(p,rows){
   else if(sec==='loan'&&!got.loan){got.loan={amt:a,rate:b,months:c};n++}
   else if(sec==='launch'){got.launch=Math.max(0,Math.round(a||0));n++}
   else if(sec==='horizon'){const h=Math.round(a||0);got.horizon=h<=12?12:h<=24?24:36;n++}
+  else if(sec==='goal'){const m=Math.round(a||0);if(m>=1&&m<=36){got.goals[m-1]=b||0;got.goalsN[m-1]=c==null?null:c;n++}}
   else if(sec==='action'){got.actions.push({id:uid(),text:nm,due:addDays(Math.round((a||0)*30)),cost:b||0,st:'todo'});n++}});
  if(!n)return 0;
- ['invest','fixed','rev','fund'].forEach(k=>{if(got[k].length)p[k]=got[k]});if(got.loan)p.loan=got.loan;if(got.launch!=null)p.launch=got.launch;if(got.horizon)p.horizon=got.horizon;if(got.actions.length)p.actions=got.actions;touch(p);return n;
+ ['invest','fixed','rev','fund'].forEach(k=>{if(got[k].length)p[k]=got[k]});if(got.loan)p.loan=got.loan;if(got.launch!=null)p.launch=got.launch;if(got.horizon)p.horizon=got.horizon;if(got.actions.length)p.actions=got.actions;if(got.goals.length){p.goals=Array.from(got.goals,x=>x==null?null:x);p.goalsN=Array.from(got.goalsN,x=>x==null?null:x)}touch(p);return n;
 }
 function loadXLSX(){return new Promise((res,rej)=>{if(window.XLSX)return res(window.XLSX);const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=()=>window.XLSX?res(window.XLSX):rej();s.onerror=()=>rej();document.head.appendChild(s)})}
 function doImport(rows){
@@ -5247,6 +5275,7 @@ document.addEventListener('click',async e=>{
  case'amove':{const x=p.actions[+d.i],k=Math.max(0,Math.min(2,KCOL.indexOf(x.st)+ +d.d));x.st=KCOL[k];touch(p);renderTab();break}
  case'afrom':{p.hyps.filter(h=>h.status==='todo'&&h.text).forEach(h=>{if(!p.actions.some(x=>x.src===h.id))p.actions.push({id:uid(),src:h.id,text:h.text,due:addDays(14),cost:null,st:'todo'})});touch(p);renderTab();break}
  case'cvauto':{const add=(k,names)=>{const cur=p.cv[k].split('\n').map(x=>x.trim()).filter(Boolean);names.filter(n=>n&&!cur.includes(n)).forEach(n=>cur.push(n));p.cv[k]=cur.join('\n')};add('costs',p.fixed.filter(x=>num(x.amt)>0).map(x=>x.name));add('revenue',p.rev.filter(x=>x.name).map(x=>x.name));if(!p.cv.segments&&p.customer)p.cv.segments=p.customer;if(!p.cv.value&&p.problem)p.cv.value=p.problem;touch(p);renderTab();break}
+ case'goalsfill':{const s=sim(p,SC.central);p.goals=s.rev.map(Math.round);p.goalsN=s.net.map(Math.round);touch(p);renderTab();toast(t('go_filled'));break}
  case'fsend':toast(await copyText(JSON.stringify(suiviPayload(p)))?t('gate_sent'):t('t_copy'));break;
  case'copyrep':toast(await copyText(reportText(p))?t('r_copied'):t('t_copy'));break;
  case'lang':setLang(d.l);break;
