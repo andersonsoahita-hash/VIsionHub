@@ -80,7 +80,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .lang-row select{flex:1;min-width:0}
 
 .main{min-width:0}
-.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-block-end:1px solid var(--line)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);;border-block-end:1px solid var(--line)}
 .topbar-in{display:flex;align-items:center;gap:12px;min-height:54px;padding:8px max(20px,env(safe-area-inset-right,0px)) 8px max(20px,env(safe-area-inset-left,0px))}
 .topbar-in .ttl{font-family:var(--font-display);font-weight:700;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .saved{margin-inline-start:auto;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}
@@ -484,7 +484,7 @@ body{background:#050A22}
 .nav-main{display:none}
 .side{background:linear-gradient(180deg,var(--side-bg),#070C28);border-inline-end:1px solid var(--side-line)}
 .nav .addp{display:flex}
-.card,.pcard,.tile,.kt{backdrop-filter:blur(6px)}
+.card,.pcard,.tile,.kt{}
 .card,.pcard,.tile{background:color-mix(in srgb,var(--surface) 90%,transparent)}
 .card,.pcard,.tile{border-color:color-mix(in srgb,var(--line) 85%,var(--accent))}
 .content{padding-top:28px}
@@ -507,7 +507,7 @@ body{background:#050A22}
 .gtool{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;padding:14px 18px}
 .gtool-g{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.gtool-g>span{font-size:12.5px;font-weight:600;color:var(--muted)}
 .gnav{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:calc(var(--bbh) + env(safe-area-inset-top,0px) + 8px);z-index:12;padding:6px;border-radius:999px;width:fit-content;max-width:100%;overflow-x:auto;
- background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:blur(10px);border:1px solid var(--line);box-shadow:var(--shadow)}
+ background:color-mix(in srgb,var(--surface) 82%,transparent);border:1px solid var(--line);box-shadow:var(--shadow)}
 .gnav button{border:0;background:transparent;color:var(--muted);font-weight:600;font-size:13px;padding:6px 13px;border-radius:999px;cursor:pointer;white-space:nowrap}
 .gnav button:hover{background:var(--accent-soft);color:var(--accent)}
 .gstack{gap:26px}
@@ -671,29 +671,25 @@ body{background:#050A22}
 .uname{font-size:clamp(22px,4.2vw,46px);text-overflow:ellipsis}
 @media (max-width:600px){.uname{font-size:22px}}
 
-/* ===== Living background ===== */
-.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+/* ===== Living background (cheap: gradients + transforms only, no blur filters) ===== */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict;
  background:radial-gradient(1300px 820px at 12% -8%,#16267F 0%,transparent 62%),radial-gradient(900px 700px at 100% 100%,#1A0E4A 0%,transparent 60%),linear-gradient(160deg,#040920 0%,#091241 48%,#120A38 100%)}
-.bg i{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform;transition:background 1.4s,opacity 1.4s}
-.bg i:nth-child(1){width:50vmax;height:50vmax;left:-14vmax;top:-18vmax;background:#2F4BFF;opacity:.5;animation:o1 26s ease-in-out infinite alternate}
-.bg i:nth-child(2){width:40vmax;height:40vmax;right:-12vmax;top:4vh;background:#8A4DE8;opacity:.42;animation:o2 32s ease-in-out infinite alternate}
-.bg i:nth-child(3){width:38vmax;height:38vmax;left:28vw;bottom:-22vmax;background:#C9A24B;opacity:.3;animation:o3 29s ease-in-out infinite alternate}
-.bg i:nth-child(4){width:28vmax;height:28vmax;left:4vw;bottom:2vh;background:#0E9F9A;opacity:.26;animation:o4 37s ease-in-out infinite alternate}
-.bg i:nth-child(5){width:22vmax;height:22vmax;right:18vw;bottom:10vh;background:#DB2777;opacity:.18;animation:o2 41s ease-in-out infinite alternate-reverse}
-.bg::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.055) 50%,transparent 62%);background-size:260% 100%;animation:sweep 16s linear infinite}
-.bg::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
- background:radial-gradient(1.6px 1.6px at 12% 22%,#fff,transparent),radial-gradient(1.2px 1.2px at 78% 14%,#fff,transparent),radial-gradient(1.4px 1.4px at 44% 66%,#fff,transparent),radial-gradient(1px 1px at 90% 72%,#fff,transparent),radial-gradient(1.5px 1.5px at 26% 88%,#fff,transparent),radial-gradient(1px 1px at 60% 38%,#fff,transparent),
- url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .6  0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:twinkle 6s ease-in-out infinite alternate}
-body[data-g="1"] .bg i:nth-child(1){background:#0F2A8A;opacity:.55}
-body[data-g="1"] .bg i:nth-child(2){background:#C9A24B;opacity:.30}
-body[data-g="1"] .bg i:nth-child(3){background:#E8C877;opacity:.30}
-@keyframes o1{to{transform:translate(18vw,12vh) scale(1.15)}}
-@keyframes o2{to{transform:translate(-16vw,14vh) scale(1.2)}}
-@keyframes o3{to{transform:translate(-20vw,-10vh) scale(1.1)}}
-@keyframes o4{to{transform:translate(22vw,-14vh) scale(1.25)}}
-@keyframes sweep{to{background-position:-260% 0}}
-@keyframes twinkle{to{opacity:.32}}
-.card,.pcard,.tile,.gk,.gph,.wcard,.door,.pj-card{background-color:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(14px) saturate(1.2)}
+.bg i{position:absolute;border-radius:50%;will-change:transform;transform:translateZ(0)}
+.bg i:nth-child(1){width:70vmax;height:70vmax;left:-24vmax;top:-30vmax;background:radial-gradient(closest-side,rgba(47,75,255,.55),rgba(47,75,255,0));animation:o1 40s ease-in-out infinite alternate}
+.bg i:nth-child(2){width:60vmax;height:60vmax;right:-22vmax;top:-4vh;background:radial-gradient(closest-side,rgba(138,77,232,.46),rgba(138,77,232,0));animation:o2 48s ease-in-out infinite alternate}
+.bg i:nth-child(3){width:60vmax;height:60vmax;left:24vw;bottom:-34vmax;background:radial-gradient(closest-side,rgba(201,162,75,.34),rgba(201,162,75,0));animation:o3 44s ease-in-out infinite alternate}
+.bg i:nth-child(4){width:44vmax;height:44vmax;left:-8vw;bottom:-6vh;background:radial-gradient(closest-side,rgba(14,159,154,.3),rgba(14,159,154,0));animation:o4 52s ease-in-out infinite alternate}
+.bg i:nth-child(5){display:none}
+.bg::after{content:"";position:absolute;inset:0;opacity:.45;
+ background:radial-gradient(1.6px 1.6px at 12% 22%,#fff,transparent),radial-gradient(1.2px 1.2px at 78% 14%,#fff,transparent),radial-gradient(1.4px 1.4px at 44% 66%,#fff,transparent),radial-gradient(1px 1px at 90% 72%,#fff,transparent),radial-gradient(1.5px 1.5px at 26% 88%,#fff,transparent),radial-gradient(1px 1px at 60% 38%,#fff,transparent),radial-gradient(1px 1px at 5% 60%,#fff,transparent),radial-gradient(1.3px 1.3px at 95% 40%,#fff,transparent)}
+body[data-g="1"] .bg i:nth-child(1){background:radial-gradient(closest-side,rgba(20,60,170,.6),rgba(20,60,170,0))}
+body[data-g="1"] .bg i:nth-child(2){background:radial-gradient(closest-side,rgba(201,162,75,.36),rgba(201,162,75,0))}
+body[data-g="1"] .bg i:nth-child(3){background:radial-gradient(closest-side,rgba(232,200,119,.34),rgba(232,200,119,0))}
+@keyframes o1{to{transform:translate3d(16vw,10vh,0) scale(1.1)}}
+@keyframes o2{to{transform:translate3d(-14vw,12vh,0) scale(1.12)}}
+@keyframes o3{to{transform:translate3d(-18vw,-8vh,0) scale(1.08)}}
+@keyframes o4{to{transform:translate3d(20vw,-12vh,0) scale(1.15)}}
+.card,.pcard,.tile,.gk,.gph,.wcard,.door,.pj-card{background-color:color-mix(in srgb,var(--surface) 88%,transparent)}
 .content{position:relative}
 
 /* ===== Motion ===== */
@@ -711,17 +707,18 @@ body[data-g="1"] .bg i:nth-child(3){background:#E8C877;opacity:.30}
 #view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(2){--i:1}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(3){--i:2}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(4){--i:3}
 #view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(5){--i:4}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(6){--i:5}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(n+7){--i:6}
 #view.anim .gmap .edge{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s ease forwards;animation-delay:calc(var(--col,0)*160ms + 150ms)}
-.gmap .flow{stroke-dasharray:3 7;stroke-opacity:.9;animation:flow 1.4s linear infinite}
+.gmap .flow{stroke-dasharray:3 7;stroke-opacity:.85}
+.gmap:hover .flow{animation:flow 1.4s linear infinite}
 #view.anim .gmap .gn{animation:fade .6s both;animation-delay:calc(var(--col,0)*160ms + 200ms)}
 #view.anim .gb{transform-origin:left center;animation:grow .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--r,0)*40ms + 250ms)}
 #view.anim .gbar{transform-box:fill-box;transform-origin:50% 100%;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--y,0)*45ms + 150ms)}
 #view.anim .gnet{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s .6s ease forwards}
 #view.anim .pbar i{animation:fillw 1.1s .3s cubic-bezier(.2,.7,.2,1) both}
 .home-logo svg{animation:float 6s ease-in-out infinite}
-.home-word em{background-size:200% 100%;animation:shine 6s linear infinite;background-image:linear-gradient(100deg,#B8892F,#E8C877,#C9A24B,#E8C877,#B8892F)}
-.brandbar::after{background:linear-gradient(90deg,transparent,var(--gold),#4F83FF,var(--gold),transparent);background-size:200% 100%;animation:shine 8s linear infinite}
+.home-word em{background-image:linear-gradient(100deg,#B8892F,#E8C877,#C9A24B)}
+.brandbar::after{background:linear-gradient(90deg,transparent,var(--gold),#4F83FF,var(--gold),transparent)}
 .door-ic,.gate-ic{transition:transform .25s}.door:hover .door-ic{transform:rotate(-6deg) scale(1.08)}
-.gn-bg{transition:stroke .2s}.gn:hover{filter:drop-shadow(0 4px 12px rgba(201,162,75,.5))}
+.gn-bg{transition:stroke .2s}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* ===== Progress + linked project ===== */
@@ -734,6 +731,41 @@ body[data-g="1"] .bg i:nth-child(3){background:#E8C877;opacity:.30}
 .gpnote{font-size:12.5px;color:rgba(255,255,255,.8);flex:1;min-width:200px}
 .gpbar .btn{color:var(--ink)}
 .coc .pbar{--c:inherit}
+
+.card,.coc,.door,.gk,.gph,.wcard{box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.gg-scroll,.gmap-scroll,.tablewrap{contain:content}
+
+/* org charts */
+.orgw{overflow-x:auto;padding:6px 2px 14px;-webkit-overflow-scrolling:touch}
+.org,.org ul{list-style:none;margin:0;padding:0;display:flex;justify-content:center;position:relative}
+.org{min-width:max-content;margin:0 auto}
+.org ul{padding-top:22px}
+.org li{position:relative;display:flex;flex-direction:column;align-items:center;padding:22px 8px 0}
+.org>li{padding-top:0}
+.org li::before,.org li::after{content:"";position:absolute;top:0;right:50%;width:50%;height:22px;border-top:1.5px solid var(--bd,rgba(140,150,170,.45))}
+.org li::after{right:auto;left:50%;border-left:1.5px solid var(--bd,rgba(140,150,170,.45))}
+.org li:only-child::before,.org li:only-child::after{display:none}
+.org li:only-child{padding-top:0}
+.org li:first-child::before,.org li:last-child::after{border:0}
+.org li:last-child::before{border-right:1.5px solid var(--bd,rgba(140,150,170,.45));border-radius:0 8px 0 0}
+.org li:first-child::after{border-radius:8px 0 0 0}
+.org ul::before{content:"";position:absolute;top:0;left:50%;height:22px;border-left:1.5px solid var(--bd,rgba(140,150,170,.45))}
+.onode{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:112px;max-width:170px;padding:8px 10px;border-radius:10px;text-align:center;border:1px solid var(--bd,rgba(140,150,170,.4));background:var(--card,rgba(120,130,150,.12));border-top:3px solid var(--c,#7aa2ff);font:inherit;color:inherit;contain:layout}
+.onode b{font-size:12.5px;line-height:1.25}
+.onode small{font-size:11px;opacity:.75}
+.onode.top{border-top-color:#f5b84b}
+.onode.hq{border-top-color:#9b8cff}
+.onode.ghost{border-style:dashed;opacity:.7}
+.btn-n{cursor:pointer}
+.btn-n:hover{transform:translateY(-1px)}
+.gdet{margin-top:12px}.gdet summary{cursor:pointer;font-weight:600;padding:6px 0}
+.linkbtn{background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;font:inherit;padding:0;text-align:left}
+.gorgc .card-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+
+.org ul.vl{flex-direction:column;align-items:center;gap:6px;padding-top:12px}
+.org ul.vl::before{display:none}
+.org ul.vl>li{padding:0}
+.org ul.vl>li::before,.org ul.vl>li::after{display:none}
 
 </style>
 <div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
@@ -5696,51 +5728,120 @@ function suiviPayload(p){
   goals:s.rev.map((r,i)=>num((p.goals||[])[i])>0?R(num(p.goals[i])):R(r)),goalsN:s.net.map((r,i)=>(p.goalsN||[])[i]!=null&&(p.goalsN||[])[i]!==''&&(p.goalsN||[])[i]!==null?R(num(p.goalsN[i])):R(r))};
 }
 
+/* ---------- Staffing model: roles, rosters per company, head-office services ---------- */
+/* Monthly gross salaries in M Ar: estimates for Madagascar, to be replaced by real market data. */
+const GRL={
+ dg:['Directeur·rice de la société','Managing director',4.5],adm:['Assistant·e administratif·ve','Administrative assistant',.9],
+ comr:['Responsable commercial','Sales manager',2.4],com:['Conseiller·ère clientèle','Sales advisor',1.1],
+ opr:['Responsable des opérations','Operations manager',2.6],jur:['Chargé·e foncier / juriste','Land and legal officer',2.8],
+ agt:['Agent de terrain','Field agent',.9],ing:['Ingénieur / conducteur de travaux','Engineer / site manager',3.2],
+ chef:['Chef de chantier','Site foreman',2],ouv:['Ouvrier qualifié','Skilled worker',.8],arch:['Architecte / dessinateur','Architect / draftsman',2.4],
+ inf:['Infographiste 3D','3D artist',1.8],vend:['Vendeur·se','Sales assistant',.75],rboutique:['Responsable de boutique','Store manager',1.9],
+ mag:['Magasinier / logisticien','Storekeeper',.75],accueil:['Accueil / réception','Reception',.7],secu:['Agent de sécurité','Security guard',.55],
+ entr:['Entretien et nettoyage','Cleaning and upkeep',.5],tech:['Technicien de maintenance','Maintenance technician',1.2],
+ gest:['Gestionnaire locatif','Property manager',1.8],even:['Chargé·e d\'événementiel','Events officer',1.6],
+ chefc:['Chef cuisinier','Head chef',2.2],serv:['Cuisinier·ère / serveur·se','Cook / waiter',.7],coach:['Coach sportif','Fitness coach',1.1],
+ esth:['Esthéticienne / coiffeuse','Beautician / hairdresser',.8],phot:['Photographe / vidéaste','Photographer / videographer',1.8],
+ styl:['Styliste / acheteur mode','Stylist / fashion buyer',2.2],form:['Formateur·rice / coach','Trainer / coach',2.2],
+ ens:['Enseignant·e','Teacher',2],dped:['Directeur·rice pédagogique','Academic director',5],chauf:['Chauffeur','Driver',.7],
+ dhot:['Directeur·rice d\'hôtel','Hotel manager',6],gouv:['Gouvernante','Housekeeper',1.3],cham:['Femme / homme de chambre','Room attendant',.55],
+ mark:['Responsable marketing','Marketing manager',2.4],cm:['Community manager','Community manager',1.4]
+};
+/* [role, count at maturity, index of manager (-1 = top), salary override in M Ar] */
+const GRST={
+ diaspora:[['dg',1,-1,2.8],['agt',2,0],['com',1,0]],
+ vr:[['dg',1,-1,2.8],['inf',1,0],['com',1,0]],
+ build:[['dg',1,-1,4],['ing',1,0],['chef',2,1],['adm',1,0]],
+ retail:[['rboutique',1,-1],['vend',2,0],['mag',1,0]],
+ b2b:[['dg',1,-1,3.5],['ing',1,0],['chef',1,1]],
+ rental:[['gest',1,-1],['tech',1,0],['entr',2,0],['secu',2,0]],
+ mall:[['gest',1,-1],['adm',1,0],['tech',1,0],['secu',4,0],['entr',3,0]],
+ events:[['dg',1,-1,3.5],['even',2,0],['com',1,0],['tech',1,0],['entr',3,0],['secu',2,0]],
+ mode:[['rboutique',1,-1],['styl',1,0],['vend',3,0],['mag',1,0]],
+ beauty:[['rboutique',1,-1,1.9],['esth',4,0],['accueil',1,0]],
+ photo:[['phot',2,-1],['adm',1,0],['com',1,0]],
+ gym:[['dg',1,-1,2.8],['coach',4,0],['accueil',2,0],['tech',1,0],['entr',2,0]],
+ resto:[['chefc',1,-1],['serv',6,0],['entr',1,0]],
+ coach:[['form',1,-1],['com',1,0]],
+ training:[['form',2,-1],['com',1,0],['adm',1,0]],
+ cars:[['chauf',3,-1],['tech',1,0],['adm',1,0]],
+ hotel:[['dhot',1,-1],['comr',1,0],['accueil',4,0],['gouv',1,0],['cham',8,3],['chefc',1,0],['serv',8,5],['secu',3,0],['tech',2,0],['entr',3,0],['adm',1,0]],
+ school:[['dped',1,-1],['comr',1,0],['com',3,1],['mark',1,0],['ens',25,0],['adm',6,0],['accueil',3,0],['tech',3,0],['secu',6,0],['entr',8,0]]
+};
+const GOTH={diaspora:2,vr:1.2,build:3,retail:2,b2b:2,rental:3,mall:4,events:4,mode:6,beauty:3,photo:1.5,gym:5,resto:6,coach:1,training:2,cars:3,hotel:12,school:25};
+const gMkRoster=k=>(GRST[k]||[['dg',1,-1,2.5],['com',1,0],['adm',1,0]]).map(r=>({k:r[0],n:r[1],p:r[2],sal:Math.round((r[3]!=null?r[3]:GRL[r[0]][2])*1e6)}));
+/* Head-office shared services: count = ceil(n0 + per × started units) once at least `from` units are launched. acc = accounting (central only if sharedAcc). */
+const GHQR=()=>[
+ {k:'assd',nm:['Assistant·e de direction','Executive assistant'],n0:1,per:0,from:4,p:'pres',sal:1.2e6},
+ {k:'daf',nm:['Directeur·rice administratif et financier','CFO'],n0:1,per:0,from:8,p:'pres',sal:5e6},
+ {k:'cchef',nm:['Chef comptable','Chief accountant'],n0:1,per:0,from:3,p:'pres',sal:2.4e6,acc:true},
+ {k:'compt',nm:['Comptable','Accountant'],n0:0,per:.25,from:3,p:'cchef',sal:1.2e6,acc:true},
+ {k:'ctrl',nm:['Contrôleur·se de gestion','Management controller'],n0:1,per:0,from:12,p:'daf',sal:2.8e6},
+ {k:'rh',nm:['Responsable RH','HR manager'],n0:1,per:0,from:8,p:'pres',sal:2.6e6},
+ {k:'paie',nm:['Chargé·e de paie et RH','Payroll and HR officer'],n0:0,per:.1,from:10,p:'rh',sal:1.2e6},
+ {k:'jurh',nm:['Juriste du groupe','Group lawyer'],n0:1,per:0,from:8,p:'pres',sal:2.8e6},
+ {k:'ach',nm:['Responsable achats','Purchasing manager'],n0:1,per:0,from:10,p:'pres',sal:2.2e6},
+ {k:'comh',nm:['Responsable communication et marque','Brand and communication manager'],n0:1,per:0,from:8,p:'pres',sal:2.2e6},
+ {k:'cmh',nm:['Community manager','Community manager'],n0:0,per:.08,from:10,p:'comh',sal:1.2e6},
+ {k:'dsi',nm:['Responsable informatique','IT manager'],n0:1,per:0,from:10,p:'pres',sal:2.6e6},
+ {k:'sup',nm:['Support informatique','IT support'],n0:0,per:.1,from:12,p:'dsi',sal:1.1e6},
+ {k:'qhse',nm:['Responsable qualité et sécurité','Quality and safety manager'],n0:1,per:0,from:12,p:'pres',sal:2.2e6}
+];
+const GACC=1.4e6;
+const gCh=G=>1+(G.charges||0)/100;
+function gPayU(G,u){let s=0;(u.roster||[]).forEach(r=>{s+=r.n*r.sal});if(!G.sharedAcc)s+=GACC;return s*gCh(G)}
+function gFixTot(G,u){return(u.oth||0)+gPayU(G,u)}
+function gUEmp(G,u,f){let c=0;(u.roster||[]).forEach((r,i)=>{c+=Math.max(i===0&&r.n>0?1:0,Math.round(r.n*f))});if(!G.sharedAcc&&f>=.5)c+=1;return c}
+const gHQn=(r,open)=>open>=r.from?Math.ceil(r.n0+r.per*open-1e-9):0;
+function gHQpay(G,open){let s=0,c=0;(G.hqRoster||[]).forEach(r=>{if(r.acc&&!G.sharedAcc)return;const n=gHQn(r,open);s+=n*r.sal;c+=n});return{pay:s*gCh(G),emp:c}}
+
 /* ---------- Stephen Group: portfolio of units launched in phases, funded by the group's own profits ---------- */
 const M=1e6;
 const GDIV={D1:['Immobilier','Real estate','#2563EB'],D2:['Services B2B','B2B services','#0E9F9A'],D3:['Retail maison','Home retail','#E39B0B'],D4:['Mode','Fashion','#DB2777'],D5:['Art oratoire','Public speaking','#7C3AED'],D6:['Beauté','Beauty','#F06CA8'],D7:['Photographie','Photography','#64748B'],D8:['Fitness et healthy','Fitness and healthy','#16A34A'],D9:['Mobilité','Mobility','#EA580C'],D10:['École','School','#C9A24B'],D0:['Technologie','Technology','#38A8E8']};
 const GPH=[['Phase 1 · Lancement du cœur','Phase 1 · Launch the core'],['Phase 2 · Revenus récurrents','Phase 2 · Recurring income'],['Phase 3 · Lifestyle','Phase 3 · Lifestyle'],['Phase 4 · Hôtels et mobilité','Phase 4 · Hotels and mobility'],['Phase 5 · École','Phase 5 · School']];
 /* u: k,div,ph(0..4),name[fr,en],invest,launch(months before opening),ramp(months to maturity),rev(monthly at maturity),margin(%),fixed(monthly),minM,after:{u,cum,open},link:{u,pct},par(parallel) */
-const GUNITS=()=>[
- {k:'diaspora',div:'D1',ph:0,name:['Agence diaspora : terrains, vérification, suivi à distance','Diaspora agency: land, checks, remote follow-up'],invest:15*M,launch:2,ramp:14,rev:24*M,margin:88,fixed:5*M,minM:1,after:null,link:null},
- {k:'vr',div:'D0',ph:0,name:['Studio 3D et salle de visite virtuelle','3D studio and virtual-tour room'],invest:45*M,launch:3,ramp:12,rev:14*M,margin:80,fixed:3.5*M,minM:4,after:{u:'diaspora',cum:3*M,open:true},link:null},
- {k:'build',div:'D1',ph:0,name:['Construction de maisons par étapes','Step-by-step house building'],invest:70*M,launch:3,ramp:24,rev:140*M,margin:15,fixed:10*M,minM:6,after:{u:'diaspora',cum:6*M,open:true},link:null},
- {k:'retail',div:'D3',ph:1,name:['Meubles et électroménager','Furniture and appliances'],invest:70*M,launch:3,ramp:18,rev:30*M,margin:30,fixed:6*M,minM:18,after:{u:'build',cum:8*M,open:true},link:{u:'build',pct:9}},
- {k:'b2b',div:'D2',ph:1,name:['Réhabilitation et bureaux (B2B)','Refurbishment and offices (B2B)'],invest:40*M,launch:3,ramp:18,rev:85*M,margin:16,fixed:6*M,minM:20,after:{u:'build',cum:15*M,open:true},link:null},
- {k:'rental',div:'D2',ph:1,name:['Résidence locative (appartements)','Rental residence (apartments)'],invest:650*M,launch:12,ramp:12,rev:48*M,margin:78,fixed:4*M,minM:30,after:{u:'b2b',cum:5*M,open:true},link:null},
- {k:'mall',div:'D2',ph:1,name:['Mini centre commercial en province','Provincial mini shopping centre'],invest:950*M,launch:12,ramp:14,rev:62*M,margin:72,fixed:6*M,minM:30,after:{u:'build',cum:40*M,open:true},link:null},
- {k:'events',div:'D2',ph:1,name:['Salle événementielle et coworking','Event hall and coworking'],invest:480*M,launch:9,ramp:12,rev:46*M,margin:62,fixed:7*M,minM:36,after:{u:'b2b',cum:12*M,open:true},link:null},
- {k:'mode',div:'D4',ph:2,name:['Boutique de mode','Fashion store'],invest:95*M,launch:3,ramp:14,rev:52*M,margin:40,fixed:14*M,minM:36,after:{u:'retail',cum:5*M,open:true},link:null},
- {k:'beauty',div:'D6',ph:2,name:['Salon de beauté','Beauty salon'],invest:48*M,launch:2,ramp:12,rev:26*M,margin:68,fixed:9*M,minM:40,after:{u:'mode',cum:0,open:true},link:null,par:true},
- {k:'photo',div:'D7',ph:2,name:['Studio photo et production','Photo studio and production'],invest:42*M,launch:2,ramp:12,rev:20*M,margin:74,fixed:5*M,minM:40,after:{u:'mode',cum:0,open:true},link:null,par:true},
- {k:'gym',div:'D8',ph:2,name:['Salle de sport','Gym'],invest:190*M,launch:5,ramp:14,rev:36*M,margin:82,fixed:15*M,minM:40,after:{u:'build',cum:60*M,open:true},link:null},
- {k:'resto',div:'D8',ph:2,name:['Restaurant healthy','Healthy restaurant'],invest:75*M,launch:3,ramp:10,rev:44*M,margin:62,fixed:16*M,minM:42,after:{u:'gym',cum:0,open:false},link:null,par:true},
- {k:'coach',div:'D5',ph:4,name:['Coaching art oratoire','Public-speaking coaching'],invest:15*M,launch:2,ramp:12,rev:20*M,margin:80,fixed:4*M,minM:66,after:{u:'mode',cum:5*M,open:true},link:null,par:true},
- {k:'training',div:'D5',ph:4,name:['Formation continue pour entreprises','Corporate training'],invest:35*M,launch:3,ramp:14,rev:28*M,margin:66,fixed:6*M,minM:72,after:{u:'coach',cum:5*M,open:true},link:null,par:true},
- {k:'cars',div:'D9',ph:3,name:['Mobilité : location et transferts','Mobility: rental and transfers'],invest:200*M,launch:3,ramp:14,rev:24*M,margin:52,fixed:6*M,minM:60,after:{u:'events',cum:0,open:true},link:null},
- {k:'hotel',div:'D2',ph:3,name:['Hôtel pilote 20 chambres','20-room pilot hotel'],invest:1900*M,launch:14,ramp:24,rev:120*M,margin:74,fixed:46*M,minM:60,after:{u:'events',cum:10*M,open:true},link:null},
- {k:'school',div:'D10',ph:4,name:['Grande école et campus','Higher-education school and campus'],invest:2600*M,launch:24,ramp:60,rev:210*M,margin:85,fixed:125*M,minM:96,after:{u:'events',cum:60*M,open:true},link:null}
+const GUNITS0=()=>[
+ {k:'diaspora',div:'D1',ph:0,name:['Agence diaspora : terrains, vérification, suivi à distance','Diaspora agency: land, checks, remote follow-up'],invest:15*M,launch:2,ramp:14,rev:24*M,margin:88,minM:1,after:null,link:null},
+ {k:'vr',div:'D0',ph:0,name:['Studio 3D et salle de visite virtuelle','3D studio and virtual-tour room'],invest:45*M,launch:3,ramp:12,rev:14*M,margin:80,minM:4,after:{u:'diaspora',cum:3*M,open:true},link:null},
+ {k:'build',div:'D1',ph:0,name:['Construction de maisons par étapes','Step-by-step house building'],invest:70*M,launch:3,ramp:24,rev:140*M,margin:20,minM:6,after:{u:'diaspora',cum:6*M,open:true},link:null},
+ {k:'retail',div:'D3',ph:1,name:['Meubles et électroménager','Furniture and appliances'],invest:70*M,launch:3,ramp:18,rev:30*M,margin:30,minM:18,after:{u:'build',cum:8*M,open:true},link:{u:'build',pct:9}},
+ {k:'b2b',div:'D2',ph:1,name:['Réhabilitation et bureaux (B2B)','Refurbishment and offices (B2B)'],invest:40*M,launch:3,ramp:18,rev:85*M,margin:22,minM:20,after:{u:'build',cum:15*M,open:true},link:null},
+ {k:'rental',div:'D2',ph:1,name:['Résidence locative (appartements)','Rental residence (apartments)'],invest:650*M,launch:12,ramp:12,rev:48*M,margin:78,minM:30,after:{u:'b2b',cum:5*M,open:true},link:null},
+ {k:'mall',div:'D2',ph:1,name:['Mini centre commercial en province','Provincial mini shopping centre'],invest:950*M,launch:12,ramp:14,rev:62*M,margin:72,minM:30,after:{u:'build',cum:40*M,open:true},link:null},
+ {k:'events',div:'D2',ph:1,name:['Salle événementielle et coworking','Event hall and coworking'],invest:480*M,launch:9,ramp:12,rev:46*M,margin:70,minM:36,after:{u:'b2b',cum:12*M,open:true},link:null},
+ {k:'mode',div:'D4',ph:2,name:['Boutique de mode','Fashion store'],invest:95*M,launch:3,ramp:14,rev:52*M,margin:40,minM:36,after:{u:'retail',cum:5*M,open:true},link:null},
+ {k:'beauty',div:'D6',ph:2,name:['Salon de beauté','Beauty salon'],invest:48*M,launch:2,ramp:12,rev:26*M,margin:68,minM:40,after:{u:'mode',cum:0,open:true},link:null,par:true},
+ {k:'photo',div:'D7',ph:2,name:['Studio photo et production','Photo studio and production'],invest:42*M,launch:2,ramp:12,rev:20*M,margin:74,minM:40,after:{u:'mode',cum:0,open:true},link:null,par:true},
+ {k:'gym',div:'D8',ph:2,name:['Salle de sport','Gym'],invest:190*M,launch:5,ramp:14,rev:36*M,margin:82,minM:40,after:{u:'build',cum:60*M,open:true},link:null},
+ {k:'resto',div:'D8',ph:2,name:['Restaurant healthy','Healthy restaurant'],invest:75*M,launch:3,ramp:10,rev:44*M,margin:62,minM:42,after:{u:'gym',cum:0,open:false},link:null,par:true},
+ {k:'coach',div:'D5',ph:4,name:['Coaching art oratoire','Public-speaking coaching'],invest:15*M,launch:2,ramp:12,rev:20*M,margin:80,minM:66,after:{u:'mode',cum:5*M,open:true},link:null,par:true},
+ {k:'training',div:'D5',ph:4,name:['Formation continue pour entreprises','Corporate training'],invest:35*M,launch:3,ramp:14,rev:28*M,margin:66,minM:72,after:{u:'coach',cum:5*M,open:true},link:null,par:true},
+ {k:'cars',div:'D9',ph:3,name:['Mobilité : location et transferts','Mobility: rental and transfers'],invest:200*M,launch:3,ramp:14,rev:24*M,margin:52,minM:60,after:{u:'events',cum:0,open:true},link:null},
+ {k:'hotel',div:'D2',ph:3,name:['Hôtel pilote 20 chambres','20-room pilot hotel'],invest:1900*M,launch:14,ramp:24,rev:120*M,margin:74,minM:60,after:{u:'events',cum:10*M,open:true},link:null},
+ {k:'school',div:'D10',ph:4,name:['Grande école et campus','Higher-education school and campus'],invest:2600*M,launch:24,ramp:60,rev:210*M,margin:85,minM:96,after:{u:'events',cum:60*M,open:true},link:null}
 ];
-const GDEFAULT=()=>({v:1,horizon:240,scn:'central',reserve:15*M,tax:20,hq:{base:2*M,per:1.5*M},
+const GUNITS=()=>GUNITS0().map(u=>{u.oth=Math.round((GOTH[u.k]||3)*1e6);u.roster=gMkRoster(u.k);return u});
+const GDEFAULT=()=>({v:2,horizon:240,scn:'central',reserve:15*M,tax:20,hq:{base:1*M,per:.5*M},charges:18,sharedAcc:true,div:{pct:35,after:10},hqRoster:GHQR(),
  mode:'snowball',runway:3,freedom:10*M,
  funding:[{id:'f1',m:1,amt:70*M,type:'equity',rate:0,months:0,label:['Apport de départ : prêt d\'honneur, bourse, proches','Start-up capital: honour loan, grant, family']},
   {id:'f2',m:14,amt:80*M,type:'loan',rate:12,months:48,label:['Petit prêt bancaire après les premiers chantiers','Small bank loan after the first sites']},
   {id:'f3',m:60,amt:250*M,type:'loan',rate:11,months:84,label:['Prêt modéré pour accélérer les actifs','Moderate loan to speed up assets']}],
- salary:{share:30,tiers:[{min:8*M,amt:1.5*M},{min:20*M,amt:3*M},{min:50*M,amt:6*M},{min:120*M,amt:12*M},{min:300*M,amt:25*M}]},
+ salary:{share:25,tiers:[{min:8*M,amt:1.5*M},{min:20*M,amt:3*M},{min:50*M,amt:6*M},{min:100*M,amt:15*M},{min:200*M,amt:30*M},{min:400*M,amt:60*M}]},
  units:GUNITS()});
 const GSCN={prudent:{rev:.75,inv:1.15,delay:4,fix:1.05},central:{rev:1,inv:1,delay:0,fix:1},ambitious:{rev:1.2,inv:.95,delay:0,fix:1}};
 function gsim(G){
  const sc=GSCN[G.scn]||GSCN.central,H=Math.max(12,Math.round(G.horizon)),U=G.units,n=U.length,idx={};U.forEach((u,i)=>idx[u.k]=i);
  const st=U.map(u=>({start:null,open:null,elig:null,rev:new Array(H).fill(0),net:new Array(H).fill(0),cum:0,cumA:new Array(H).fill(0),be:null,pb:null,peak:0}));
  const loans=G.funding.filter(f=>f.type==='loan'&&f.amt>0&&f.months>0).map(f=>{const r=f.rate/1200,pay=r>0?f.amt*r/(1-Math.pow(1+r,-f.months)):f.amt/f.months;return{m:f.m,pay:pay,months:f.months,amt:f.amt,r:r,bal:f.amt}});
- const o={H:H,rev:[],hq:[],op:[],sal:[],tax:[],net:[],cash:[],act:[],opened:[],st:st,loanPay:[],interest:[],ext:sum(G.funding.map(f=>f.amt))};
- let cash=0,loss=0,minC=0,minM=0,firstProfit=null,firstSal=null,opHist=[],prevSal=0,freeM=null,fr=[];
+ const ch=gCh(G),ufx=U.map(u=>gFixTot(G,u)),upay=U.map(u=>gPayU(G,u));
+ const o={emp:[],pay:[],chg:[],divd:[],H:H,rev:[],hq:[],op:[],sal:[],tax:[],net:[],cash:[],act:[],opened:[],st:st,loanPay:[],interest:[],ext:sum(G.funding.map(f=>f.amt))};
+ let cash=0,loss=0,minC=0,minM=0,firstProfit=null,firstSal=null,opHist=[],prevSal=0,freeM=null,fr=[],pr=[],persM=null;
  for(let m=1;m<=H;m++){
   G.funding.forEach(f=>{if(f.m===m)cash+=f.amt});
   let lp=0,li=0;loans.forEach(L=>{if(m>L.m&&m<=L.m+L.months){const it=L.bal*L.r,pr=Math.min(L.bal,L.pay-it);L.bal-=pr;lp+=it+pr;li+=it}});
   cash-=lp;
-  let burn=0;for(let i=0;i<n;i++){if(st[i].start!==null)burn+=U[i].fixed*sc.fix}
-  burn+=burn>0?G.hq.base+G.hq.per*st.filter(x=>x.start!==null).length:0;
+  let burn=0,ns=0;for(let i=0;i<n;i++){if(st[i].start!==null){burn+=ufx[i]*sc.fix;ns++}}
+  burn+=burn>0?G.hq.base+G.hq.per*ns+gHQpay(G,ns).pay:0;
   const res=G.reserve+2*burn,cand=[];
   for(let i=0;i<n;i++){const u=U[i],s=st[i];if(s.start!==null)continue;
    let ok=m>=u.minM+sc.delay;
@@ -5750,34 +5851,36 @@ function gsim(G){
    cand.push(i)}
   if(G.mode!=='order')cand.sort((a,b)=>(U[a].invest-U[b].invest)||(a-b));
   let blocked=false;
-  for(const i of cand){const u=U[i],s=st[i],need=u.invest*sc.inv+(G.runway||0)*u.fixed*sc.fix;
+  for(const i of cand){const u=U[i],s=st[i],need=u.invest*sc.inv+(G.runway||0)*ufx[i]*sc.fix;
    if(blocked&&!u.par)continue;
    if(cash-res<need){if(G.mode==='order'&&!u.par)blocked=true;continue}
    cash-=u.invest*sc.inv;s.start=m;s.open=m+Math.round(u.launch);s.inv=u.invest*sc.inv;s.cum=-s.inv;
   }
-  let rev=0,unitNet=0,act=0,opened=0;
+  let rev=0,unitNet=0,act=0,opened=0,payM=0,empM=0;
   for(let i=0;i<n;i++){const u=U[i],s=st[i];if(s.start===null)continue;
-   const k=m-s.open;let r=0,fx=u.fixed*sc.fix;
-   if(m<s.open)fx*=.6;else{opened++;const f=Math.min(1,.1+.9*k/Math.max(1,u.ramp));r=u.rev*sc.rev*f;
+   const k=m-s.open;let r=0,fx,sf;
+   if(m<s.open){sf=.5;fx=(u.oth*.6+upay[i]*sf)*sc.fix}else{opened++;const f=Math.min(1,.1+.9*k/Math.max(1,u.ramp));sf=.5+.5*f;fx=(u.oth+upay[i]*sf)*sc.fix;r=u.rev*sc.rev*f;
     if(u.link&&u.link.u&&idx[u.link.u]!==undefined){const ls=st[idx[u.link.u]];r+=(m>1?ls.rev[m-2]:0)*(u.link.pct/100)}}
-   const nt=r*u.margin/100-fx;s.rev[m-1]=r;s.net[m-1]=nt;s.cum+=nt;s.cumA[m-1]=s.cum;
+   payM+=upay[i]*sf*sc.fix;empM+=gUEmp(G,u,sf);const nt=r*u.margin/100-fx;s.rev[m-1]=r;s.net[m-1]=nt;s.cum+=nt;s.cumA[m-1]=s.cum;
    if(m>=s.open&&s.be===null&&nt>=0)s.be=m;if(s.pb===null&&s.cum>=0&&m>s.start)s.pb=m;
    rev+=r;unitNet+=nt;act++;
   }
-  const hq=act>0?G.hq.base+G.hq.per*act:0,op=unitNet-hq-li;
+  const hp=act>0?gHQpay(G,act):{pay:0,emp:0},hq=act>0?G.hq.base+G.hq.per*act+hp.pay:0,op=unitNet-hq-li;payM+=hp.pay;empM+=hp.emp;
   opHist.push(op);const p3=sum(opHist.slice(-3))/Math.min(3,opHist.length);
   let sal=0;if(m>=6&&p3>0){let tg=0;G.salary.tiers.forEach(t=>{if(p3>=t.min)tg=Math.max(tg,t.amt)});tg=Math.min(tg,p3*G.salary.share/100);sal=tg>=prevSal?tg:(prevSal<=0.6*p3?prevSal:tg)}
   prevSal=sal;
   const pre=op-sal;let tx=0;if(pre>0){const use=Math.min(loss,pre);loss-=use;tx=(pre-use)*G.tax/100}else loss+=-pre;
   const net=pre-tx;cash+=net+li;
+  let dv=0;if(G.div&&G.div.pct>0&&net>0&&ns>=G.div.after){dv=Math.max(0,Math.min(net*G.div.pct/100,cash-res));cash-=dv}
+  pr.push(sal+dv);if(persM===null&&m>=12&&sum(pr.slice(-12))/12>=G.freedom)persM=m;
   fr.push(net+sal);if(freeM===null&&m>=12&&sum(fr.slice(-12))/12>=G.freedom)freeM=m;
   if(firstProfit===null&&op>0)firstProfit=m;if(firstSal===null&&sal>0)firstSal=m;
   if(cash<minC){minC=cash;minM=m}
-  o.rev.push(rev);o.hq.push(hq);o.op.push(op);o.sal.push(sal);o.tax.push(tx);o.net.push(net);o.cash.push(cash);o.act.push(act);o.opened.push(opened);o.loanPay.push(lp);o.interest.push(li);
+  o.rev.push(rev);o.hq.push(hq);o.op.push(op);o.sal.push(sal);o.tax.push(tx);o.net.push(net);o.cash.push(cash);o.act.push(act);o.opened.push(opened);o.emp.push(empM);o.pay.push(payM);o.chg.push(payM*(ch-1)/ch);o.divd.push(dv);o.loanPay.push(lp);o.interest.push(li);
  }
- o.minC=minC;o.minM=minM;o.firstProfit=firstProfit;o.firstSal=firstSal;o.freeM=freeM;o.allStart=st.every(x=>x.start!==null)?Math.max.apply(null,st.map(x=>x.start)):null;o.allOpen=st.every(x=>x.open!==null)?Math.max.apply(null,st.map(x=>x.open)):null;o.nStarted=st.filter(x=>x.start!==null).length;
+ o.minC=minC;o.minM=minM;o.firstProfit=firstProfit;o.firstSal=firstSal;o.freeM=freeM;o.persM=persM;o.allStart=st.every(x=>x.start!==null)?Math.max.apply(null,st.map(x=>x.start)):null;o.allOpen=st.every(x=>x.open!==null)?Math.max.apply(null,st.map(x=>x.open)):null;o.nStarted=st.filter(x=>x.start!==null).length;
  o.years=[];for(let y=0;y<H/12;y++){const a=y*12,b=Math.min(H,a+12),sl=x=>x.slice(a,b);
-  o.years.push({y:y+1,rev:sum(sl(o.rev)),op:sum(sl(o.op)),sal:sum(sl(o.sal)),tax:sum(sl(o.tax)),net:sum(sl(o.net)),cash:o.cash[b-1],act:o.act[b-1],opened:o.opened[b-1],salM:sum(sl(o.sal))/(b-a)})}
+  o.years.push({y:y+1,rev:sum(sl(o.rev)),op:sum(sl(o.op)),sal:sum(sl(o.sal)),tax:sum(sl(o.tax)),net:sum(sl(o.net)),cash:o.cash[b-1],act:o.act[b-1],opened:o.opened[b-1],salM:sum(sl(o.sal))/(b-a),emp:o.emp[b-1],pay:sum(sl(o.pay)),chg:sum(sl(o.chg)),div:sum(sl(o.divd)),divM:sum(sl(o.divd))/(b-a)})}
  return o;
 }
 
@@ -5856,7 +5959,13 @@ en:{
  sum_m:"M Ar",sum_b:"B Ar"}};
 const gfr=()=>S.lang==='fr'||S.lang==='mg';
 function gt(k,v){let s=(gfr()?GT.fr:GT.en)[k];if(s==null)s=GT.fr[k];if(s==null)s=k;if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s}
-const GG=()=>{if(!S.group||S.group.v!==1)S.group=GDEFAULT();return S.group};
+const GG=()=>{if(!S.group||S.group.v!==2){const old=S.group,N=GDEFAULT();
+ if(old&&old.units){old.units.forEach(ou=>{const nu=N.units.find(x=>x.k===ou.k);
+  if(nu){if(ou.proj)nu.proj=ou.proj;if(ou.story)nu.story=ou.story;if(ou.name)nu.name=ou.name;if(ou.after!==undefined&&old.v===undefined)nu.after=ou.after}
+  else{ou.oth=ou.oth!=null?ou.oth:Math.round(ou.fixed||0);delete ou.fixed;ou.roster=ou.roster||gMkRoster(ou.k);N.units.push(ou)}});
+  if(old.scn)N.scn=old.scn;if(old.horizon)N.horizon=old.horizon;if(old.mode)N.mode=old.mode}
+ S.group=N;N.units.forEach(u=>{if(u.proj)gSyncTo(u)})}
+ return S.group};
 const gun=u=>u.name[gfr()?0:1]||u.name[0];
 const gdn=d=>(GDIV[d]||['?','?','#888'])[gfr()?0:1];
 const gdc=d=>(GDIV[d]||[0,0,'#888'])[2];
@@ -5877,9 +5986,10 @@ function gKpis(G,o){
  return'<div class="gks">'+
  k('c1',gt('k_profit'),esc(gmm(o.firstProfit)),esc(gmo(o.firstProfit)))+
  k('c2',gt('k_sal'),esc(o.firstSal?gmm(o.firstSal):gt('k_none')),o.firstSal?esc(gt('k_sal_s',{x:gM(firstSalAmt)})):'')+
- k('c3',gt('k_free'),esc(o.freeM?gmm(o.freeM):gt('k_none')),esc(gt(o.freeM?'k_free_s':'k_free_no',{x:gM(G.freedom)})))+
+ k('c3',gt('k_free'),esc(o.persM?gmm(o.persM):gt('k_none')),esc(o.persM?gt('k_free_p',{x:gM(G.freedom)}):gt('k_free_no',{x:gM(G.freedom)})))+
  k('c4',gt('k_all'),esc(o.allStart?gmm(o.allStart):gt('k_none')),esc(gt(o.allStart?'k_all_s':'k_all_no',{n:o.nStarted,t:tot})))+
- k('c5',gt('k_salend'),esc(gM(L.salM)),'')+
+ k('c5',gt('k_pers'),esc(gM(L.salM+L.divM)),esc(gt('k_pers_s',{s:gM(L.salM),d:gM(L.divM)})))+
+ k('c9',gt('k_emp'),esc(String(L.emp+gHQpay(G,o.nStarted).emp)),esc(gt('k_emp_s',{h:gHQpay(G,o.nStarted).emp,p:gM(L.pay/12)})))+
  k('c6',gt('k_ext'),esc(gM(o.ext)),esc(gt('k_ext_s',{x:gM(sum(G.funding.filter(f=>f.type==='loan').map(f=>f.amt)))})))+
  k('c7'+(Math.min.apply(null,o.cash)<0?' bad':''),gt('k_min'),esc(gM(Math.min.apply(null,o.cash))),esc(gt('k_min_s',{m:gmo(o.cash.indexOf(Math.min.apply(null,o.cash))+1)})))+
  k('c8',gt('k_rev'),esc(gM(L.rev)),esc(gt('k_net')+' '+gM(L.net)))+'</div>'+
@@ -5969,9 +6079,9 @@ function gSalary(G,o){
  return h;
 }
 function gYears(G,o){
- let h='<div class="tablewrap"><table class="sheet cmp gtab"><thead><tr><th>'+esc(gt('y_y'))+'</th><th class="n">'+esc(gt('y_units'))+'</th><th class="n">'+esc(gt('y_rev'))+'</th><th class="n">'+esc(gt('y_net'))+'</th><th class="n">'+esc(gt('y_sal'))+'</th><th class="n">'+esc(gt('y_cap'))+'</th><th class="n">'+esc(gt('y_cash'))+'</th></tr></thead><tbody>';
- o.years.forEach(y=>{const cap=y.salM+y.net/12,fy=o.freeM&&Math.ceil(o.freeM/12)===y.y;
-  h+='<tr'+(fy?' class="gfree"':'')+'><td>'+y.y+(fy?' ★':'')+'</td><td class="n">'+y.opened+' / '+G.units.length+'</td><td class="n">'+esc(gM(y.rev))+'</td><td class="n'+(y.net<0?' neg':'')+'">'+esc(gM(y.net))+'</td><td class="n">'+esc(gM(y.salM))+'</td><td class="n">'+esc(gM(cap))+'</td><td class="n'+(y.cash<0?' neg':'')+'">'+esc(gM(y.cash))+'</td></tr>'});
+ let h='<div class="tablewrap"><table class="sheet cmp gtab"><thead><tr><th>'+esc(gt('y_y'))+'</th><th class="n">'+esc(gt('y_units'))+'</th><th class="n">'+esc(gt('y_rev'))+'</th><th class="n">'+esc(gt('y_net'))+'</th><th class="n">'+esc(gt('y_sal'))+'</th><th class="n">'+esc(gt('y_emp'))+'</th><th class="n">'+esc(gt('y_pay'))+'</th><th class="n">'+esc(gt('y_div'))+'</th><th class="n">'+esc(gt('y_cap'))+'</th><th class="n">'+esc(gt('y_cash'))+'</th></tr></thead><tbody>';
+ o.years.forEach(y=>{const cap=y.salM+y.divM,fy=o.persM&&Math.ceil(o.persM/12)===y.y;
+  h+='<tr'+(fy?' class="gfree"':'')+'><td>'+y.y+(fy?' ★':'')+'</td><td class="n">'+y.opened+' / '+G.units.length+'</td><td class="n">'+esc(gM(y.rev))+'</td><td class="n'+(y.net<0?' neg':'')+'">'+esc(gM(y.net))+'</td><td class="n">'+esc(gM(y.salM))+'</td><td class="n">'+(y.emp+gHQpay(G,y.opened).emp)+'</td><td class="n">'+esc(gM(y.pay/12))+'</td><td class="n">'+esc(gM(y.divM))+'</td><td class="n">'+esc(gM(cap))+'</td><td class="n'+(y.cash<0?' neg':'')+'">'+esc(gM(y.cash))+'</td></tr>'});
  return h+'</tbody></table></div>';
 }
 
@@ -5987,7 +6097,7 @@ function gFunding(G,o){
  h+='</tbody><tfoot><tr><td colspan="2">'+esc(gt('f_tot'))+'</td><td class="n">'+esc(gM(o.ext))+'</td><td colspan="4"></td></tr></tfoot></table></div>'+
  '<div class="row"><button class="btn sm" data-act="grpfadd">'+I('plus')+esc(gt('f_add'))+'</button></div>';
  const R=(l,path,kind,v)=>gFld(l,'r:'+path,kind,v);
- h+='<h3 class="gsub">'+esc(gt('ru_t'))+'</h3><div class="gform">'+R(gt('ru_res'),'reserve','M',gmv(G.reserve))+R(gt('ru_tax'),'tax','p',G.tax)+R(gt('ru_hqb'),'hq.base','M',gmv(G.hq.base))+R(gt('ru_hqp'),'hq.per','M',gmv(G.hq.per))+R(gt('ru_run'),'runway','n',G.runway)+R(gt('ru_free'),'freedom','M',gmv(G.freedom))+'</div>';
+ h+='<h3 class="gsub">'+esc(gt('ru_t'))+'</h3><div class="gform">'+R(gt('ru_res'),'reserve','M',gmv(G.reserve))+R(gt('ru_tax'),'tax','p',G.tax)+R(gt('ru_hqb'),'hq.base','M',gmv(G.hq.base))+R(gt('ru_hqp'),'hq.per','M',gmv(G.hq.per))+R(gt('ru_chg'),'charges','p',G.charges)+'<label class="gfield chk"><input type="checkbox" data-grp="r:sharedAcc" data-kind="chk"'+(G.sharedAcc?' checked':'')+'><span>'+esc(gt('ru_acc'))+'</span></label>'+R(gt('ru_divp'),'div.pct','p',G.div.pct)+R(gt('ru_diva'),'div.after','n',G.div.after)+R(gt('ru_run'),'runway','n',G.runway)+R(gt('ru_free'),'freedom','M',gmv(G.freedom))+'</div>';
  return h;
 }
 
@@ -5998,16 +6108,16 @@ function gScen(G){
  let h='<div class="tablewrap"><table class="sheet cmp gtab"><thead><tr><th></th>'+rs.map(r=>'<th class="n">'+esc(gt(r.k))+'</th>').join('')+'</tr></thead><tbody>';
  const row=(l,f)=>'<tr><td>'+esc(l)+'</td>'+rs.map(r=>'<td class="n'+(r.k===G.scn?' gcur':'')+'">'+esc(f(r.o))+'</td>').join('')+'</tr>';
  h+=row(gt('c_n'),o=>o.nStarted+' / '+G.units.length)+row(gt('c_all'),o=>o.allStart?gmo(o.allStart):gt('k_none'))+row(gt('c_sal'),o=>o.firstSal?gmo(o.firstSal):gt('k_none'))+row(gt('c_free'),o=>o.freeM?gmo(o.freeM):gt('k_none'))+
-  row(gt('c_fin'),o=>gM(o.years[o.years.length-1].salM))+row(gt('c_net'),o=>gM(o.years[o.years.length-1].net));
+  row(gt('c_pers'),o=>{const L=o.years[o.years.length-1];return gM(L.salM+L.divM)})+row(gt('c_emp'),o=>{const L=o.years[o.years.length-1];return String(L.emp+gHQpay(G,o.nStarted).emp)})+row(gt('c_net'),o=>gM(o.years[o.years.length-1].net));
  return h+'</tbody></table></div>';
 }
 
-function groupRefresh(anim){const v=$('#view');if(S.view==='group'){v.classList.toggle('anim',!!anim);v.innerHTML=groupHTML()}save()}
+function groupRefresh(anim){const v=$('#view');if(S.view==='group'){v.classList.toggle('anim',!!anim);v.innerHTML=groupHTML();gCenterOrg()}save()}
 
 /* --- edits --- */
 function gClamp(f,v){
- if(['invest','rev','fixed','amt','min','reserve'].includes(f))return Math.max(0,v);
- if(['margin','tax','share'].includes(f))return Math.max(0,Math.min(100,v));
+ if(['invest','rev','oth','amt','min','reserve','charges'].includes(f))return Math.max(0,v);
+ if(['margin','tax','share','charges','pct'].includes(f))return Math.max(0,Math.min(100,v));
  if(['launch','ramp','months'].includes(f))return Math.max(f==='ramp'?1:0,Math.round(v));
  if(['minM','m'].includes(f))return Math.max(1,Math.round(v));
  return v;
@@ -6022,13 +6132,14 @@ function gApply(el){
  else if(pp[0]==='f'){const f=G.funding.find(x=>x.id===pp[1]);if(!f)return;
   if(pp[2]==='label'){const i=gfr()?0:1;f.label=f.label||['',''];f.label[i]=v;if(!f.label[1-i])f.label[1-i]=v}
   else f[pp[2]]=kind==='sel'?v:gClamp(pp[2],v)}
+ else if(pp[0]==='o'){const u=G.units.find(x=>x.k===pp[1]);if(!u)return;gRosterEdit(u,+pp[2],pp[3],v);gSyncTo(u)}
  else if(pp[0]==='u'){const u=G.units.find(x=>x.k===pp[1]);if(!u)return;const f=pp[2];
   if(f==='name'){u.name[gfr()?0:1]=v;if(!u.name[gfr()?1:0])u.name[gfr()?1:0]=v}
   else if(f==='afterU'){u.after=v?{u:v,cum:u.after?u.after.cum:0,open:u.after?u.after.open:true}:null}
   else if(f==='afterCum'){if(u.after)u.after.cum=gClamp('invest',v)}
   else if(f==='afterOpen'){if(u.after)u.after.open=!!v}
   else if(f.indexOf('story.')===0){u.story=u.story||{};u.story[f.slice(6)]=v}
-  else u[f]=gClamp(f,v);if(['invest','rev','fixed','margin','launch','name'].includes(f)||f.indexOf('story.')===0)gSyncTo(u)}
+  else u[f]=gClamp(f,v);if(['invest','rev','oth','margin','launch','name'].includes(f)||f.indexOf('story.')===0)gSyncTo(u)}
  groupRefresh();
 }
 document.addEventListener('change',e=>{const el=e.target.closest&&e.target.closest('[data-grp]');if(el)gApply(el)});
@@ -6036,16 +6147,6 @@ document.addEventListener('keydown',e=>{
  if(e.key==='Enter'&&e.target.matches&&e.target.matches('[data-grp]')&&e.target.tagName==='INPUT'&&e.target.type!=='checkbox'){e.target.blur();return}
  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.gg-row,.gurow')){e.preventDefault();grpAct('grpsel',{k:e.target.getAttribute('data-k')})}
 });
-function grpMake(k){
- const G=GG(),u=G.units.find(x=>x.k===k);if(!u)return;const fr=gfr();
- const p=newProject(gun(u),'MGA');
- Object.assign(p,{country:'Madagascar',sector:gdn(u.div),launch:Math.round(u.launch),horizon:36,unitKey:k,
-  invest:[{id:uid(),name:fr?'Investissement de départ':'Initial investment',amt:Math.round(u.invest)}],
-  fund:[{id:uid(),name:fr?'Financé par le groupe':'Funded by the group',amt:Math.round(u.invest)}],
-  fixed:[{id:uid(),name:fr?'Charges fixes':'Fixed costs',amt:Math.round(u.fixed),per:'m'}],
-  rev:[{id:uid(),name:gun(u),price:Math.round(u.rev),ucost:Math.round(u.rev*(1-u.margin/100)),qty:1,g:0}]});
- S.projects.unshift(p);save();toast(gt('u_made'));openProject(p.id,'ov');
-}
 
 /* ---------- Stephen Group, part 2: password gate, group map, company pages ---------- */
 Object.assign(GT.fr,{
@@ -6122,14 +6223,14 @@ function gProjMake(u){
  Object.assign(p,{country:'Madagascar',sector:gdn(u.div),problem:gstory(u,'why'),launch:Math.round(u.launch),horizon:36,unitRef:u.k,
   invest:[{id:uid(),name:fr?'Investissement de départ':'Initial investment',amt:Math.round(u.invest)}],
   fund:[{id:uid(),name:fr?'Financé par le groupe':'Funded by the group',amt:Math.round(u.invest)}],
-  fixed:[{id:uid(),name:fr?'Charges fixes':'Fixed costs',amt:Math.round(u.fixed),per:'m'}],
+  fixed:[{id:uid(),name:fr?'Charges fixes (salaires chargés + autres)':'Fixed costs (loaded payroll + other)',amt:Math.round(gFixTot(S.group,u)),per:'m'}],
   rev:[{id:uid(),name:gun(u),price:Math.round(u.rev),ucost:Math.round(u.rev*(1-u.margin/100)),qty:1,g:0}]});
  p.cv.value=gstory(u,'goal');u.proj=p;return p;
 }
 function gSyncFrom(p){
  const G=S.group,u=G&&G.units.find(x=>x.k===p.unitRef);if(!u)return;
  u.invest=Math.max(0,sum(p.invest.map(x=>num(x.amt))));
- u.fixed=Math.max(0,sum(p.fixed.map(x=>num(x.amt)*(x.per==='y'?1/12:1))));
+ u.oth=Math.max(0,Math.round(sum(p.fixed.map(x=>num(x.amt)*(x.per==='y'?1/12:1)))-gPayU(G,u)));
  const rv=sum(p.rev.map(r=>num(r.price)*num(r.qty))),gp=sum(p.rev.map(r=>(num(r.price)-num(r.ucost))*num(r.qty)));
  if(rv>0){u.rev=rv;u.margin=Math.max(0,Math.min(100,Math.round(gp/rv*1000)/10))}
  u.launch=Math.max(0,Math.round(num(p.launch)));
@@ -6139,7 +6240,7 @@ function gSyncTo(u){
  const p=u.proj;if(!p)return;
  const scale=(arr,key,target,f)=>{if(!arr.length)return;f=f||(()=>1);const cur=sum(arr.map(x=>num(x[key])*f(x)));if(cur>0){const r=target/cur;arr.forEach(x=>{x[key]=Math.round(num(x[key])*r)})}else arr[0][key]=Math.round(target/f(arr[0]))};
  scale(p.invest,'amt',u.invest);if(p.fund.length===1)scale(p.fund,'amt',u.invest);
- scale(p.fixed,'amt',u.fixed,x=>x.per==='y'?1/12:1);
+ scale(p.fixed,'amt',gFixTot(S.group,u),x=>x.per==='y'?1/12:1);
  if(p.rev.length){const rv=sum(p.rev.map(r=>num(r.price)*num(r.qty)));
   if(rv>0){const r=u.rev/rv;p.rev.forEach(x=>{x.price=Math.round(num(x.price)*r)})}else{p.rev[0].price=Math.round(u.rev);p.rev[0].qty=1}
   p.rev.forEach(x=>{x.ucost=Math.round(num(x.price)*(1-u.margin/100))})}
@@ -6229,10 +6330,11 @@ function gUnitPage(G,o,u){
  '<section class="uwhy"><span class="geye">WHY</span><textarea class="gta big" rows="'+Math.max(2,Math.ceil(gstory(u,'why').length/75))+'" data-grp="'+p+'story.why" data-kind="t" aria-label="'+esc(gt('w_why'))+'">'+esc(gstory(u,'why'))+'</textarea></section>'+
  '<div class="ugrid">'+ta('goal','w_goal')+ta('what','w_what')+ta('role','w_role')+'</div>'+
  '<section class="wcard"><h3>'+esc(gt('i_by'))+'</h3>'+by+'<h3 class="gsub">'+esc(gt('i_to'))+'</h3>'+to+'</section>'+
+ gUnitOrg(G,o,u)+
  progSection(u)+
  '<div class="gks">'+k5(gt('u_inv'),gM(u.invest))+k5(gt('u_rev'),gM(u.rev))+k5(gt('u_mg'),u.margin+'%')+k5(gt('u_be'),gmm(s.be))+k5(gt('u_pb'),gmm(s.pb))+'</div>'+
  (curve.length>1?'<div class="card gcurve"><span class="muted">'+esc(gt('d_curve'))+'</span>'+spark(curve,640,70)+'</div>':'')+
- '<section class="card"><h3>'+esc(gt('n_title'))+'</h3><div class="gform">'+gFld(gt('d_inv'),p+'invest','M',gmv(u.invest))+gFld(gt('d_launch'),p+'launch','n',u.launch)+gFld(gt('d_ramp'),p+'ramp','n',u.ramp)+gFld(gt('d_rev'),p+'rev','M',gmv(u.rev))+gFld(gt('d_mg'),p+'margin','p',u.margin)+gFld(gt('d_fix'),p+'fixed','M',gmv(u.fixed))+gFld(gt('d_min'),p+'minM','n',u.minM)+
+ '<section class="card"><h3>'+esc(gt('n_title'))+'</h3><div class="gform">'+gFld(gt('d_inv'),p+'invest','M',gmv(u.invest))+gFld(gt('d_launch'),p+'launch','n',u.launch)+gFld(gt('d_ramp'),p+'ramp','n',u.ramp)+gFld(gt('d_rev'),p+'rev','M',gmv(u.rev))+gFld(gt('d_mg'),p+'margin','p',u.margin)+gFld(gt('o_oth'),p+'oth','M',gmv(u.oth))+gFld(gt('d_min'),p+'minM','n',u.minM)+
  '<label class="gfield"><span>'+esc(gt('d_after'))+'</span><select class="cell sel" data-grp="'+p+'afterU" data-kind="sel">'+opts+'</select></label>'+
  (a?gFld(gt('d_cum'),p+'afterCum','M',gmv(a.cum||0))+'<label class="gfield chk"><input type="checkbox" data-grp="'+p+'afterOpen" data-kind="chk"'+(a.open?' checked':'')+'><span>'+esc(gt('d_openq'))+'</span></label>':'')+'</div>'+
  '<div class="row" style="margin-top:16px"><button class="btn danger" data-act="grprm" data-k="'+esc(u.k)+'">'+I('trash')+esc(gt('u_rm'))+'</button></div></section></div>';
@@ -6248,13 +6350,14 @@ function groupHTML(){
  if(!GUNL)return gGate();
  const G=GG(),o=gRun(),su=S.gsel&&G.units.find(u=>u.k===S.gsel);
  if(su)return gUnitPage(G,o,su);
- const tab=['map','cal','fin','funds','co'].includes(S.gtab)?S.gtab:'map';
+ const tab=['map','cal','fin','funds','co','org'].includes(S.gtab)?S.gtab:'map';
  const seg=(act,items,cur)=>'<div class="seg">'+items.map(x=>'<button data-act="'+act+'" data-v="'+x[0]+'" aria-pressed="'+(String(cur)===String(x[0]))+'">'+esc(x[1])+'</button>').join('')+'</div>';
- const tabs=[['map','t_map'],['co','t_co'],['cal','t_cal'],['fin','t_fin'],['funds','t_funds']];
+ const tabs=[['map','t_map'],['co','t_co'],['org','t_org'],['cal','t_cal'],['fin','t_fin'],['funds','t_funds']];
  const sec=(title,hint,body)=>'<section class="gsec"><div class="gsec-h"><h2>'+esc(title)+'</h2>'+(hint?'<p class="muted">'+esc(hint)+'</p>':'')+'</div>'+body+'</section>';
  let body='';
  if(tab==='map')body=gKpis(G,o)+sec(gt('map_t'),gt('map_h'),'<div class="card gcard">'+gMap(G,o)+'</div>')+sec(gt('ph_t'),'',gPhases(G,o));
  else if(tab==='co')body=sec(gt('co_t'),gt('co_h'),gCompanies(G,o));
+ else if(tab==='org')body=gOrgTab(G,o);
  else if(tab==='cal')body=sec(gt('g_t'),gt('g_h'),'<div class="card gcard">'+gGantt(G,o)+'</div>');
  else if(tab==='fin')body=sec(gt('r_t'),gt('r_h'),'<div class="card gcard">'+gChart(G,o)+'</div>')+sec(gt('sa_t'),gt('sa_h'),'<div class="stack"><div class="card">'+gSalary(G,o)+'</div><div class="card">'+gYears(G,o)+'</div></div>');
  else body=sec(gt('f_t'),gt('f_h'),'<div class="card">'+gFunding(G,o)+'</div>')+sec(gt('c_t'),'','<div class="card">'+gScen(G)+'</div>')+
@@ -6280,7 +6383,9 @@ async function grpAct(a,d){
  case'grpproj':{const u=G.units.find(x=>x.k===d.k);if(!u)break;if(!u.proj)gProjMake(u);S.gp=true;S.gsel=u.k;S.cid=null;S.tab='ov';save();go('project');window.scrollTo(0,0);break}
  case'grpbackp':S.gp=false;S.view='group';ANIM=true;render();window.scrollTo(0,0);break;
  case'grprm':{const u=G.units.find(x=>x.k===d.k);if(!u)break;G.units.forEach(x=>{if(x.after&&x.after.u===u.k)x.after=u.after?{u:u.after.u,cum:x.after.cum,open:x.after.open}:null;if(x.link&&x.link.u===u.k)x.link=null});G.units=G.units.filter(x=>x.k!==u.k);S.gsel=null;groupRefresh(true);window.scrollTo(0,0);break}
- case'grpadd':{const k='c'+uid();G.units.push({k:k,div:'D2',ph:1,name:[gt('u_new'),'New unit'],invest:50e6,launch:3,ramp:12,rev:30e6,margin:40,fixed:5e6,minM:12,after:null,link:null,story:{why:'',goal:'',what:'',role:''}});S.gsel=k;groupRefresh(true);window.scrollTo(0,0);break}
+ case'grpadd':{const k='c'+uid();G.units.push({k:k,div:'D2',ph:1,name:[gt('u_new'),'New unit'],invest:50e6,launch:3,ramp:12,rev:30e6,margin:40,oth:3e6,roster:gMkRoster('x'),minM:12,after:null,link:null,story:{why:'',goal:'',what:'',role:''}});S.gsel=k;groupRefresh(true);window.scrollTo(0,0);break}
+ case'grpradd':{const u=G.units.find(x=>x.k===d.k);if(!u)break;u.roster=u.roster||[];u.roster.push({k:'adm',n:1,p:u.roster.length?0:-1,sal:Math.round(GRL.adm[2]*1e6)});gSyncTo(u);groupRefresh();break}
+ case'grprdel':{const u=G.units.find(x=>x.k===d.k);if(!u)break;gRosterDel(u,+d.i);gSyncTo(u);groupRefresh();break}
  case'grpfadd':G.funding.push({id:'f'+uid(),m:24,amt:50e6,type:'equity',rate:0,months:0,label:[gt('f_new'),'New funding']});groupRefresh();break;
  case'grpfrm':G.funding=G.funding.filter(f=>f.id!==d.id);groupRefresh();break;
  case'grptadd':{const last=G.salary.tiers.reduce((m,t)=>Math.max(m,t.min),0);G.salary.tiers.push({min:last*1.5||10e6,amt:Math.round((G.salary.tiers.reduce((m,t)=>Math.max(m,t.amt),0)*1.5||2e6)/1e5)*1e5});groupRefresh();break}
@@ -6302,6 +6407,103 @@ document.addEventListener('keydown',e=>{
  if(e.key==='Enter'&&e.target.id&&e.target.id.slice(0,3)==='gpw'){e.preventDefault();grpAct('grpunlock',{})}
  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.gn')){e.preventDefault();grpAct('grpsel',{k:e.target.getAttribute('data-k')})}
 });
+
+/* ---------- Organisation: org charts per company, head office, roster editor ---------- */
+Object.assign(GT.fr,{
+ t_org:"Organisation",org_t:"Organigramme du groupe",org_h:"Qui travaille où, à maturité. Le siège rend les services partagés (comptabilité, paie, juridique…), les sociétés gardent leur équipe métier.",
+ org_pres:"Président·e · Stephen",org_hq:"Siège · services partagés",org_acc_hq:"Comptabilité et paie : au siège",org_acc_own:"Comptabilité : dans la société",
+ org_co:"Équipes par société",org_hd:"Effectif",org_pay:"Masse salariale chargée / mois",org_pr:"Part du chiffre d'affaires",org_tot:"Total sociétés",org_hqt:"Siège",org_all:"Groupe",
+ org_note:"Tous les salaires sont des estimations à remplacer par les vrais prix du marché à Madagascar. Les charges patronales (CNaPS, santé) sont réglables dans « Financement et règles ».",
+ o_t:"Organigramme de la société",o_h:"Équipe à maturité. Les chantiers et le personnel saisonnier sont comptés en coûts variables, pas ici.",
+ o_ed:"Modifier l'équipe",o_role:"Poste",o_n:"Nb",o_sal:"Salaire brut (M Ar/mois)",o_mgr:"Dépend de",o_top:"Direction",o_add:"Ajouter un poste",o_cust:"Intitulé personnalisé",
+ o_tot:"{n} personnes · {p} / mois charges incluses",o_acc:"La comptabilité est tenue par le siège",o_oth:"Autres charges fixes, hors salaires (M Ar/mois)",
+ k_pers:"Revenu personnel (fin)",k_pers_s:"Salaire {s} + dividendes {d} par mois",k_emp:"Effectif (fin du plan)",k_emp_s:"Dont {h} au siège · masse salariale {p}/mois",
+ ru_chg:"Charges patronales (%)",ru_acc:"Comptabilité centralisée au siège",ru_divp:"Dividendes : part du bénéfice net (%)",ru_diva:"Dividendes dès N sociétés lancées",ru_yes:"Oui",ru_no:"Non",
+ y_emp:"Effectif",y_pay:"Salaires chargés",y_div:"Dividendes / mois",c_pers:"Revenu personnel fin de plan",c_emp:"Effectif fin de plan",
+ k_free_p:"Revenu personnel ≥ {x} par mois (salaire + dividendes, moyenne 12 mois)"
+});
+Object.assign(GT.en,{
+ t_org:"Organisation",org_t:"Group org chart",org_h:"Who works where, at maturity. Head office provides shared services (accounting, payroll, legal…); companies keep their operating team.",
+ org_pres:"President · Stephen",org_hq:"Head office · shared services",org_acc_hq:"Accounting and payroll: at head office",org_acc_own:"Accounting: in the company",
+ org_co:"Teams by company",org_hd:"Headcount",org_pay:"Loaded payroll / month",org_pr:"Share of revenue",org_tot:"Companies total",org_hqt:"Head office",org_all:"Group",
+ org_note:"All salaries are estimates to replace with real Madagascar market rates. Employer charges (CNaPS, health) can be set in “Funding and rules”.",
+ o_t:"Company org chart",o_h:"Team at maturity. Construction sites and seasonal staff are counted as variable costs, not here.",
+ o_ed:"Edit the team",o_role:"Role",o_n:"No.",o_sal:"Gross salary (M Ar/month)",o_mgr:"Reports to",o_top:"Management",o_add:"Add a role",o_cust:"Custom title",
+ o_tot:"{n} people · {p} / month including charges",o_acc:"Accounting is handled by head office",o_oth:"Other fixed costs, excluding salaries (M Ar/month)",
+ k_pers:"Personal income (end)",k_pers_s:"Salary {s} + dividends {d} per month",k_emp:"Headcount (end of plan)",k_emp_s:"Of which {h} at head office · payroll {p}/month",
+ ru_chg:"Employer charges (%)",ru_acc:"Accounting centralised at head office",ru_divp:"Dividends: share of net profit (%)",ru_diva:"Dividends once N companies are launched",ru_yes:"Yes",ru_no:"No",
+ y_emp:"Headcount",y_pay:"Loaded payroll",y_div:"Dividends / month",c_pers:"Personal income, end of plan",c_emp:"Headcount, end of plan",
+ k_free_p:"Personal income ≥ {x} per month (salary + dividends, 12-month average)"
+});
+let GORGOPEN=false;
+document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('gdet'))GORGOPEN=e.target.open},true);
+const gRoleNm=r=>r.nm||(GRL[r.k]?GRL[r.k][gfr()?0:1]:r.k);
+/* generic top-down tree. nodes: [{nm,n,sal,p,cls}], p = parent index (-1 root) */
+function gTree(nodes){
+ const kids=i=>nodes.map((x,j)=>x.p===i?j:-1).filter(j=>j>=0);
+ const node=i=>{const x=nodes[i],ks=kids(i);
+  return'<li><div class="onode'+(x.cls?' '+x.cls:'')+'"><b>'+esc(x.nm)+'</b><small>'+(x.n>1?'× '+x.n+' · ':'')+(x.sal!=null?esc(gM(x.sal)):'')+'</small></div>'+(ks.length?'<ul>'+ks.map(node).join('')+'</ul>':'')+'</li>'};
+ const roots=kids(-1);
+ return'<div class="orgw"><ul class="org">'+roots.map(node).join('')+'</ul></div>';
+}
+function gUnitNodes(G,u){
+ const ns=(u.roster||[]).map(r=>({nm:gRoleNm(r),n:r.n,sal:r.sal,p:r.p}));
+ if(G.sharedAcc)ns.push({nm:gt('org_acc_hq'),n:0,sal:null,p:ns.length?0:-1,cls:'ghost'});
+ return ns;
+}
+function gUnitOrg(G,o,u){
+ const emp=(u.roster||[]).reduce((s,r)=>s+r.n,0),pay=gPayU(G,u);
+ const i0=G.units.indexOf(u);
+ const roles='<option value="">—</option>';
+ const rows=(u.roster||[]).map((r,i)=>{
+  const pre='o:'+u.k+':'+i+':',ro=Object.keys(GRL).map(k=>'<option value="'+k+'"'+(r.k===k?' selected':'')+'>'+esc(GRL[k][gfr()?0:1])+'</option>').join('');
+  const mg='<option value="-1"'+(r.p<0?' selected':'')+'>'+esc(gt('o_top'))+'</option>'+(u.roster||[]).slice(0,i).map((x,j)=>'<option value="'+j+'"'+(r.p===j?' selected':'')+'>'+esc(gRoleNm(x))+'</option>').join('');
+  return'<tr><td><select class="cell sel" data-grp="'+pre+'k" data-kind="sel" aria-label="'+esc(gt('o_role'))+'">'+ro+'</select></td>'+
+   '<td><input class="cell num" inputmode="numeric" data-grp="'+pre+'n" data-kind="n" value="'+r.n+'" aria-label="'+esc(gt('o_n'))+'"></td>'+
+   '<td><input class="cell num" inputmode="decimal" data-grp="'+pre+'sal" data-kind="M" value="'+esc(gmv(r.sal))+'" aria-label="'+esc(gt('o_sal'))+'"></td>'+
+   '<td><select class="cell sel" data-grp="'+pre+'p" data-kind="sel" aria-label="'+esc(gt('o_mgr'))+'">'+mg+'</select></td>'+
+   '<td class="x"><button class="icon-btn" data-act="grprdel" data-k="'+esc(u.k)+'" data-i="'+i+'" aria-label="'+esc(gt('u_rm'))+'">'+I('trash')+'</button></td></tr>'});
+ return'<section class="card gorgc"><div class="card-h"><h3>'+esc(gt('o_t'))+'</h3><span class="muted">'+esc(gt('o_tot',{n:emp+(G.sharedAcc?0:1),p:gM(pay)}))+'</span></div><p class="muted">'+esc(gt('o_h'))+'</p>'+gTree(gUnitNodes(G,u))+
+  '<details class="gdet"'+(GORGOPEN?' open':'')+'><summary>'+esc(gt('o_ed'))+'</summary><div class="tablewrap"><table class="sheet gtab"><thead><tr><th>'+esc(gt('o_role'))+'</th><th class="n">'+esc(gt('o_n'))+'</th><th class="n">'+esc(gt('o_sal'))+'</th><th>'+esc(gt('o_mgr'))+'</th><th class="x"></th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div>'+
+  '<div class="row" style="margin-top:10px"><button class="btn sm" data-act="grpradd" data-k="'+esc(u.k)+'">'+I('plus')+esc(gt('o_add'))+'</button></div></details></section>';
+}
+/* head office tree at final scale */
+function gHQNodes(G,n){
+ const rs=(G.hqRoster||[]).filter(r=>!(r.acc&&!G.sharedAcc)),cnt=rs.map(r=>gHQn(r,n)),keys=rs.map(r=>r.k);
+ const out=[{nm:gt('org_pres'),n:1,sal:null,p:-1,cls:'top'}],map={pres:0};
+ rs.forEach((r,i)=>{if(!cnt[i])return;map[r.k]=out.length;out.push({nm:r.nm[gfr()?0:1],n:cnt[i],sal:r.sal,p:null,pk:r.p})});
+ out.forEach(x=>{if(x.p===null)x.p=map[x.pk]!=null?map[x.pk]:0});
+ return out;
+}
+function gOrgTab(G,o){
+ const L=o.years[o.years.length-1],n=o.nStarted,hq=gHQpay(G,n);
+ const rows=G.units.map((u,i)=>({u:u,s:o.st[i],e:(u.roster||[]).reduce((s,r)=>s+r.n,0)+(G.sharedAcc?0:1),pay:gPayU(G,u)}));
+ const eT=sum(rows.filter(r=>r.s.start!==null).map(r=>r.e)),pT=sum(rows.filter(r=>r.s.start!==null).map(r=>r.pay));
+ const dv=Object.keys(GDIV).map(d=>({d:d,us:rows.filter(r=>r.u.div===d)})).filter(x=>x.us.length);
+ const grp='<div class="orgw"><ul class="org"><li><div class="onode top"><b>'+esc(gt('org_pres'))+'</b><small>Stephen Group</small></div><ul>'+
+  '<li><div class="onode hq"><b>'+esc(gt('org_hq'))+'</b><small>'+hq.emp+' · '+esc(gM(hq.pay))+'/'+(gfr()?'mois':'mo')+'</small></div></li>'+
+  dv.map(x=>'<li><div class="onode" style="--c:'+gdc(x.d)+'"><b>'+esc(gdn(x.d))+'</b><small>'+sum(x.us.map(r=>r.e))+'</small></div><ul class="vl">'+x.us.map(r=>'<li><button class="onode btn-n" data-act="grpsel" data-k="'+esc(r.u.k)+'" style="--c:'+gdc(r.u.div)+'"><b>'+esc(gShort(r.u))+'</b><small>'+r.e+'</small></button></li>').join('')+'</ul></li>').join('')+'</ul></li></ul></div>';
+ const tb='<div class="tablewrap"><table class="sheet cmp gtab"><thead><tr><th>'+esc(gt('org_co'))+'</th><th class="n">'+esc(gt('org_hd'))+'</th><th class="n">'+esc(gt('org_pay'))+'</th><th class="n">'+esc(gt('org_pr'))+'</th></tr></thead><tbody>'+
+  rows.map(r=>'<tr><td><button class="linkbtn" data-act="grpsel" data-k="'+esc(r.u.k)+'">'+esc(gShort(r.u))+'</button></td><td class="n">'+r.e+'</td><td class="n">'+esc(gM(r.pay))+'</td><td class="n">'+(r.u.rev>0?Math.round(r.pay/r.u.rev*100)+'%':'—')+'</td></tr>').join('')+
+  '</tbody><tfoot><tr><td>'+esc(gt('org_tot'))+'</td><td class="n">'+eT+'</td><td class="n">'+esc(gM(pT))+'</td><td></td></tr><tr><td>'+esc(gt('org_hqt'))+'</td><td class="n">'+hq.emp+'</td><td class="n">'+esc(gM(hq.pay))+'</td><td></td></tr><tr><td>'+esc(gt('org_all'))+'</td><td class="n">'+(eT+hq.emp)+'</td><td class="n">'+esc(gM(pT+hq.pay))+'</td><td></td></tr></tfoot></table></div>';
+ return'<section class="gsec"><div class="gsec-h"><h2>'+esc(gt('org_t'))+'</h2><p class="muted">'+esc(gt('org_h'))+'</p></div><div class="card gcard">'+grp+'</div></section>'+
+  '<section class="gsec"><div class="gsec-h"><h2>'+esc(gt('org_hq'))+'</h2></div><div class="card gcard">'+gTree(gHQNodes(G,n))+'</div></section>'+
+  '<section class="gsec"><div class="gsec-h"><h2>'+esc(gt('org_co'))+'</h2></div><div class="card">'+tb+'</div><div class="warn-box">'+esc(gt('org_note'))+'</div></section>';
+}
+/* roster edits (called from gApply) */
+function gRosterEdit(u,i,f,v){
+ const r=(u.roster||[])[i];if(!r)return;
+ if(f==='k'){r.k=v;if(GRL[v])r.sal=Math.round(GRL[v][2]*1e6);delete r.nm}
+ else if(f==='n')r.n=Math.max(0,Math.round(v));
+ else if(f==='sal')r.sal=Math.max(0,v);
+ else if(f==='p'){const p=parseInt(v,10);r.p=isNaN(p)||p>=i?-1:p}
+}
+function gRosterDel(u,i){
+ u.roster.splice(i,1);
+ u.roster.forEach(r=>{if(r.p===i)r.p=-1;else if(r.p>i)r.p-=1});
+}
+
+function gCenterOrg(){requestAnimationFrame(()=>document.querySelectorAll('.orgw').forEach(w=>{w.scrollLeft=Math.max(0,(w.scrollWidth-w.clientWidth)/2)}))}
 
 /* ---------- Home (centred VisionHub) and one-project-at-a-time view ---------- */
 function homeHTML(){
