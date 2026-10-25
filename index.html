@@ -3802,7 +3802,7 @@ T('fr',`dash_example=Idée selon mon budget
 tag_example=Idée à valider
 ex_title=Quelle idée pour mon budget ?
 ex_budget=Mon budget de départ (Ar)
-ex_budget_h=Écris ce que tu peux vraiment mettre. Les idées ci-dessous coûtent moins de 1 000 000 Ar et sont classées par résultat en cas prudent sur 12 mois.
+ex_budget_h=Écris ce que tu peux vraiment mettre. Les idées vont du petit commerce d'étudiant aux projets de plusieurs centaines de millions d'Ar ; celles dont la mise de départ tient dans ton budget sont classées par résultat en cas prudent sur 12 mois.
 ex_best=Meilleure estimation
 ex_min=Mise de départ
 ex_net=Résultat sur 12 mois (cas prudent)
@@ -3816,7 +3816,7 @@ T('en',`dash_example=Idea for my budget
 tag_example=Idea to validate
 ex_title=Which idea fits my budget?
 ex_budget=My starting budget (Ar)
-ex_budget_h=Enter what you can really put in. The ideas below cost under 1,000,000 Ar and are ranked by cautious-case 12-month result.
+ex_budget_h=Enter what you can really put in. Ideas range from a student side business to projects of several hundred million Ar; those whose starting outlay fits your budget are ranked by cautious-case 12-month result.
 ex_best=Best estimate
 ex_min=Starting outlay
 ex_net=12-month result (cautious case)
@@ -3835,14 +3835,14 @@ ex_goal=Objectif à atteindre par mois (Ar)
 ex_gm=Mesuré en
 ex_gm_rev=Chiffre d'affaires
 ex_gm_net=Bénéfice
-ex_goal_h=L'application calcule combien de fois l'activité d'un étudiant seul (son niveau au mois 12) il faudrait pour atteindre l'objectif, et le capital que cela demande.
+ex_goal_h=Pour chaque idée, l'application calcule combien de fois son niveau au mois 12 il faudrait pour atteindre l'objectif, et le capital que cela demande. Clique sur une idée pour voir tous les chiffres.
 ex_g_zero=Entre un objectif mensuel pour voir quelles idées s'en rapprochent.
 ex_g_none=Aucune idée de la liste ne dégage de bénéfice avec ces hypothèses.
-ex_g_real=Pour atteindre {g} par mois, la meilleure idée demande environ {n} fois l'activité d'un étudiant seul, bien au-delà d'un budget de {b}. Ce sont des étapes : lance petit, réinvestis, recrute.
-ex_g_ok={g} par mois est à ta portée avec ton budget pour les idées ci-dessous, si tu atteins le niveau de vente du mois 12. Reste à le prouver.
-ex_g_n=Fois l'activité d'un étudiant
-ex_g_cap=Capital estimé
-ex_g_day={u} {unit} par jour au total
+ex_g_real=Pour atteindre {g} par mois, la meilleure idée demande environ {n} fois son niveau du mois 12. C'est possible, mais par étapes : lance, réinvestis, recrute, cherche un financement.
+ex_g_ok={g} par mois est atteignable avec les idées ci-dessous si tu atteins leur niveau de ventes du mois 12. Compare le capital à réunir : il peut dépasser ton budget.
+ex_g_n=Multiple de l'activité (mois 12)
+ex_g_cap=Capital total à réunir
+ex_g_day={u} {unit} par mois au total
 ex_lv1=À ta portée
 ex_lv2=Avec une équipe
 ex_lv3=Très ambitieux
@@ -3868,20 +3868,55 @@ gate_sent=Copié. Ouvre VisionHub Suivi, onglet Objectifs, et colle dans « Impo
 gate_h=Le bouton copie tout le dossier : chiffres mois par mois, produits, charges, risques, actions et état des 7 dimensions. Colle-le dans le Suivi.
 ex_valid_t=Projet validé complet (exemple)
 ex_valid_h=Un projet dont les 7 dimensions sont solides, avec preuves, tests, actions et prévisionnel. Les preuves sont fictives : remplace-les par les tiennes.
-ex_valid_go=Charger le projet validé`);
+ex_valid_go=Charger le projet validé
+ex_det=Voir tous les chiffres
+ex_back=Retour aux idées
+ex_scale=Grande échelle
+ex_d_inv=Investissement initial
+ex_d_wc=Besoin de trésorerie (cas prudent)
+ex_d_cap=Capital total à réunir
+ex_d_rev12=Chiffre d'affaires au mois 12
+ex_d_net12=Résultat au mois 12
+ex_d_gm=Marge brute
+ex_d_be=Rentable à partir du
+ex_d_nobe=Pas dans les 12 mois
+ex_d_pb=Investissement récupéré au
+ex_d_nopb=Au-delà de 12 mois
+ex_d_mo=mois {n}
+ex_d_scn=Trois scénarios
+ex_d_prud=Prudent
+ex_d_cent=Central
+ex_d_amb=Ambitieux
+ex_d_totrev=CA sur 12 mois
+ex_d_totnet=Résultat sur 12 mois
+ex_d_invl=Détail de l'investissement
+ex_d_fixl=Charges fixes par mois
+ex_d_total=Total
+ex_d_prod=Produits et marges
+ex_d_price=Prix
+ex_d_ucost=Coût unitaire
+ex_d_margin=Marge
+ex_d_qty=Ventes mois 1
+ex_d_g=Croissance par mois
+ex_d_hyps=À prouver d'abord
+ex_d_risks=Risques et parade
+ex_d_acts=Premières actions
+ex_d_launch=Phase de préparation : {n} mois sans vente avant l'ouverture (charges déjà payées).
+ex_d_goal=Pour atteindre {g} par mois
+ex_d_goal_n=Il faut environ × {n} le niveau du mois 12, soit {u} {unit} par mois au total, et un capital d'environ {c}.`);
 T('en',`ex_goal_t=My monthly goal
 ex_goal=Monthly target (Ar)
 ex_gm=Measured as
 ex_gm_rev=Revenue
 ex_gm_net=Profit
-ex_goal_h=The app computes how many times a solo student's activity (at month 12) you would need to reach the goal, and the capital it takes.
+ex_goal_h=For each idea, the app computes how many times its month-12 level you would need to reach the goal, and the capital that takes. Click an idea to see every figure.
 ex_g_zero=Enter a monthly goal to see which ideas come closest.
 ex_g_none=None of the listed ideas makes a profit with these assumptions.
-ex_g_real=To reach {g} a month, the best idea needs about {n} times a solo student's activity, far beyond a budget of {b}. These are stages: start small, reinvest, hire.
-ex_g_ok={g} a month is within reach of your budget for the ideas below, if you reach the month-12 sales level. That still has to be proven.
-ex_g_n=Times a student's activity
-ex_g_cap=Estimated capital
-ex_g_day={u} {unit} per day in total
+ex_g_real=To reach {g} a month, the best idea needs about {n} times its month-12 level. That is possible, but in stages: launch, reinvest, hire, look for funding.
+ex_g_ok={g} a month is reachable with the ideas below if you hit their month-12 sales level. Compare the capital to raise: it may exceed your budget.
+ex_g_n=Multiple of activity (month 12)
+ex_g_cap=Total capital to raise
+ex_g_day={u} {unit} per month in total
 ex_lv1=Within reach
 ex_lv2=With a team
 ex_lv3=Very ambitious
@@ -3907,7 +3942,42 @@ gate_sent=Copied. Open VisionHub Tracker, Goals tab, and paste into “Import fr
 gate_h=The button copies the whole file: month-by-month figures, products, costs, risks, actions and the state of the 7 dimensions. Paste it into the Tracker.
 ex_valid_t=Complete validated project (example)
 ex_valid_h=A project whose 7 dimensions are solid, with evidence, tests, actions and a plan. The evidence is fictional: replace it with yours.
-ex_valid_go=Load the validated project`);
+ex_valid_go=Load the validated project
+ex_det=See every figure
+ex_back=Back to ideas
+ex_scale=Large scale
+ex_d_inv=Initial investment
+ex_d_wc=Cash needed (cautious case)
+ex_d_cap=Total capital to raise
+ex_d_rev12=Revenue in month 12
+ex_d_net12=Result in month 12
+ex_d_gm=Gross margin
+ex_d_be=Profitable from
+ex_d_nobe=Not within 12 months
+ex_d_pb=Investment recovered in
+ex_d_nopb=Beyond 12 months
+ex_d_mo=month {n}
+ex_d_scn=Three scenarios
+ex_d_prud=Cautious
+ex_d_cent=Central
+ex_d_amb=Ambitious
+ex_d_totrev=12-month revenue
+ex_d_totnet=12-month result
+ex_d_invl=Investment breakdown
+ex_d_fixl=Fixed costs per month
+ex_d_total=Total
+ex_d_prod=Products and margins
+ex_d_price=Price
+ex_d_ucost=Unit cost
+ex_d_margin=Margin
+ex_d_qty=Month-1 sales
+ex_d_g=Growth per month
+ex_d_hyps=To prove first
+ex_d_risks=Risks and fix
+ex_d_acts=First actions
+ex_d_launch=Preparation phase: {n} months with no sales before opening (costs already running).
+ex_d_goal=To reach {g} a month
+ex_d_goal_n=You need about × {n} the month-12 level, i.e. {u} {unit} a month in total, and roughly {c} of capital.`);
 })();
 
 (function(){
@@ -5056,7 +5126,7 @@ const IDEAS=[
 function ideaProject(k,budget){
  const id=IDEAS.find(x=>x.k===k);if(!id)return null;const fr=S.lang==='fr',L=a=>fr?a[0]:a[1];
  const p=newProject(L(id.name),'MGA');
- Object.assign(p,{example:true,country:'Madagascar',sector:L(id.sector),problem:L(id.problem),customer:L(id.customer),horizon:12,
+ Object.assign(p,{launch:id.launch||0,example:true,country:'Madagascar',sector:L(id.sector),problem:L(id.problem),customer:L(id.customer),horizon:12,
   invest:id.invest.map(x=>({id:uid(),name:L(x),amt:x[2]})),
   fund:[{id:uid(),name:t('ln_own'),amt:Math.max(budget||0,sum(id.invest.map(x=>x[2])))}],
   fixed:id.fixed.map(x=>({id:uid(),name:L(x),amt:x[2],per:'m'})),
@@ -5078,10 +5148,10 @@ function exList(){
  if(b<=0)return'<p class="muted">'+t('ex_zero')+'</p>';
  let h='';
  if(!ok.length)h+='<p class="muted">'+t('ex_none',{n:fm(Math.min.apply(null,no.map(x=>x.need)),'MGA')})+'</p>';
- else h+='<div class="projects">'+ok.map((x,i)=>'<article class="pcard"><div class="row"><h3>'+esc(nm(x))+'</h3>'+(i===0?'<span class="tag">'+t('ex_best')+'</span>':'')+'</div>'+
+ else h+='<div class="projects">'+ok.map((x,i)=>'<article class="pcard" data-act="exdet" data-id="'+x.id.k+'" style="cursor:pointer"><div class="row"><h3>'+esc(nm(x))+'</h3>'+(i===0?'<span class="tag">'+t('ex_best')+'</span>':'')+(x.id.tier?'<span class="tag">'+t('ex_scale')+'</span>':'')+'</div>'+
   '<p class="hint">'+esc(fr?x.id.problem[0]:x.id.problem[1])+'</p>'+
   '<div class="kv"><div><span>'+t('ex_min')+'</span><b>'+esc(fmk(x.need,'MGA'))+'</b></div><div><span>'+t('ex_net')+'</span><b class="'+(x.s.totNet<0?'neg':'')+'">'+esc(fmk(x.s.totNet,'MGA'))+'</b></div></div>'+
-  '<div class="row"><button class="btn primary sm" data-act="exgo" data-id="'+x.id.k+'">'+t('ex_load')+I('arrow','flip')+'</button></div></article>').join('')+'</div>';
+  '<div class="row"><button class="btn sm" data-act="exdet" data-id="'+x.id.k+'">'+t('ex_det')+'</button><button class="btn primary sm" data-act="exgo" data-id="'+x.id.k+'">'+t('ex_load')+I('arrow','flip')+'</button></div></article>').join('')+'</div>';
  if(no.length)h+='<div class="hint" style="margin-top:12px"><b>'+t('ex_above')+'</b><br>'+no.map(x=>esc(nm(x))+' : '+t('ex_short',{n:fm(x.need-b,'MGA')})).join('<br>')+'</div>';
  return h;
 }
@@ -5090,41 +5160,164 @@ function exList(){
 function goalRank(goal,mode,budget){
  const fr=S.lang==='fr';
  return IDEAS.map(id=>{
-  const need=sum(id.invest.map(x=>x[2])),p=ideaProject(id.k,Math.max(budget||0,need)),s=sim(p,SC.central),H=s.H;
+  const need=sum(id.invest.map(x=>x[2])),p=ideaProject(id.k,need),s=sim(p,SC.central),H=s.H,wc=sim(p,SC.prudent).need;
   const m=mode==='net'?s.net[H-1]:s.rev[H-1],u=s.units[H-1];
-  const n=m>0?goal/m:Infinity;
-  return{id:id,need:need,n:n,units:u*n,capital:n*need,cap1:m,unit:fr?id.rev[0].n[0]:id.rev[0].n[1],price:id.rev[0].price};
- }).sort((a,b)=>a.n-b.n);
+  const n=m>0?goal/m:Infinity,nn=Math.max(1,n);
+  return{id:id,need:need,n:n,m:m,units:u*nn,capital:nn*(need+wc),unit:fr?id.rev[0].n[0]:id.rev[0].n[1],price:id.rev[0].price};
+ }).sort((a,b)=>(goalLevel(a.n)-goalLevel(b.n))||(a.capital-b.capital));
 }
 const goalLevel=n=>n<=1.5?1:n<=6?2:n<=20?3:4;
 function goalList(){
  const g=num(S.goal),b=num(S.budget);
  if(g<=0)return'<p class="muted">'+t('ex_g_zero')+'</p>';
- const r=goalRank(g,S.gmode,b).filter(x=>isFinite(x.n)).slice(0,5);
+ const r=goalRank(g,S.gmode,b).filter(x=>isFinite(x.n)).slice(0,6);
  if(!r.length)return'<p class="muted">'+t('ex_g_none')+'</p>';
  const fr=S.lang==='fr',nm=x=>fr?x.id.name[0]:x.id.name[1],best=r[0];
- let h='<div class="warn-box" style="margin-bottom:10px">'+(best.n>1.5?t('ex_g_real',{g:fmk(g,'MGA'),n:(best.n<10?best.n.toFixed(1):Math.round(best.n)),b:fmk(b,'MGA')}):t('ex_g_ok',{g:fmk(g,'MGA')}))+'</div><div class="projects">';
- h+=r.map(x=>{const lv=goalLevel(x.n);
-  return'<article class="pcard"><div class="row"><h3>'+esc(nm(x))+'</h3><span class="pill p-'+(lv===1?'solid':lv<=3?'verify':'fragile')+'">'+t('ex_lv'+lv)+'</span></div>'+
-  '<div class="kv"><div><span>'+t('ex_g_n')+'</span><b>× '+(x.n<10?x.n.toFixed(1):Math.round(x.n))+'</b></div><div><span>'+t('ex_g_cap')+'</span><b>'+esc(fmk(x.capital,'MGA'))+'</b></div></div>'+
-  '<p class="hint">'+t('ex_g_day',{u:fn(Math.round(x.units/30)),unit:esc(x.unit)})+'</p></article>'}).join('')+'</div>';
+ let h='<div class="warn-box" style="margin-bottom:10px">'+(best.n>1.5?t('ex_g_real',{g:fmk(g,'MGA'),n:(best.n<10?best.n.toFixed(1):Math.round(best.n))}):t('ex_g_ok',{g:fmk(g,'MGA')}))+'</div><div class="projects">';
+ h+=r.map(x=>{const lv=goalLevel(x.n),nn=Math.max(1,x.n);
+  return'<article class="pcard" data-act="exdet" data-id="'+x.id.k+'" data-g="1" style="cursor:pointer"><div class="row"><h3>'+esc(nm(x))+'</h3><span class="pill p-'+(lv===1?'solid':lv<=3?'verify':'fragile')+'">'+t('ex_lv'+lv)+'</span>'+(x.id.tier?'<span class="tag">'+t('ex_scale')+'</span>':'')+'</div>'+
+  '<div class="kv"><div><span>'+t('ex_g_n')+'</span><b>× '+(nn<10?nn.toFixed(1):Math.round(nn))+'</b></div><div><span>'+t('ex_g_cap')+'</span><b>'+esc(fmk(x.capital,'MGA'))+'</b></div></div>'+
+  '<p class="hint">'+t('ex_g_day',{u:fn(Math.round(x.units)),unit:esc(x.unit)})+'</p>'+
+  '<div class="row"><button class="btn sm" data-act="exdet" data-id="'+x.id.k+'" data-g="1">'+t('ex_det')+'</button></div></article>'}).join('')+'</div>';
+ return h;
+}
+/* ---------- full detail of one idea: capital, costs, margins, break-even, scenarios ---------- */
+function exDetail(){
+ const d=S.exDet,id=IDEAS.find(x=>x.k===d.k);if(!id)return'';
+ const fr=S.lang==='fr',L=a=>fr?a[0]:a[1],need=sum(id.invest.map(x=>x[2])),p=ideaProject(id.k,need),
+  sc=sim(p,SC.central),sp=sim(p,SC.prudent),sa=sim(p,SC.ambitious),H=sc.H,cap=need+sp.need,
+  fixT=sum(id.fixed.map(x=>x[2])),cu='MGA',row=(a,b)=>'<tr><td>'+esc(a)+'</td><td style="text-align:right">'+b+'</td></tr>',
+  kp=(l,v)=>'<div class="kpi"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>';
+ let h='<div class="stack">';
+ h+='<div class="row between"><div><span class="tag">'+esc(L(id.sector))+'</span> '+(id.tier?'<span class="tag">'+t('ex_scale')+'</span>':'')+'<h3 style="margin-top:6px">'+esc(L(id.name))+'</h3></div><button class="btn sm ghost" data-act="exback">'+t('ex_back')+'</button></div>';
+ h+='<p class="hint">'+esc(L(id.problem))+'<br><b>'+esc(L(id.customer))+'</b></p>';
+ if(d.g){const g=num(S.goal),m=S.gmode==='net'?sc.net[H-1]:sc.rev[H-1],n=m>0?g/m:0,nn=Math.max(1,n),u=sc.units[H-1]*nn;
+  h+='<div class="warn-box"><b>'+t('ex_d_goal',{g:fmk(g,cu)})+'</b><br>'+(m>0?t('ex_d_goal_n',{n:(nn<10?nn.toFixed(1):Math.round(nn)),u:fn(Math.round(u)),unit:esc(L(id.rev[0].n)),c:fmk(nn*cap,cu)}):t('ex_g_none'))+'</div>'}
+ h+='<div class="kpis">'+kp(t('ex_d_inv'),esc(fm(need,cu)))+kp(t('ex_d_wc'),esc(fm(sp.need,cu)))+kp(t('ex_d_cap'),'<span style="color:var(--accent)">'+esc(fm(cap,cu))+'</span>')+
+  kp(t('ex_d_rev12'),esc(fm(sc.rev[H-1],cu)))+kp(t('ex_d_net12'),'<span class="'+(sc.net[H-1]<0?'neg':'')+'">'+esc(fm(sc.net[H-1],cu))+'</span>')+
+  kp(t('ex_d_gm'),sc.gm==null?'-':Math.round(sc.gm*100)+' %')+kp(t('ex_d_be'),sc.beM?t('ex_d_mo',{n:sc.beM}):t('ex_d_nobe'))+kp(t('ex_d_pb'),sc.pbM?t('ex_d_mo',{n:sc.pbM}):t('ex_d_nopb'))+'</div>';
+ if(id.launch)h+='<p class="hint">'+t('ex_d_launch',{n:id.launch})+'</p>';
+ h+='<div style="overflow-x:auto"><table class="sheet cmp" style="min-width:0"><thead><tr><th>'+t('ex_d_scn')+'</th><th style="text-align:right">'+t('ex_d_totrev')+'</th><th style="text-align:right">'+t('ex_d_totnet')+'</th><th style="text-align:right">'+t('ex_d_cap')+'</th></tr></thead><tbody>'+
+  [[t('ex_d_prud'),sp],[t('ex_d_cent'),sc],[t('ex_d_amb'),sa]].map(x=>'<tr><td>'+x[0]+'</td><td style="text-align:right">'+esc(fm(x[1].totRev,cu))+'</td><td style="text-align:right" class="'+(x[1].totNet<0?'neg':'')+'">'+esc(fm(x[1].totNet,cu))+'</td><td style="text-align:right">'+esc(fm(need+x[1].need,cu))+'</td></tr>').join('')+'</tbody></table></div>';
+ h+='<div class="grid2"><div class="stack" style="min-width:0"><b>'+t('ex_d_invl')+'</b><div style="overflow-x:auto"><table class="sheet cmp" style="min-width:0"><tbody>'+id.invest.map(x=>row(L(x),esc(fm(x[2],cu)))).join('')+row(t('ex_d_total'),'<b>'+esc(fm(need,cu))+'</b>')+'</tbody></table></div></div>'+
+  '<div class="stack" style="min-width:0"><b>'+t('ex_d_fixl')+'</b><div style="overflow-x:auto"><table class="sheet cmp" style="min-width:0"><tbody>'+id.fixed.map(x=>row(L(x),esc(fm(x[2],cu)))).join('')+row(t('ex_d_total'),'<b>'+esc(fm(fixT,cu))+'</b>')+'</tbody></table></div></div></div>';
+ h+='<b>'+t('ex_d_prod')+'</b><div style="overflow-x:auto"><table class="sheet cmp" style="min-width:0"><thead><tr><th></th><th style="text-align:right">'+t('ex_d_price')+'</th><th style="text-align:right">'+t('ex_d_ucost')+'</th><th style="text-align:right">'+t('ex_d_margin')+'</th><th style="text-align:right">'+t('ex_d_qty')+'</th><th style="text-align:right">'+t('ex_d_g')+'</th></tr></thead><tbody>'+
+  id.rev.map(r=>'<tr><td>'+esc(L(r.n))+'</td><td style="text-align:right">'+esc(fm(r.price,cu))+'</td><td style="text-align:right">'+esc(fm(r.ucost,cu))+'</td><td style="text-align:right">'+esc(fm(r.price-r.ucost,cu))+' ('+Math.round((r.price-r.ucost)/r.price*100)+' %)</td><td style="text-align:right">'+fn(r.qty)+'</td><td style="text-align:right">'+r.g+' %</td></tr>').join('')+'</tbody></table></div>';
+ const li=a=>'<ul style="margin:6px 0 0 18px">'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
+ h+='<div class="grid3"><div style="min-width:0"><b>'+t('ex_d_hyps')+'</b>'+li(id.hyps.map(x=>fr?x[1]:x[2]))+'</div><div style="min-width:0"><b>'+t('ex_d_risks')+'</b>'+li(id.risks.map(x=>(fr?x[1]:x[2])+' → '+(fr?x[5]:x[6])))+'</div><div style="min-width:0"><b>'+t('ex_d_acts')+'</b>'+li(id.acts.map(x=>L(x)))+'</div></div>';
+ h+='<p class="hint">'+t('ex_warn')+'</p><div class="row"><button class="btn primary" data-act="exgo" data-id="'+id.k+'">'+t('ex_load')+I('arrow','flip')+'</button><button class="btn" data-act="exback">'+t('ex_back')+'</button></div></div>';
  return h;
 }
 function exPanel(){
+ if(S.exDet)return'<div class="card stack" id="expanel">'+head(t('ex_title'),'<button class="btn sm ghost" data-act="exclose">'+t('dash_cancel')+'</button>')+exDetail()+'</div>';
  return'<div class="card stack" id="expanel">'+head(t('ex_title'),'<button class="btn sm ghost" data-act="exclose">'+t('dash_cancel')+'</button>')+
  '<div class="field" style="max-width:360px"><label for="exbud">'+t('ex_budget')+'</label><input id="exbud" type="text" inputmode="numeric" value="'+fn(num(S.budget))+'" autocomplete="off"></div>'+
  '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_valid_t')+'</b><p class="hint">'+t('ex_valid_h')+'</p><div class="row"><button class="btn primary sm" data-act="exvalid">'+t('ex_valid_go')+'</button></div></div>'+'<p class="hint">'+t('ex_budget_h')+'</p><div id="exlist">'+exList()+'</div>'+
  '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_goal_t')+'</b><div class="row"><div class="field" style="min-width:220px;flex:1"><label for="exgoal">'+t('ex_goal')+'</label><input id="exgoal" type="text" inputmode="numeric" value="'+(num(S.goal)?fn(num(S.goal)):'')+'" placeholder="15 000 000" autocomplete="off"></div><div class="field"><label for="exgm">'+t('ex_gm')+'</label><select id="exgm"><option value="rev"'+(S.gmode!=='net'?' selected':'')+'>'+t('ex_gm_rev')+'</option><option value="net"'+(S.gmode==='net'?' selected':'')+'>'+t('ex_gm_net')+'</option></select></div></div><p class="hint">'+t('ex_goal_h')+'</p><div id="exgl">'+goalList()+'</div></div><p class="hint">'+t('ex_warn')+'</p></div>';
 }
 function exAct(a,d){
- if(a==='exclose'){S.exOpen=false;render();return}
+ if(a==='exclose'){S.exOpen=false;S.exDet=null;render();return}
+ if(a==='exdet'){S.exDet={k:d.id,g:d.g==='1'};render();const el=$('#expanel');if(el&&el.scrollIntoView)el.scrollIntoView({block:'start'});return}
+ if(a==='exback'){S.exDet=null;render();return}
  if(a==='exvalid'){const p=validatedProject('cake');if(!p)return;S.projects.unshift(p);S.exOpen=false;save();openProject(p.id,'rep');toast(t('tag_example'));return}
- if(a==='exgo'){const p=ideaProject(d.id,num(S.budget));if(!p)return;S.projects.unshift(p);S.exOpen=false;save();openProject(p.id,'ov');toast(t('tag_example'))}
+ if(a==='exgo'){const p=ideaProject(d.id,num(S.budget));if(!p)return;S.projects.unshift(p);S.exOpen=false;S.exDet=null;save();openProject(p.id,'ov');toast(t('tag_example'))}
 }
 document.addEventListener('input',e=>{if(e.target.id==='exbud'){const v=parseNum(e.target.value);S.budget=v==null?0:v;save();const l=$('#exlist');if(l)l.innerHTML=exList();const g=$('#exgl');if(g)g.innerHTML=goalList()}
  if(e.target.id==='exgoal'){const v=parseNum(e.target.value);S.goal=v==null?0:v;save();const g=$('#exgl');if(g)g.innerHTML=goalList()}});
 document.addEventListener('change',e=>{if(e.target.id==='exgm'){S.gmode=e.target.value==='net'?'net':'rev';save();const g=$('#exgl');if(g)g.innerHTML=goalList()}});
 function makeExamples(){const b=300000,r=ideaRank(b).filter(x=>x.ok)[0];return r?[ideaProject(r.id.k,b)]:[]}
+
+/* ---------- larger-scale ideas (tier 'scale'). Order-of-magnitude estimates for Madagascar: verify with 3 real quotes each ---------- */
+IDEAS.push(
+{k:'bakery',tier:'scale',launch:2,name:['Boulangerie-pâtisserie de quartier','Neighbourhood bakery and pastry shop'],sector:['Restauration','Food service'],
+ problem:['Dans beaucoup de quartiers, le pain frais et les pâtisseries de qualité sont rares aux heures de pointe.','In many neighbourhoods fresh bread and quality pastries are scarce at peak hours.'],
+ customer:['Familles, bureaux et écoles dans un rayon de 1 km.','Families, offices and schools within 1 km.'],
+ invest:[['Four professionnel et pétrin','Professional oven and mixer',25000000],['Vitrines et matériel de pâtisserie','Display cases and pastry equipment',15000000],['Aménagement du local','Shop fit-out',20000000],['Stock de départ','Starting stock',5000000],['Autorisations et hygiène','Permits and hygiene',3000000]],
+ fixed:[['Loyer','Rent',3000000],['Salaires (5 personnes)','Salaries (5 people)',3000000],['Électricité et gaz','Power and gas',1500000],['Entretien et divers','Upkeep and other',500000]],
+ rev:[{n:['Baguette ou pain','Loaf of bread'],price:700,ucost:320,qty:10000,g:3},{n:['Pâtisserie ou viennoiserie','Pastry'],price:3500,ucost:1400,qty:2500,g:3}],
+ hyps:[['value','Les riverains achètent 300 pains par jour à 700 Ar.','Locals buy 300 loaves a day at 700 Ar.'],['ops','Je trouve un chef boulanger fiable et une farine à prix stable.','I find a reliable head baker and flour at a steady price.']],
+ risks:[['supplier','Le prix de la farine importée augmente.','Imported flour gets more expensive.',3,3,'Contrat de 6 mois avec deux minotiers et prix ajustable.','Six-month contract with two millers and adjustable prices.'],['operational','Le départ du chef boulanger bloque la production.','The head baker leaves and production stops.',2,3,'Former un second boulanger dès le début.','Train a second baker from day one.']],
+ acts:[['Compter les clients de 3 boulangeries voisines','Count customers at 3 nearby bakeries',7,0],['Obtenir 3 devis de four professionnel','Get 3 professional oven quotes',14,0]],
+ comps:[['Boulangerie voisine','Nearby bakery',700,'Connue','Known','Pâtisserie limitée','Limited pastry']],
+ cv:{value:['Du pain chaud toute la journée et des pâtisseries fraîches','Hot bread all day and fresh pastries'],channels:['Sur place\nCommandes WhatsApp\nLivraison aux bureaux','On site\nWhatsApp orders\nOffice delivery'],segments:['Familles, bureaux, écoles','Families, offices, schools']}},
+{k:'training',tier:'scale',launch:2,name:['Centre de formation en langues et informatique','Language and IT training centre'],sector:['Éducation','Education'],
+ problem:['Étudiants et salariés cherchent des cours d\'anglais et de bureautique avec un certificat reconnu.','Students and staff want English and office-skills courses with a recognised certificate.'],
+ customer:['Étudiants, jeunes diplômés et salariés d\'entreprises.','Students, graduates and company staff.'],
+ invest:[['Aménagement de 3 salles','Fit-out of 3 classrooms',25000000],['Ordinateurs et projecteur','Computers and projector',20000000],['Mobilier','Furniture',8000000],['Marketing de lancement','Launch marketing',7000000]],
+ fixed:[['Loyer','Rent',3000000],['Formateurs (4)','Trainers (4)',4000000],['Électricité et internet','Power and internet',1000000],['Administration','Administration',1000000]],
+ rev:[{n:['Élève inscrit (frais mensuels)','Enrolled learner (monthly fee)'],price:80000,ucost:5000,qty:150,g:5}],
+ hyps:[['value','150 élèves paient 80 000 Ar par mois pour des cours de qualité.','150 learners pay 80,000 Ar a month for quality courses.'],['ops','Je recrute 4 formateurs compétents à ce tarif.','I can hire 4 skilled trainers at that rate.']],
+ risks:[['commercial','Les inscriptions chutent hors saison scolaire.','Enrolment drops outside the school season.',3,2,'Proposer des stages intensifs et des contrats avec des entreprises.','Offer intensive courses and company contracts.']],
+ acts:[['Interroger 30 étudiants sur ce qu\'ils paient ailleurs','Ask 30 students what they pay elsewhere',10,0],['Vendre 20 préinscriptions avant l\'ouverture','Sell 20 pre-enrolments before opening',45,0]],
+ comps:[['Centre de langues établi','Established language centre',120000,'Réputé','Reputed','Cher','Expensive']],
+ cv:{value:['Des cours concrets avec un certificat, à un prix raisonnable','Practical courses with a certificate at a fair price'],channels:['Facebook\nPartenariats avec les écoles\nBouche-à-oreille','Facebook\nSchool partnerships\nWord of mouth'],segments:['Étudiants, diplômés, salariés','Students, graduates, staff']}},
+{k:'agency',tier:'scale',launch:1,name:['Agence digitale et studio de contenu','Digital agency and content studio'],sector:['Marketing digital','Digital marketing'],
+ problem:['Les PME veulent une présence en ligne professionnelle mais n\'ont pas d\'équipe pour la produire.','SMEs want a professional online presence but have no team to produce it.'],
+ customer:['PME, hôtels, restaurants et marques locales.','SMEs, hotels, restaurants and local brands.'],
+ invest:[['Caméras, ordinateurs, éclairage','Cameras, computers, lighting',12000000],['Bureau équipé','Equipped office',5000000],['Logiciels et licences','Software and licences',3000000],['Portfolio et marketing','Portfolio and marketing',5000000]],
+ fixed:[['Salaires (4 personnes)','Salaries (4 people)',4000000],['Loyer','Rent',1200000],['Internet et téléphone','Internet and phone',500000],['Logiciels','Software',500000]],
+ rev:[{n:['Contrat mensuel client','Monthly client retainer'],price:1500000,ucost:200000,qty:6,g:5},{n:['Projet ponctuel (site, vidéo)','One-off project (site, video)'],price:2500000,ucost:800000,qty:2,g:4}],
+ hyps:[['value','Des PME paient 1 500 000 Ar par mois pour la gestion de leur contenu.','SMEs pay 1,500,000 Ar a month for content management.'],['growth','Je signe 6 contrats mensuels grâce à mon portfolio.','I sign 6 retainers thanks to my portfolio.']],
+ risks:[['commercial','Les clients résilient quand leur budget baisse.','Clients cancel when budgets tighten.',3,2,'Contrats de 6 mois minimum et clients répartis sur plusieurs secteurs.','Six-month minimum contracts and clients across sectors.']],
+ acts:[['Faire 3 études de cas gratuites','Make 3 free case studies',30,0],['Présenter l\'offre à 15 PME','Pitch the offer to 15 SMEs',30,0]],
+ comps:[['Agence de communication','Communication agency',3000000,'Pro','Professional','Très chère','Very expensive']],
+ cv:{value:['Un contenu professionnel régulier, sans équipe interne','Regular professional content without an in-house team'],channels:['LinkedIn\nRéseau personnel\nRecommandations','LinkedIn\nPersonal network\nReferrals'],segments:['PME, hôtels, restaurants','SMEs, hotels, restaurants']}},
+{k:'poultry',tier:'scale',launch:2,name:['Élevage de poulets de chair','Broiler chicken farm'],sector:['Agriculture','Agriculture'],
+ problem:['La demande en poulet est forte et régulière, mais l\'offre locale est irrégulière.','Demand for chicken is strong and steady but local supply is irregular.'],
+ customer:['Restaurants, hôtels, épiceries et particuliers.','Restaurants, hotels, groceries and households.'],
+ invest:[['Poulailler et clôture','Chicken house and fencing',40000000],['Poussins et aliments de départ','Chicks and starter feed',25000000],['Équipement (abreuvoirs, chauffage)','Equipment (drinkers, heating)',10000000],['Vaccins et autorisation','Vaccines and permit',5000000]],
+ fixed:[['Ouvriers (2)','Workers (2)',1200000],['Électricité et eau','Power and water',600000],['Transport et livraison','Transport and delivery',800000]],
+ rev:[{n:['Poulet vendu','Chicken sold'],price:18000,ucost:11000,qty:1500,g:4}],
+ hyps:[['value','Restaurants et hôtels achètent 1 500 poulets par mois à 18 000 Ar.','Restaurants and hotels buy 1,500 chickens a month at 18,000 Ar.'],['ops','Je garde la mortalité sous 8 % par bande.','I keep mortality under 8% per batch.']],
+ risks:[['operational','Une maladie peut décimer une bande entière.','A disease can wipe out a whole batch.',3,3,'Vaccination stricte, bandes séparées et suivi d\'un vétérinaire.','Strict vaccination, separate batches and a vet.'],['supplier','Le prix de l\'aliment (maïs, soja) augmente.','Feed prices (maize, soy) rise.',3,2,'Stock d\'aliment pour un cycle et contrat avec un fournisseur.','Feed stock for one cycle and a supplier contract.']],
+ acts:[['Visiter 2 éleveurs et noter leurs coûts réels','Visit 2 farmers and note their real costs',10,0],['Obtenir 5 promesses d\'achat de restaurants','Get 5 purchase promises from restaurants',21,0]],
+ comps:[['Éleveurs locaux','Local farmers',17000,'Prix bas','Low price','Quantité irrégulière','Irregular volume']],
+ cv:{value:['Du poulet frais, régulier et livré aux professionnels','Fresh, regular chicken delivered to professionals'],channels:['Démarchage restaurants et hôtels\nWhatsApp','Restaurant and hotel outreach\nWhatsApp'],segments:['Restaurants, hôtels, épiceries','Restaurants, hotels, groceries']}},
+{k:'market',tier:'scale',launch:2,name:['Supérette de quartier','Neighbourhood mini-market'],sector:['Commerce','Retail'],
+ problem:['Les habitants font de longs trajets pour des courses complètes à prix fixes et affichés.','Residents travel far for full shopping at fixed, displayed prices.'],
+ customer:['Ménages d\'un quartier dense, sans grande surface à moins de 2 km.','Households in a dense area with no supermarket within 2 km.'],
+ invest:[['Stock initial','Starting stock',50000000],['Rayonnages et frigos','Shelving and fridges',25000000],['Travaux d\'aménagement','Fit-out works',10000000],['Caisse et logiciel de stock','Till and stock software',5000000]],
+ fixed:[['Loyer','Rent',2500000],['Salaires (4 personnes)','Salaries (4 people)',2000000],['Électricité','Power',1500000],['Divers','Other',600000]],
+ rev:[{n:['Panier moyen client','Average customer basket'],price:22000,ucost:18000,qty:2200,g:3}],
+ hyps:[['value','Soixante-dix clients par jour achètent un panier moyen de 22 000 Ar.','Seventy customers a day buy an average basket of 22,000 Ar.'],['ops','Mon fournisseur me livre à marge stable.','My supplier delivers at a steady margin.']],
+ risks:[['commercial','Un concurrent ouvre à côté et casse les prix.','A competitor opens next door and cuts prices.',2,3,'Fidéliser par la proximité, le crédit limité et la livraison.','Retain through proximity, limited credit and delivery.'],['operational','Pertes sur les produits frais et vols.','Losses on fresh goods and theft.',3,2,'Inventaire hebdomadaire et petites commandes de frais.','Weekly inventory and small fresh orders.']],
+ acts:[['Compter les clients d\'une supérette voisine un samedi','Count a nearby shop\'s customers on a Saturday',7,0],['Obtenir 3 conditions de grossistes','Get 3 wholesaler terms',14,0]],
+ comps:[['Grande surface éloignée','Distant supermarket',20000,'Large choix','Wide choice','Trop loin','Too far']],
+ cv:{value:['Les courses du quotidien en bas de chez soi, à prix affichés','Daily shopping next door at displayed prices'],channels:['Sur place\nWhatsApp\nLivraison','On site\nWhatsApp\nDelivery'],segments:['Ménages du quartier','Neighbourhood households']}},
+{k:'processing',tier:'scale',launch:3,name:['Transformation de produits locaux pour l\'export','Local product processing for export'],sector:['Agro-industrie','Agribusiness'],
+ problem:['La vanille, les épices et les fruits séchés sont vendus bruts, avec peu de valeur ajoutée pour le pays.','Vanilla, spices and dried fruit are sold raw, with little added value for the country.'],
+ customer:['Importateurs et épiceries fines en Europe, via des contrats annuels.','Importers and delicatessens in Europe, via annual contracts.'],
+ invest:[['Unité de séchage et conditionnement','Drying and packing unit',60000000],['Certification qualité et bio','Quality and organic certification',20000000],['Stock initial chez les producteurs','Starting stock from producers',30000000],['Emballage, site web, échantillons','Packaging, website, samples',10000000]],
+ fixed:[['Salaires (7 personnes)','Salaries (7 people)',4000000],['Loyer','Rent',1500000],['Énergie','Energy',1500000],['Transport','Transport',1000000],['Contrôle qualité','Quality control',700000]],
+ rev:[{n:['Kg de produits transformés (export)','Kg of processed products (export)'],price:90000,ucost:55000,qty:300,g:6}],
+ hyps:[['value','Un importateur signe un contrat annuel à 90 000 Ar le kg.','An importer signs a yearly contract at 90,000 Ar per kg.'],['ops','Je sécurise 3 producteurs avec des prix écrits sur 12 mois.','I secure 3 producers with written 12-month prices.']],
+ risks:[['commercial','Les importateurs exigent des certifications et du volume que je n\'ai pas encore.','Importers demand certifications and volume I do not have yet.',3,3,'Commencer par un marché de niche et un contrat pilote.','Start with a niche market and a pilot contract.'],['supplier','Les prix de la vanille sont très volatils.','Vanilla prices are very volatile.',3,3,'Prix écrits avec les producteurs et plusieurs produits.','Written prices with producers and several products.']],
+ acts:[['Envoyer des échantillons à 10 importateurs','Send samples to 10 importers',45,0],['Visiter 3 producteurs et noter leurs prix','Visit 3 producers and note their prices',20,0]],
+ comps:[['Exportateur établi','Established exporter',100000,'Réseau','Network','Peu de transformation','Little processing']],
+ cv:{value:['Des produits malgaches transformés, certifiés et traçables','Processed, certified, traceable Malagasy products'],channels:['Salons professionnels\nLinkedIn\nPlateformes B2B','Trade fairs\nLinkedIn\nB2B platforms'],segments:['Importateurs, épiceries fines','Importers, delicatessens']}},
+{k:'guest',tier:'scale',launch:4,name:['Maison d\'hôtes de 8 chambres','8-room guesthouse'],sector:['Tourisme','Tourism'],
+ problem:['Les voyageurs cherchent un hébergement propre, bien situé, avec un accueil personnel.','Travellers look for clean, well-located lodging with a personal welcome.'],
+ customer:['Touristes étrangers et voyageurs d\'affaires.','Foreign tourists and business travellers.'],
+ invest:[['Rénovation du bâtiment loué','Renovation of the leased building',90000000],['Mobilier, literie, sanitaires','Furniture, bedding, bathrooms',55000000],['Autorisations tourisme','Tourism permits',10000000],['Site web et photos','Website and photos',10000000],['Trésorerie de lancement','Launch cash buffer',15000000]],
+ fixed:[['Salaires (6 personnes)','Salaries (6 people)',3600000],['Loyer','Rent',4000000],['Énergie et eau','Power and water',2000000],['Entretien et blanchisserie','Upkeep and laundry',1500000],['Commissions plateformes','Platform fees',900000]],
+ rev:[{n:['Nuitée chambre','Room night'],price:180000,ucost:20000,qty:130,g:2}],
+ hyps:[['value','Les voyageurs paient 180 000 Ar la nuit pour ce confort.','Travellers pay 180,000 Ar a night for this comfort.'],['growth','Je tiens 55 % de remplissage en moyenne.','I average 55% occupancy.']],
+ risks:[['commercial','La fréquentation touristique est très saisonnière et sensible aux crises.','Tourism is highly seasonal and crisis-sensitive.',3,3,'Clientèle d\'affaires, séminaires et forte présence en ligne.','Business guests, seminars and a strong online presence.']],
+ acts:[['Visiter 3 maisons d\'hôtes et relever taux et prix','Visit 3 guesthouses and note rates and prices',14,0],['Obtenir 2 devis de rénovation','Get 2 renovation quotes',21,0]],
+ comps:[['Hôtel de ville','City hotel',200000,'Marque','Brand','Impersonnel','Impersonal']],
+ cv:{value:['Un accueil personnel, propre, bien situé, à prix juste','A personal welcome, clean, well located, fair price'],channels:['Booking et plateformes\nSite web\nAgences locales','Booking platforms\nWebsite\nLocal agencies'],segments:['Touristes étrangers, voyageurs d\'affaires','Foreign tourists, business travellers']}},
+{k:'drinks',tier:'scale',launch:4,name:['Production de jus et boissons locales en bouteille','Local bottled juice and drink production'],sector:['Industrie alimentaire','Food manufacturing'],
+ problem:['Les boissons industrielles sucrées dominent ; peu de jus de fruits locaux, conservés et distribués à grande échelle.','Sugary industrial drinks dominate; few local fruit juices are preserved and distributed at scale.'],
+ customer:['Épiceries, supérettes, restaurants et écoles via des distributeurs.','Groceries, mini-markets, restaurants and schools via distributors.'],
+ invest:[['Machines de pressage et embouteillage','Pressing and bottling machines',150000000],['Local et mise aux normes','Premises and compliance',60000000],['Emballages et stock de départ','Packaging and starting stock',70000000],['Certification et analyses','Certification and lab tests',20000000],['Véhicule de distribution','Delivery vehicle',50000000]],
+ fixed:[['Salaires (12 personnes)','Salaries (12 people)',8000000],['Énergie','Energy',4000000],['Loyer','Rent',2000000],['Distribution','Distribution',3000000],['Marketing','Marketing',3000000]],
+ rev:[{n:['Bouteille de jus','Bottle of juice'],price:2500,ucost:1100,qty:20000,g:5}],
+ hyps:[['value','Les distributeurs prennent 20 000 bouteilles par mois à 2 500 Ar.','Distributors take 20,000 bottles a month at 2,500 Ar.'],['ops','Je tiens une qualité et une conservation constantes.','I keep quality and shelf life constant.']],
+ risks:[['operational','Un lot non conforme peut entraîner un rappel de produit.','A non-compliant batch can force a product recall.',2,3,'Analyses à chaque lot et traçabilité complète.','Lab tests on every batch and full traceability.'],['commercial','Les distributeurs imposent des délais de paiement longs.','Distributors impose long payment terms.',3,3,'Acomptes à la commande et plafond de crédit par client.','Deposits on order and a credit cap per client.']],
+ acts:[['Obtenir 3 devis de lignes d\'embouteillage','Get 3 bottling line quotes',21,0],['Obtenir 5 lettres d\'intention de distributeurs','Get 5 letters of intent from distributors',45,0]],
+ comps:[['Boissons industrielles','Industrial drinks',2000,'Partout','Everywhere','Très sucrées','Very sugary']],
+ cv:{value:['Un vrai jus local, conservé, disponible partout','Real local juice, preserved, available everywhere'],channels:['Distributeurs\nÉpiceries\nÉcoles','Distributors\nGroceries\nSchools'],segments:['Épiceries, supérettes, restaurants','Groceries, mini-markets, restaurants']}}
+);
 
 /* ---------- validated project (worked example) + gate + send to Suivi ---------- */
 function validatedProject(k){
@@ -5313,7 +5506,7 @@ function openProject(id,tab){S.cid=id;S.tab=tab||'ov';go('project')}
 document.addEventListener('click',async e=>{
  const b=e.target.closest('[data-act]');if(!b)return;const a=b.getAttribute('data-act'),p=P(),d=b.dataset;
  if(a.slice(0,2)==='gm'){gmAct(a,d,p);return}
- if(a==='exgo'||a==='exclose'||a==='exvalid'){exAct(a,d);return}
+ if(a==='exgo'||a==='exclose'||a==='exvalid'||a==='exdet'||a==='exback'){exAct(a,d);return}
  switch(a){
  case'menu':$('#side').classList.toggle('open');$('#scrim').classList.toggle('on');break;
  case'view':go(d.v);break;
