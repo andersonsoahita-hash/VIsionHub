@@ -3830,7 +3830,24 @@ ex_warn=These figures are starting estimates, not verified data. Before spending
 
 (function(){
 const T=(l,s)=>{const o={};s.split('\n').forEach(x=>{const i=x.indexOf('=');if(i>0)o[x.slice(0,i).trim()]=x.slice(i+1).trim()});Object.assign(I18N[l],o)};
-T('fr',`go_title=Objectifs mensuels
+T('fr',`ex_goal_t=Mon objectif par mois
+ex_goal=Objectif à atteindre par mois (Ar)
+ex_gm=Mesuré en
+ex_gm_rev=Chiffre d'affaires
+ex_gm_net=Bénéfice
+ex_goal_h=L'application calcule combien de fois l'activité d'un étudiant seul (son niveau au mois 12) il faudrait pour atteindre l'objectif, et le capital que cela demande.
+ex_g_zero=Entre un objectif mensuel pour voir quelles idées s'en rapprochent.
+ex_g_none=Aucune idée de la liste ne dégage de bénéfice avec ces hypothèses.
+ex_g_real=Pour atteindre {g} par mois, la meilleure idée demande environ {n} fois l'activité d'un étudiant seul, bien au-delà d'un budget de {b}. Ce sont des étapes : lance petit, réinvestis, recrute.
+ex_g_ok={g} par mois est à ta portée avec ton budget pour les idées ci-dessous, si tu atteins le niveau de vente du mois 12. Reste à le prouver.
+ex_g_n=Fois l'activité d'un étudiant
+ex_g_cap=Capital estimé
+ex_g_day={u} {unit} par jour au total
+ex_lv1=À ta portée
+ex_lv2=Avec une équipe
+ex_lv3=Très ambitieux
+ex_lv4=Irréaliste à ce stade
+go_title=Objectifs mensuels
 go_h=Un objectif par mois à atteindre, en plus du scénario. Laisse vide pour garder la valeur du scénario central. Ils partent vers le Suivi, qui compare chaque mois au réel.
 go_fill=Remplir avec le scénario central
 go_filled=Objectifs remplis, tu peux les modifier
@@ -3852,7 +3869,24 @@ gate_h=Le bouton copie tout le dossier : chiffres mois par mois, produits, charg
 ex_valid_t=Projet validé complet (exemple)
 ex_valid_h=Un projet dont les 7 dimensions sont solides, avec preuves, tests, actions et prévisionnel. Les preuves sont fictives : remplace-les par les tiennes.
 ex_valid_go=Charger le projet validé`);
-T('en',`go_title=Monthly goals
+T('en',`ex_goal_t=My monthly goal
+ex_goal=Monthly target (Ar)
+ex_gm=Measured as
+ex_gm_rev=Revenue
+ex_gm_net=Profit
+ex_goal_h=The app computes how many times a solo student's activity (at month 12) you would need to reach the goal, and the capital it takes.
+ex_g_zero=Enter a monthly goal to see which ideas come closest.
+ex_g_none=None of the listed ideas makes a profit with these assumptions.
+ex_g_real=To reach {g} a month, the best idea needs about {n} times a solo student's activity, far beyond a budget of {b}. These are stages: start small, reinvest, hire.
+ex_g_ok={g} a month is within reach of your budget for the ideas below, if you reach the month-12 sales level. That still has to be proven.
+ex_g_n=Times a student's activity
+ex_g_cap=Estimated capital
+ex_g_day={u} {unit} per day in total
+ex_lv1=Within reach
+ex_lv2=With a team
+ex_lv3=Very ambitious
+ex_lv4=Unrealistic at this stage
+go_title=Monthly goals
 go_h=One target per month to reach, on top of the scenario. Leave blank to keep the central scenario value. They go to the Tracker, which compares each month with actuals.
 go_fill=Fill with the central scenario
 go_filled=Goals filled, you can edit them
@@ -3917,7 +3951,7 @@ let S;
 /* ---------- storage ---------- */
 function load(){try{const r=localStorage.getItem(LS);if(r)return JSON.parse(r)}catch(e){}return null}
 let saveT;
-function persist(){return{lang:S.lang,cur:S.cur,view:S.view,tab:S.tab,cid:S.cid,budget:S.budget,projects:S.projects}}
+function persist(){return{lang:S.lang,cur:S.cur,view:S.view,tab:S.tab,cid:S.cid,budget:S.budget,goal:S.goal,gmode:S.gmode,projects:S.projects}}
 function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(LS,JSON.stringify(persist()))}catch(e){}},200)}
 
 /* ---------- i18n + formatting ---------- */
@@ -5051,17 +5085,45 @@ function exList(){
  if(no.length)h+='<div class="hint" style="margin-top:12px"><b>'+t('ex_above')+'</b><br>'+no.map(x=>esc(nm(x))+' : '+t('ex_short',{n:fm(x.need-b,'MGA')})).join('<br>')+'</div>';
  return h;
 }
+
+/* ---------- goal -> ideas: what would it take to reach a monthly target ---------- */
+function goalRank(goal,mode,budget){
+ const fr=S.lang==='fr';
+ return IDEAS.map(id=>{
+  const need=sum(id.invest.map(x=>x[2])),p=ideaProject(id.k,Math.max(budget||0,need)),s=sim(p,SC.central),H=s.H;
+  const m=mode==='net'?s.net[H-1]:s.rev[H-1],u=s.units[H-1];
+  const n=m>0?goal/m:Infinity;
+  return{id:id,need:need,n:n,units:u*n,capital:n*need,cap1:m,unit:fr?id.rev[0].n[0]:id.rev[0].n[1],price:id.rev[0].price};
+ }).sort((a,b)=>a.n-b.n);
+}
+const goalLevel=n=>n<=1.5?1:n<=6?2:n<=20?3:4;
+function goalList(){
+ const g=num(S.goal),b=num(S.budget);
+ if(g<=0)return'<p class="muted">'+t('ex_g_zero')+'</p>';
+ const r=goalRank(g,S.gmode,b).filter(x=>isFinite(x.n)).slice(0,5);
+ if(!r.length)return'<p class="muted">'+t('ex_g_none')+'</p>';
+ const fr=S.lang==='fr',nm=x=>fr?x.id.name[0]:x.id.name[1],best=r[0];
+ let h='<div class="warn-box" style="margin-bottom:10px">'+(best.n>1.5?t('ex_g_real',{g:fmk(g,'MGA'),n:(best.n<10?best.n.toFixed(1):Math.round(best.n)),b:fmk(b,'MGA')}):t('ex_g_ok',{g:fmk(g,'MGA')}))+'</div><div class="projects">';
+ h+=r.map(x=>{const lv=goalLevel(x.n);
+  return'<article class="pcard"><div class="row"><h3>'+esc(nm(x))+'</h3><span class="pill p-'+(lv===1?'solid':lv<=3?'verify':'fragile')+'">'+t('ex_lv'+lv)+'</span></div>'+
+  '<div class="kv"><div><span>'+t('ex_g_n')+'</span><b>× '+(x.n<10?x.n.toFixed(1):Math.round(x.n))+'</b></div><div><span>'+t('ex_g_cap')+'</span><b>'+esc(fmk(x.capital,'MGA'))+'</b></div></div>'+
+  '<p class="hint">'+t('ex_g_day',{u:fn(Math.round(x.units/30)),unit:esc(x.unit)})+'</p></article>'}).join('')+'</div>';
+ return h;
+}
 function exPanel(){
  return'<div class="card stack" id="expanel">'+head(t('ex_title'),'<button class="btn sm ghost" data-act="exclose">'+t('dash_cancel')+'</button>')+
  '<div class="field" style="max-width:360px"><label for="exbud">'+t('ex_budget')+'</label><input id="exbud" type="text" inputmode="numeric" value="'+fn(num(S.budget))+'" autocomplete="off"></div>'+
- '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_valid_t')+'</b><p class="hint">'+t('ex_valid_h')+'</p><div class="row"><button class="btn primary sm" data-act="exvalid">'+t('ex_valid_go')+'</button></div></div>'+'<p class="hint">'+t('ex_budget_h')+'</p><div id="exlist">'+exList()+'</div><p class="hint">'+t('ex_warn')+'</p></div>';
+ '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_valid_t')+'</b><p class="hint">'+t('ex_valid_h')+'</p><div class="row"><button class="btn primary sm" data-act="exvalid">'+t('ex_valid_go')+'</button></div></div>'+'<p class="hint">'+t('ex_budget_h')+'</p><div id="exlist">'+exList()+'</div>'+
+ '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_goal_t')+'</b><div class="row"><div class="field" style="min-width:220px;flex:1"><label for="exgoal">'+t('ex_goal')+'</label><input id="exgoal" type="text" inputmode="numeric" value="'+(num(S.goal)?fn(num(S.goal)):'')+'" placeholder="15 000 000" autocomplete="off"></div><div class="field"><label for="exgm">'+t('ex_gm')+'</label><select id="exgm"><option value="rev"'+(S.gmode!=='net'?' selected':'')+'>'+t('ex_gm_rev')+'</option><option value="net"'+(S.gmode==='net'?' selected':'')+'>'+t('ex_gm_net')+'</option></select></div></div><p class="hint">'+t('ex_goal_h')+'</p><div id="exgl">'+goalList()+'</div></div><p class="hint">'+t('ex_warn')+'</p></div>';
 }
 function exAct(a,d){
  if(a==='exclose'){S.exOpen=false;render();return}
  if(a==='exvalid'){const p=validatedProject('cake');if(!p)return;S.projects.unshift(p);S.exOpen=false;save();openProject(p.id,'rep');toast(t('tag_example'));return}
  if(a==='exgo'){const p=ideaProject(d.id,num(S.budget));if(!p)return;S.projects.unshift(p);S.exOpen=false;save();openProject(p.id,'ov');toast(t('tag_example'))}
 }
-document.addEventListener('input',e=>{if(e.target.id==='exbud'){const v=parseNum(e.target.value);S.budget=v==null?0:v;save();const l=$('#exlist');if(l)l.innerHTML=exList()}});
+document.addEventListener('input',e=>{if(e.target.id==='exbud'){const v=parseNum(e.target.value);S.budget=v==null?0:v;save();const l=$('#exlist');if(l)l.innerHTML=exList();const g=$('#exgl');if(g)g.innerHTML=goalList()}
+ if(e.target.id==='exgoal'){const v=parseNum(e.target.value);S.goal=v==null?0:v;save();const g=$('#exgl');if(g)g.innerHTML=goalList()}});
+document.addEventListener('change',e=>{if(e.target.id==='exgm'){S.gmode=e.target.value==='net'?'net':'rev';save();const g=$('#exgl');if(g)g.innerHTML=goalList()}});
 function makeExamples(){const b=300000,r=ideaRank(b).filter(x=>x.ok)[0];return r?[ideaProject(r.id.k,b)]:[]}
 
 /* ---------- validated project (worked example) + gate + send to Suivi ---------- */
@@ -5291,7 +5353,7 @@ document.addEventListener('click',async e=>{
 /* ---------- boot ---------- */
 (function init(){
  const saved=load(),nav=((navigator.language||'fr').slice(0,2)).toLowerCase();
- S=Object.assign({budget:300000,lang:LANGS.some(l=>l[0]===nav)?nav:'fr',cur:null,view:'dash',tab:'ov',cid:null,projects:[]},saved||{});
+ S=Object.assign({budget:300000,goal:0,gmode:'rev',lang:LANGS.some(l=>l[0]===nav)?nav:'fr',cur:null,view:'dash',tab:'ov',cid:null,projects:[]},saved||{});
  if(!LANGS.some(l=>l[0]===S.lang))S.lang='fr';
  if(!S.cur)S.cur=DEF_CUR[S.lang]||'EUR';
  if(!Array.isArray(S.projects))S.projects=[];
