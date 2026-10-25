@@ -19,8 +19,8 @@
   --gold:#C9A24B; --bb1:#07102E; --bb2:#0F1B5C;
   --bg2:#E3E8F6; --glow1:rgba(79,131,255,.22); --glow2:rgba(201,162,75,.20); --glow3:rgba(138,77,232,.15); --grid:rgba(51,71,230,.05);
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#070B1C; --surface:#10163A; --surface-2:#171F4C; --ink:#EDF0FF; --muted:#9AA4CE; --muted2:#5C6694; --line:#232C5C; --hover:rgba(131,144,255,.14);
+@media all{:root:not([data-theme="light"]){
+  --bg:#050A22; --surface:#0F1642; --surface-2:#171F4C; --ink:#EDF0FF; --muted:#9AA4CE; --muted2:#5C6694; --line:#232C5C; --hover:rgba(131,144,255,.14);
   --accent:#8390FF; --accent-ink:#0A0F2C; --accent-soft:#1E2768;
   --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c5:#d55181; --c6:#9085e9;
   --good:#3DD6A5; --good-soft:#0F3B31; --warn:#F3B04C; --warn-soft:#41300C; --bad:#FF7F90; --bad-soft:#431620;
@@ -457,13 +457,8 @@ td.loanrow .hint{padding:8px 8px 0}
 }
 
 /* ===== Immersive shell: horizontal brand bar + layered background ===== */
-body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
- background:
-  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .6  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
-  radial-gradient(1100px 640px at 8% -8%,var(--glow1),transparent 62%),
-  radial-gradient(900px 560px at 100% 2%,var(--glow2),transparent 60%),
-  radial-gradient(1100px 720px at 65% 112%,var(--glow3),transparent 62%),
-  linear-gradient(165deg,var(--bg) 0%,var(--bg2) 100%);opacity:1}
+body::after{display:none}
+body{background:#050A22}
 .brandbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:31;height:var(--bbh);color:#fff;
  background:linear-gradient(100deg,var(--bb1),var(--bb2) 62%,#16206F);border-block-end:1px solid rgba(201,162,75,.45);box-shadow:0 8px 30px rgba(7,16,46,.28)}
 .brandbar::after{content:"";position:absolute;inset:auto 0 -1px 0;height:2px;background:linear-gradient(90deg,transparent,var(--gold) 30%,#4F83FF 70%,transparent);opacity:.9}
@@ -676,7 +671,72 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .uname{font-size:clamp(22px,4.2vw,46px);text-overflow:ellipsis}
 @media (max-width:600px){.uname{font-size:22px}}
 
+/* ===== Living background ===== */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+ background:radial-gradient(1300px 820px at 12% -8%,#16267F 0%,transparent 62%),radial-gradient(900px 700px at 100% 100%,#1A0E4A 0%,transparent 60%),linear-gradient(160deg,#040920 0%,#091241 48%,#120A38 100%)}
+.bg i{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform;transition:background 1.4s,opacity 1.4s}
+.bg i:nth-child(1){width:50vmax;height:50vmax;left:-14vmax;top:-18vmax;background:#2F4BFF;opacity:.5;animation:o1 26s ease-in-out infinite alternate}
+.bg i:nth-child(2){width:40vmax;height:40vmax;right:-12vmax;top:4vh;background:#8A4DE8;opacity:.42;animation:o2 32s ease-in-out infinite alternate}
+.bg i:nth-child(3){width:38vmax;height:38vmax;left:28vw;bottom:-22vmax;background:#C9A24B;opacity:.3;animation:o3 29s ease-in-out infinite alternate}
+.bg i:nth-child(4){width:28vmax;height:28vmax;left:4vw;bottom:2vh;background:#0E9F9A;opacity:.26;animation:o4 37s ease-in-out infinite alternate}
+.bg i:nth-child(5){width:22vmax;height:22vmax;right:18vw;bottom:10vh;background:#DB2777;opacity:.18;animation:o2 41s ease-in-out infinite alternate-reverse}
+.bg::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.055) 50%,transparent 62%);background-size:260% 100%;animation:sweep 16s linear infinite}
+.bg::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+ background:radial-gradient(1.6px 1.6px at 12% 22%,#fff,transparent),radial-gradient(1.2px 1.2px at 78% 14%,#fff,transparent),radial-gradient(1.4px 1.4px at 44% 66%,#fff,transparent),radial-gradient(1px 1px at 90% 72%,#fff,transparent),radial-gradient(1.5px 1.5px at 26% 88%,#fff,transparent),radial-gradient(1px 1px at 60% 38%,#fff,transparent),
+ url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .6  0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:twinkle 6s ease-in-out infinite alternate}
+body[data-g="1"] .bg i:nth-child(1){background:#0F2A8A;opacity:.55}
+body[data-g="1"] .bg i:nth-child(2){background:#C9A24B;opacity:.30}
+body[data-g="1"] .bg i:nth-child(3){background:#E8C877;opacity:.30}
+@keyframes o1{to{transform:translate(18vw,12vh) scale(1.15)}}
+@keyframes o2{to{transform:translate(-16vw,14vh) scale(1.2)}}
+@keyframes o3{to{transform:translate(-20vw,-10vh) scale(1.1)}}
+@keyframes o4{to{transform:translate(22vw,-14vh) scale(1.25)}}
+@keyframes sweep{to{background-position:-260% 0}}
+@keyframes twinkle{to{opacity:.32}}
+.card,.pcard,.tile,.gk,.gph,.wcard,.door,.pj-card{background-color:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(14px) saturate(1.2)}
+.content{position:relative}
+
+/* ===== Motion ===== */
+@keyframes vin{from{opacity:0;transform:translateY(20px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes flow{to{stroke-dashoffset:-10}}
+@keyframes grow{from{transform:scaleX(0);opacity:0}}
+@keyframes rise{from{transform:scaleY(0);opacity:0}}
+@keyframes fade{from{opacity:0}}
+@keyframes fillw{from{width:0}}
+@keyframes float{50%{transform:translateY(-9px)}}
+@keyframes shine{to{background-position:200% 0}}
+#view.anim>*{animation:vin .55s cubic-bezier(.2,.7,.2,1) both}
+#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k,.gprog){animation:vin .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*70ms + 140ms)}
+#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(2){--i:1}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(3){--i:2}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(4){--i:3}
+#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(5){--i:4}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(6){--i:5}#view.anim :is(.gk,.gph,.coc,.door,.wcard,.pj-k):nth-child(n+7){--i:6}
+#view.anim .gmap .edge{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s ease forwards;animation-delay:calc(var(--col,0)*160ms + 150ms)}
+.gmap .flow{stroke-dasharray:3 7;stroke-opacity:.9;animation:flow 1.4s linear infinite}
+#view.anim .gmap .gn{animation:fade .6s both;animation-delay:calc(var(--col,0)*160ms + 200ms)}
+#view.anim .gb{transform-origin:left center;animation:grow .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--r,0)*40ms + 250ms)}
+#view.anim .gbar{transform-box:fill-box;transform-origin:50% 100%;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--y,0)*45ms + 150ms)}
+#view.anim .gnet{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s .6s ease forwards}
+#view.anim .pbar i{animation:fillw 1.1s .3s cubic-bezier(.2,.7,.2,1) both}
+.home-logo svg{animation:float 6s ease-in-out infinite}
+.home-word em{background-size:200% 100%;animation:shine 6s linear infinite;background-image:linear-gradient(100deg,#B8892F,#E8C877,#C9A24B,#E8C877,#B8892F)}
+.brandbar::after{background:linear-gradient(90deg,transparent,var(--gold),#4F83FF,var(--gold),transparent);background-size:200% 100%;animation:shine 8s linear infinite}
+.door-ic,.gate-ic{transition:transform .25s}.door:hover .door-ic{transform:rotate(-6deg) scale(1.08)}
+.gn-bg{transition:stroke .2s}.gn:hover{filter:drop-shadow(0 4px 12px rgba(201,162,75,.5))}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ===== Progress + linked project ===== */
+.pbar{display:block;height:6px;border-radius:4px;background:color-mix(in srgb,var(--c,#888) 18%,var(--surface-2));overflow:hidden}
+.pbar>i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--c,var(--gold)),#E8C877)}
+.pbar.big{height:12px;flex:1}.gn-pb{fill:rgba(255,255,255,.12)}
+.gprog-b{display:flex;align-items:center;gap:14px}.gprog-b b{font-family:var(--font-display);font-size:26px}
+.gprog-s{display:flex;gap:24px;flex-wrap:wrap;margin-top:10px;color:var(--muted);font-size:13.5px}.gprog-s b{color:var(--ink)}
+.gpbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:14px;border:1px solid rgba(201,162,75,.5);background:linear-gradient(120deg,rgba(11,37,69,.85),rgba(15,27,92,.6));color:#fff}
+.gpnote{font-size:12.5px;color:rgba(255,255,255,.8);flex:1;min-width:200px}
+.gpbar .btn{color:var(--ink)}
+.coc .pbar{--c:inherit}
+
 </style>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <div class="app" id="app">
 <header class="brandbar" id="top"></header>
 <div class="shell">
@@ -4313,7 +4373,7 @@ function newProject(name,cur){const r=stdRows();return{id:uid(),name:name,create
  hyps:[],interviews:null,commit:null,decision:'none',comps:[],
  me:{target:null,expenses:null,savings:null,quad:'S',q1:null,q2:null,q3:null},
  risks:[],actions:[],legal1:false,legal2:false}}
-const P=()=>S.projects.find(p=>p.id===S.cid)||null;
+const P=()=>S.gp?gProj():(S.projects.find(p=>p.id===S.cid)||null);
 
 
 /* ---------- finance engine (deterministic, no AI) ---------- */
@@ -4492,14 +4552,14 @@ function tile(cls,label,val,sub,sp){return'<div class="kt '+cls+'"><div class="k
 
 /* ---------- shell: sidebar / topbar ---------- */
 function renderSide(){
- const c=v=>S.view===v?' aria-current="page"':'';
+ const c=v=>(S.view===v||(v==='group'&&S.view==='project'&&S.gp))?' aria-current="page"':'';
  const nb=(v,ic,l)=>'<button data-act="view" data-v="'+v+'"'+c(v)+'>'+I(ic)+'<span>'+l+'</span></button>';
  $('#side').innerHTML='<div class="nav nav-main" aria-label="VisionHub">'+nb('home','home',gt('nav_home'))+nb('dash','folder',gt('h_proj'))+nb('group','group',gt('nav'))+nb('method','book',t('nav_method'))+nb('settings','gear',t('nav_settings'))+'</div>'+
  '<div class="nav"><div class="side-label">'+t('nav_projects')+'</div>'+S.projects.map(x=>'<button data-act="open" data-id="'+x.id+'"'+(S.view==='project'&&S.cid===x.id?' aria-current="page"':'')+'>'+I('folder')+'<span>'+esc(x.name)+'</span></button>').join('')+'<button class="addp" data-act="new">'+I('plus')+'<span>'+t('dash_new')+'</span></button></div>'+
  '<div class="side-foot"><p>'+t('local_note')+'</p></div>';
 }
 function renderTop(){
- const c=v=>S.view===v?' aria-current="page"':'';
+ const c=v=>(S.view===v||(v==='group'&&S.view==='project'&&S.gp))?' aria-current="page"':'';
  const nb=(v,ic,l)=>'<button data-act="view" data-v="'+v+'"'+c(v)+'>'+I(ic)+'<span>'+l+'</span></button>';
  $('#top').innerHTML='<div class="bb-in"><div class="bb-l"><button class="menu-btn" data-act="menu" aria-label="'+esc(t('menu'))+'">'+I('menu')+'</button><nav class="bb-nav" aria-label="VisionHub">'+nb('home','home',gt('nav_home'))+nb('dash','folder',gt('h_proj'))+nb('group','lock',gt('nav'))+'</nav></div>'+
  '<button class="bb-brand" data-act="view" data-v="home" aria-label="VisionHub">'+LOGO+'<span class="bb-word">Vision<em>Hub</em></span></button>'+
@@ -4530,7 +4590,7 @@ function dashHTML(){
 /* ---------- project shell ---------- */
 const scnKey=p=>scnIs(p,'central')?'c_central':scnIs(p,'prudent')?'c_prudent':scnIs(p,'ambitious')?'c_ambitious':'sc_custom';
 function projectHTML(p){
-  return'<div class="stack"><div class="phead"><input class="name-input" id="pname" data-bind="name" data-kind="text" value="'+esc(p.name)+'" aria-label="'+esc(t('f_name'))+'">'+
+  return'<div class="stack">'+(S.gp?'<div class="gpbar"><button class="btn sm" data-act="grpbackp">'+I('left')+esc(gt('u_back_co'))+'</button><span class="tag">Stephen Group</span><span class="gpnote">'+esc(gt('gp_sync'))+'</span></div>':'')+'<div class="phead"><input class="name-input" id="pname" data-bind="name" data-kind="text" value="'+esc(p.name)+'" aria-label="'+esc(t('f_name'))+'">'+
  '<div class="row chips"><span class="chip" id="scnchip">'+I('sliders')+t(scnKey(p))+'</span><select class="chip-sel" data-bind="cur" data-kind="text" aria-label="'+esc(t('c_currency'))+'">'+CURS.map(c=>'<option'+(c===p.cur?' selected':'')+'>'+c+'</option>').join('')+'</select>'+
  '<div class="seg" role="group" aria-label="'+esc(t('c_horizon'))+'">'+[12,24,36].map(h=>'<button data-act="hz" data-h="'+h+'" aria-pressed="'+(H_(p)===h)+'">'+h+' '+t('unit_m')+'</button>').join('')+'</div>'+(p.example?'<span class="tag">'+t('tag_example')+'</span>':'')+'</div></div>'+
  '<div class="tabs" role="tablist">'+TABS.map(x=>'<button class="tab" role="tab" data-act="tab" data-tab="'+x[0]+'" aria-selected="'+(S.tab===x[0])+'">'+I(x[1])+'<span>'+t('tab_'+x[0])+'</span></button>').join('')+'</div>'+
@@ -5846,13 +5906,13 @@ function gGantt(G,o){
  const H=o.H,yrs=H/12,pc=m=>(Math.max(0,Math.min(H,m))/H*100).toFixed(2)+'%';
  let ax='';for(let y=0;y<=yrs;y++){if(y===0||y%5===0||y===yrs)ax+='<span style="left:'+(y/yrs*100)+'%'+(y===yrs?';transform:translateX(-100%)':'')+'">'+(y===0?(gfr()?'an ':'yr ')+y:y)+'</span>'}
  const mk=[[o.firstSal,'mk_sal','mk-s'],[o.freeM,'mk_free','mk-f'],[o.allStart,'mk_all','mk-a']].filter(x=>x[0]);
- let h='<div class="gg-scroll"><div class="gg" style="--yrs:'+yrs+'"><div class="gg-head"><div></div><div class="gg-axis">'+ax+'</div></div><div class="gg-body">';
+ let RI=0;let h='<div class="gg-scroll"><div class="gg" style="--yrs:'+yrs+'"><div class="gg-head"><div></div><div class="gg-axis">'+ax+'</div></div><div class="gg-body">';
  h+='<div class="gg-mks">'+mk.map(x=>'<i class="'+x[2]+'" style="left:'+pc(x[0])+'"><b>'+esc(gt(x[1]))+'</b></i>').join('')+'</div>';
  for(let p=0;p<GPH.length;p++){
   const us=G.units.map((u,i)=>({u:u,s:o.st[i],i:i})).filter(x=>x.u.ph===p);if(!us.length)continue;
   us.sort((a,b)=>(a.s.start===null)-(b.s.start===null)||(a.s.start-b.s.start));
   h+='<div class="gg-ph"><span>'+esc(gph(p))+'</span></div>';
-  us.forEach(x=>{const u=x.u,s=x.s,c=gdc(u.div),sel=S.gsel===u.k;
+  us.forEach(x=>{const u=x.u,s=x.s,c=gdc(u.div),sel=S.gsel===u.k;RI++;
    const tip=gt('g_tip',{n:gun(u),s:gmo(s.start),o:gmo(s.open),b:gmo(s.be),p:gmo(s.pb)});
    let bars='';
    if(s.start===null)bars='<span class="gg-no">'+esc(gt('g_no'))+'</span>';
@@ -5863,7 +5923,7 @@ function gGantt(G,o){
      '<i class="gb ramp" style="--c:'+c+';left:'+pc(s.open)+';width:calc('+pc(e1)+' - '+pc(s.open)+')"></i>'+
      (e1<H?'<i class="gb mat" style="--c:'+c+';left:'+pc(e1)+';width:calc(100% - '+pc(e1)+')"></i>':'');
    }
-   h+='<div class="gg-row'+(sel?' sel':'')+'" data-act="grpsel" data-k="'+esc(u.k)+'" data-tip="'+esc(tip)+'" tabindex="0" role="button"><div class="gg-lab"><span class="gdot" style="--c:'+c+'"></span><span class="gg-nm">'+esc(gun(u))+'</span></div><div class="gg-trk">'+bars+'</div></div>';
+   h+='<div class="gg-row'+(sel?' sel':'')+'" style="--r:'+RI+'" data-act="grpsel" data-k="'+esc(u.k)+'" data-tip="'+esc(tip)+'" tabindex="0" role="button"><div class="gg-lab"><span class="gdot" style="--c:'+c+'"></span><span class="gg-nm">'+esc(gun(u))+'</span></div><div class="gg-trk">'+bars+'</div></div>';
   });
  }
  h+='</div></div></div>';
@@ -5886,11 +5946,11 @@ function gChart(G,o){
  for(let y=0;y<NY;y++){
   let acc=0;const x=l+y*bw+bw*.14,w=bw*.72;
   const tip=gt('r_tip',{y:y+1,r:gM(tot[y]),n:gM(nets[y])});
-  divs.forEach(d=>{const v=dr[d][y];if(v<=0)return;const y1=sy(acc+v),y0=sy(acc);acc+=v;s+='<rect x="'+x.toFixed(1)+'" y="'+y1.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+Math.max(0,y0-y1).toFixed(1)+'" fill="'+gdc(d)+'" stroke="var(--surface)" stroke-width="1.5"/>'});
+  divs.forEach(d=>{const v=dr[d][y];if(v<=0)return;const y1=sy(acc+v),y0=sy(acc);acc+=v;s+='<rect class="gbar" style="--y:'+y+'" x="'+x.toFixed(1)+'" y="'+y1.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+Math.max(0,y0-y1).toFixed(1)+'" fill="'+gdc(d)+'" stroke="var(--surface)" stroke-width="1.5"/>'});
   s+='<rect x="'+(l+y*bw).toFixed(1)+'" y="'+tp+'" width="'+bw.toFixed(1)+'" height="'+ih+'" fill="transparent" data-tip="'+esc(tip)+'"/>';
   if(y===0||(y+1)%5===0)s+='<text x="'+(l+y*bw+bw/2).toFixed(1)+'" y="'+(Hh-8)+'" text-anchor="middle" class="gtx">'+(y+1)+'</text>';
  }
- s+='<polyline class="gnet" fill="none" points="'+nets.map((v,y)=>(l+y*bw+bw/2).toFixed(1)+','+sy(v).toFixed(1)).join(' ')+'"/>';
+ s+='<polyline class="gnet" pathLength="1" fill="none" points="'+nets.map((v,y)=>(l+y*bw+bw/2).toFixed(1)+','+sy(v).toFixed(1)).join(' ')+'"/>';
  s+='</svg>';
  const leg='<div class="glegend">'+divs.map(d=>'<span><i class="gdot" style="--c:'+gdc(d)+'"></i>'+esc(gdn(d))+'</span>').join('')+'<span><i class="gline"></i>'+esc(gt('r_net'))+'</span></div>';
  return s+leg;
@@ -5942,7 +6002,7 @@ function gScen(G){
  return h+'</tbody></table></div>';
 }
 
-function groupRefresh(){const v=$('#view');if(S.view==='group'){v.innerHTML=groupHTML()}save()}
+function groupRefresh(anim){const v=$('#view');if(S.view==='group'){v.classList.toggle('anim',!!anim);v.innerHTML=groupHTML()}save()}
 
 /* --- edits --- */
 function gClamp(f,v){
@@ -5968,7 +6028,7 @@ function gApply(el){
   else if(f==='afterCum'){if(u.after)u.after.cum=gClamp('invest',v)}
   else if(f==='afterOpen'){if(u.after)u.after.open=!!v}
   else if(f.indexOf('story.')===0){u.story=u.story||{};u.story[f.slice(6)]=v}
-  else u[f]=gClamp(f,v)}
+  else u[f]=gClamp(f,v);if(['invest','rev','fixed','margin','launch','name'].includes(f)||f.indexOf('story.')===0)gSyncTo(u)}
  groupRefresh();
 }
 document.addEventListener('change',e=>{const el=e.target.closest&&e.target.closest('[data-grp]');if(el)gApply(el)});
@@ -5989,6 +6049,7 @@ function grpMake(k){
 
 /* ---------- Stephen Group, part 2: password gate, group map, company pages ---------- */
 Object.assign(GT.fr,{
+ u_back_co:"Retour à la société",gp_sync:"Lié au plan du groupe : investissement, charges, chiffre d'affaires, marge et délai se mettent à jour des deux côtés.",pr_t:"Avancement du projet",pr_open:"Ouvrir le projet détaillé",pr_none:"Le projet détaillé n'est pas encore ouvert. Ouvre-le pour suivre budget, marché, risques et plan d'action. Tout reste ici, protégé, et reste synchronisé avec le plan du groupe.",pr_acts:"Actions terminées",pr_hyps:"Hypothèses validées",pr_pct:"Avancement",
  nav_home:"Accueil",t_map:"Carte du groupe",t_cal:"Calendrier",t_fin:"Finances et salaires",t_funds:"Financement",t_co:"Les sociétés",
  lock:"Verrouiller",gate_t:"Espace privé",gate_new:"Choisis un mot de passe pour protéger Stephen Group.",gate_ask:"Entre ton mot de passe pour ouvrir Stephen Group.",
  gate_pw:"Mot de passe",gate_pw2:"Confirme le mot de passe",gate_open:"Entrer",gate_set:"Créer le mot de passe et entrer",
@@ -6011,6 +6072,7 @@ Object.assign(GT.fr,{
  pj_of:"{i} sur {n}",pj_prev:"Précédent",pj_next:"Suivant",pj_open:"Ouvrir ce projet"
 });
 Object.assign(GT.en,{
+ u_back_co:"Back to the company",gp_sync:"Linked to the group plan: investment, costs, revenue, margin and lead time update on both sides.",pr_t:"Project progress",pr_open:"Open the detailed project",pr_none:"The detailed project is not open yet. Open it to track budget, market, risks and action plan. Everything stays here, protected, and stays in sync with the group plan.",pr_acts:"Actions done",pr_hyps:"Assumptions validated",pr_pct:"Progress",
  nav_home:"Home",t_map:"Group map",t_cal:"Timeline",t_fin:"Finances and salary",t_funds:"Funding",t_co:"Companies",
  lock:"Lock",gate_t:"Private area",gate_new:"Choose a password to protect Stephen Group.",gate_ask:"Enter your password to open Stephen Group.",
  gate_pw:"Password",gate_pw2:"Confirm password",gate_open:"Enter",gate_set:"Create password and enter",
@@ -6054,8 +6116,43 @@ const GSTORY={
  school:{why:"Une école est la vision de long terme : former les futurs cadres et rester propriétaire de tout (campus, programmes, marque).",goal:"Créer une grande école entièrement détenue par le groupe.",what:"Campus et programmes, financés petit à petit ; c'est l'investissement le plus lourd et le plus lent du plan.",role:"Dernière société : elle ne démarre qu'avec les bénéfices cumulés des événements et de l'hôtel."}
 };
 const gstory=(u,f)=>u.story&&u.story[f]!=null?u.story[f]:(GSTORY[u.k]?GSTORY[u.k][f]:'');
+function gProj(){const G=S.group,u=G&&G.units.find(x=>x.k===S.gsel);return u&&u.proj||null}
+function gProjMake(u){
+ const fr=gfr(),p=newProject(gun(u),'MGA');
+ Object.assign(p,{country:'Madagascar',sector:gdn(u.div),problem:gstory(u,'why'),launch:Math.round(u.launch),horizon:36,unitRef:u.k,
+  invest:[{id:uid(),name:fr?'Investissement de départ':'Initial investment',amt:Math.round(u.invest)}],
+  fund:[{id:uid(),name:fr?'Financé par le groupe':'Funded by the group',amt:Math.round(u.invest)}],
+  fixed:[{id:uid(),name:fr?'Charges fixes':'Fixed costs',amt:Math.round(u.fixed),per:'m'}],
+  rev:[{id:uid(),name:gun(u),price:Math.round(u.rev),ucost:Math.round(u.rev*(1-u.margin/100)),qty:1,g:0}]});
+ p.cv.value=gstory(u,'goal');u.proj=p;return p;
+}
+function gSyncFrom(p){
+ const G=S.group,u=G&&G.units.find(x=>x.k===p.unitRef);if(!u)return;
+ u.invest=Math.max(0,sum(p.invest.map(x=>num(x.amt))));
+ u.fixed=Math.max(0,sum(p.fixed.map(x=>num(x.amt)*(x.per==='y'?1/12:1))));
+ const rv=sum(p.rev.map(r=>num(r.price)*num(r.qty))),gp=sum(p.rev.map(r=>(num(r.price)-num(r.ucost))*num(r.qty)));
+ if(rv>0){u.rev=rv;u.margin=Math.max(0,Math.min(100,Math.round(gp/rv*1000)/10))}
+ u.launch=Math.max(0,Math.round(num(p.launch)));
+ if(p.name){u.name[0]=p.name;u.name[1]=p.name}
+}
+function gSyncTo(u){
+ const p=u.proj;if(!p)return;
+ const scale=(arr,key,target,f)=>{if(!arr.length)return;f=f||(()=>1);const cur=sum(arr.map(x=>num(x[key])*f(x)));if(cur>0){const r=target/cur;arr.forEach(x=>{x[key]=Math.round(num(x[key])*r)})}else arr[0][key]=Math.round(target/f(arr[0]))};
+ scale(p.invest,'amt',u.invest);if(p.fund.length===1)scale(p.fund,'amt',u.invest);
+ scale(p.fixed,'amt',u.fixed,x=>x.per==='y'?1/12:1);
+ if(p.rev.length){const rv=sum(p.rev.map(r=>num(r.price)*num(r.qty)));
+  if(rv>0){const r=u.rev/rv;p.rev.forEach(x=>{x.price=Math.round(num(x.price)*r)})}else{p.rev[0].price=Math.round(u.rev);p.rev[0].qty=1}
+  p.rev.forEach(x=>{x.ucost=Math.round(num(x.price)*(1-u.margin/100))})}
+ p.launch=Math.round(u.launch);p.name=gun(u);p.problem=gstory(u,'why');p.cv.value=gstory(u,'goal');p.updated=Date.now();
+}
+function gProg(u){
+ const p=u.proj;if(!p)return{pct:0,a:0,t:0,h:0,n:0,on:false};
+ const a=p.actions.filter(x=>x.st==='done').length,t=p.actions.length,h=p.hyps.filter(x=>x.status==='ok').length,n=p.hyps.length,parts=[];
+ if(t)parts.push(a/t);if(n)parts.push(h/n);
+ return{pct:parts.length?Math.round(sum(parts)/parts.length*100):0,a:a,t:t,h:h,n:n,on:true};
+}
 let GUNL=false,GIDLE=null;
-function gLockSoon(){clearTimeout(GIDLE);if(GUNL)GIDLE=setTimeout(()=>{GUNL=false;if(S.view==='group')render()},600000)}
+function gLockSoon(){clearTimeout(GIDLE);if(GUNL)GIDLE=setTimeout(()=>{GUNL=false;if(S.view==='group'||(S.view==='project'&&S.gp))render()},600000)}
 ['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,gLockSoon,true));
 
 /* --- password --- */
@@ -6095,11 +6192,11 @@ function gMap(G,o){
  U.forEach((u,i)=>{const to=pos[i],par=u.after&&idx[u.after.u]!==undefined?idx[u.after.u]:null,c=par!==null?gdc(U[par].div):'#C9A24B';
   const x1=par!==null?pos[par].x+NW:hold.x+NW,y1=par!==null?pos[par].y+NH/2:hold.y+hold.h/2,x2=to.x,y2=to.y+NH/2,mx=(x2-x1)/2;
   const tip=par!==null?gt('map_edge',{a:gShort(U[par]),b:gShort(u),x:gM(u.after.cum||0)}):gt('map_edge0',{b:gShort(u)});
-  e+='<g data-tip="'+esc(tip)+'"><path d="M'+x1+' '+y1+' C'+(x1+mx)+' '+y1+','+(x2-mx)+' '+y2+','+x2+' '+y2+'" fill="none" stroke="'+c+'" stroke-opacity=".6" stroke-width="2.2"/><path d="M'+x1+' '+y1+' C'+(x1+mx)+' '+y1+','+(x2-mx)+' '+y2+','+x2+' '+y2+'" fill="none" stroke="transparent" stroke-width="12"/><circle cx="'+x2+'" cy="'+y2+'" r="3.6" fill="'+c+'"/></g>'});
+  e+='<g data-tip="'+esc(tip)+'"><path d="M'+x1+' '+y1+' C'+(x1+mx)+' '+y1+','+(x2-mx)+' '+y2+','+x2+' '+y2+'" fill="none" stroke="'+c+'" stroke-opacity=".5" stroke-width="2.2" pathLength="1" class="edge" style="--col:'+(dep[u.k])+'"/><path d="M'+x1+' '+y1+' C'+(x1+mx)+' '+y1+','+(x2-mx)+' '+y2+','+x2+' '+y2+'" fill="none" stroke="'+c+'" stroke-width="2.6" stroke-linecap="round" pathLength="100" class="flow"/><path d="M'+x1+' '+y1+' C'+(x1+mx)+' '+y1+','+(x2-mx)+' '+y2+','+x2+' '+y2+'" fill="none" stroke="transparent" stroke-width="12"/><circle cx="'+x2+'" cy="'+y2+'" r="3.6" fill="'+c+'"/></g>'});
  U.forEach((u,i)=>{const p=pos[i],c=gdc(u.div),s=o.st[i],ln=gWrap(gShort(u),19),sel=S.gsel===u.k;
-  nd+='<g class="gn'+(s.start===null?' off':'')+'" data-act="grpsel" data-k="'+esc(u.k)+'" tabindex="0" role="button" aria-label="'+esc(gun(u))+'" transform="translate('+p.x+','+p.y+')"><rect width="'+NW+'" height="'+NH+'" rx="12" class="gn-bg"/><rect width="6" height="'+NH+'" rx="3" fill="'+c+'"/>'+
+  nd+='<g class="gn'+(s.start===null?' off':'')+'" data-act="grpsel" data-k="'+esc(u.k)+'" tabindex="0" role="button" aria-label="'+esc(gun(u))+'" transform="translate('+p.x+','+p.y+')" style="--col:'+dep[u.k]+'"><rect width="'+NW+'" height="'+NH+'" rx="12" class="gn-bg"/><rect width="6" height="'+NH+'" rx="3" fill="'+c+'"/>'+
   ln.map((t,k)=>'<text x="16" y="'+(ln.length>1?17+k*14:21)+'" class="gn-t">'+esc(t)+'</text>').join('')+
-  '<text x="16" y="'+(NH-9)+'" class="gn-s">'+esc(s.start!==null?gt('co_state',{m:s.start}):gt('co_state_no'))+'</text></g>'});
+  '<text x="16" y="'+(NH-9)+'" class="gn-s">'+esc(s.start!==null?gt('co_state',{m:s.start}):gt('co_state_no'))+'</text>'+(u.proj?'<rect x="16" y="'+(NH-5)+'" width="'+(NW-30)+'" height="3" rx="1.5" class="gn-pb"/><rect x="16" y="'+(NH-5)+'" width="'+((NW-30)*gProg(u).pct/100)+'" height="3" rx="1.5" fill="'+c+'"/>':'')+'</g>'});
  const hd='<g class="gn-h" transform="translate('+hold.x+','+hold.y+')"><rect width="'+NW+'" height="'+hold.h+'" rx="16"/><text x="'+NW/2+'" y="38" text-anchor="middle" class="gh-t">'+esc(gt('map_hold'))+'</text><text x="'+NW/2+'" y="58" text-anchor="middle" class="gh-s">'+esc(gt('map_hold_s'))+' · '+esc(gM(G.funding.filter(f=>f.type==='equity').reduce((s,f)=>s+f.amt,0)))+'</text></g>';
  return'<div class="gmap-scroll"><svg class="gmap" width="'+W+'" height="'+Hh+'" viewBox="0 0 '+W+' '+Hh+'" role="img" aria-label="'+esc(gt('map_t'))+'">'+e+hd+nd+'</svg></div><div class="glegend"><span>'+esc(gt('map_leg'))+'</span>'+Object.keys(GDIV).filter(d=>U.some(u=>u.div===d)).map(d=>'<span><i class="gdot" style="--c:'+gdc(d)+'"></i>'+esc(gdn(d))+'</span>').join('')+'</div>';
 }
@@ -6110,7 +6207,7 @@ function gCompanies(G,o){
  for(let p=0;p<GPH.length;p++){
   const us=G.units.map((u,i)=>({u:u,s:o.st[i]})).filter(x=>x.u.ph===p);if(!us.length)continue;
   h+='<h3 class="gsub">'+esc(gph(p))+'</h3><div class="cogrid">'+us.map(x=>{const u=x.u,s=x.s,w=gstory(u,'why');
-   return'<button class="coc" style="--c:'+gdc(u.div)+'" data-act="grpsel" data-k="'+esc(u.k)+'"><span class="coc-d">'+esc(gdn(u.div))+'</span><b>'+esc(gShort(u))+'</b><span class="coc-w">'+esc(w.length>118?w.slice(0,115)+'…':w)+'</span><span class="coc-s">'+esc(s.start!==null?gt('co_state',{m:s.start}):gt('co_state_no'))+' · '+esc(gM(u.invest))+'</span></button>'}).join('')+'</div>'}
+   return'<button class="coc" style="--c:'+gdc(u.div)+'" data-act="grpsel" data-k="'+esc(u.k)+'"><span class="coc-d">'+esc(gdn(u.div))+'</span><b>'+esc(gShort(u))+'</b><span class="coc-w">'+esc(w.length>118?w.slice(0,115)+'…':w)+'</span><span class="pbar"><i style="width:'+gProg(u).pct+'%"></i></span><span class="coc-s">'+esc(s.start!==null?gt('co_state',{m:s.start}):gt('co_state_no'))+' · '+esc(gM(u.invest))+'</span></button>'}).join('')+'</div>'}
  return h+'<div class="row" style="margin-top:14px"><button class="btn" data-act="grpadd">'+I('plus')+esc(gt('u_add'))+'</button></div>';
 }
 
@@ -6132,14 +6229,20 @@ function gUnitPage(G,o,u){
  '<section class="uwhy"><span class="geye">WHY</span><textarea class="gta big" rows="'+Math.max(2,Math.ceil(gstory(u,'why').length/75))+'" data-grp="'+p+'story.why" data-kind="t" aria-label="'+esc(gt('w_why'))+'">'+esc(gstory(u,'why'))+'</textarea></section>'+
  '<div class="ugrid">'+ta('goal','w_goal')+ta('what','w_what')+ta('role','w_role')+'</div>'+
  '<section class="wcard"><h3>'+esc(gt('i_by'))+'</h3>'+by+'<h3 class="gsub">'+esc(gt('i_to'))+'</h3>'+to+'</section>'+
+ progSection(u)+
  '<div class="gks">'+k5(gt('u_inv'),gM(u.invest))+k5(gt('u_rev'),gM(u.rev))+k5(gt('u_mg'),u.margin+'%')+k5(gt('u_be'),gmm(s.be))+k5(gt('u_pb'),gmm(s.pb))+'</div>'+
  (curve.length>1?'<div class="card gcurve"><span class="muted">'+esc(gt('d_curve'))+'</span>'+spark(curve,640,70)+'</div>':'')+
  '<section class="card"><h3>'+esc(gt('n_title'))+'</h3><div class="gform">'+gFld(gt('d_inv'),p+'invest','M',gmv(u.invest))+gFld(gt('d_launch'),p+'launch','n',u.launch)+gFld(gt('d_ramp'),p+'ramp','n',u.ramp)+gFld(gt('d_rev'),p+'rev','M',gmv(u.rev))+gFld(gt('d_mg'),p+'margin','p',u.margin)+gFld(gt('d_fix'),p+'fixed','M',gmv(u.fixed))+gFld(gt('d_min'),p+'minM','n',u.minM)+
  '<label class="gfield"><span>'+esc(gt('d_after'))+'</span><select class="cell sel" data-grp="'+p+'afterU" data-kind="sel">'+opts+'</select></label>'+
  (a?gFld(gt('d_cum'),p+'afterCum','M',gmv(a.cum||0))+'<label class="gfield chk"><input type="checkbox" data-grp="'+p+'afterOpen" data-kind="chk"'+(a.open?' checked':'')+'><span>'+esc(gt('d_openq'))+'</span></label>':'')+'</div>'+
- '<div class="row" style="margin-top:16px"><button class="btn primary" data-act="grpmk" data-k="'+esc(u.k)+'">'+I('folder')+esc(gt('u_mk'))+'</button><button class="btn danger" data-act="grprm" data-k="'+esc(u.k)+'">'+I('trash')+esc(gt('u_rm'))+'</button></div></section></div>';
+ '<div class="row" style="margin-top:16px"><button class="btn danger" data-act="grprm" data-k="'+esc(u.k)+'">'+I('trash')+esc(gt('u_rm'))+'</button></div></section></div>';
 }
 
+function progSection(u){
+ const g=gProg(u);
+ return'<section class="card gprog"><div class="card-h"><h3>'+esc(gt('pr_t'))+'</h3><button class="btn primary" data-act="grpproj" data-k="'+esc(u.k)+'">'+I('folder')+esc(gt('pr_open'))+'</button></div>'+
+ (g.on?'<div class="gprog-b"><div class="pbar big"><i style="width:'+g.pct+'%"></i></div><b>'+g.pct+'%</b></div><div class="gprog-s"><span>'+esc(gt('pr_acts'))+' <b>'+g.a+' / '+g.t+'</b></span><span>'+esc(gt('pr_hyps'))+' <b>'+g.h+' / '+g.n+'</b></span></div>':'<p class="muted">'+esc(gt('pr_none'))+'</p>')+'</section>';
+}
 /* --- page --- */
 function groupHTML(){
  if(!GUNL)return gGate();
@@ -6171,12 +6274,13 @@ async function grpAct(a,d){
  case'grphz':G.horizon=+d.v;groupRefresh();break;
  case'grpmode':G.mode=d.v;groupRefresh();break;
  case'grpreset':S.group=GDEFAULT();S.gsel=null;groupRefresh();toast(gt('resetq'));break;
- case'grptab':S.gtab=d.v;S.gsel=null;groupRefresh();window.scrollTo(0,0);break;
- case'grpsel':S.gsel=d.k;groupRefresh();window.scrollTo(0,0);break;
- case'grpclose':S.gsel=null;groupRefresh();window.scrollTo(0,0);break;
- case'grpmk':grpMake(d.k);break;
- case'grprm':{const u=G.units.find(x=>x.k===d.k);if(!u)break;G.units.forEach(x=>{if(x.after&&x.after.u===u.k)x.after=u.after?{u:u.after.u,cum:x.after.cum,open:x.after.open}:null;if(x.link&&x.link.u===u.k)x.link=null});G.units=G.units.filter(x=>x.k!==u.k);S.gsel=null;groupRefresh();window.scrollTo(0,0);break}
- case'grpadd':{const k='c'+uid();G.units.push({k:k,div:'D2',ph:1,name:[gt('u_new'),'New unit'],invest:50e6,launch:3,ramp:12,rev:30e6,margin:40,fixed:5e6,minM:12,after:null,link:null,story:{why:'',goal:'',what:'',role:''}});S.gsel=k;groupRefresh();window.scrollTo(0,0);break}
+ case'grptab':S.gtab=d.v;S.gsel=null;groupRefresh(true);window.scrollTo(0,0);break;
+ case'grpsel':S.gsel=d.k;groupRefresh(true);window.scrollTo(0,0);break;
+ case'grpclose':S.gsel=null;groupRefresh(true);window.scrollTo(0,0);break;
+ case'grpproj':{const u=G.units.find(x=>x.k===d.k);if(!u)break;if(!u.proj)gProjMake(u);S.gp=true;S.gsel=u.k;S.cid=null;S.tab='ov';save();go('project');window.scrollTo(0,0);break}
+ case'grpbackp':S.gp=false;S.view='group';ANIM=true;render();window.scrollTo(0,0);break;
+ case'grprm':{const u=G.units.find(x=>x.k===d.k);if(!u)break;G.units.forEach(x=>{if(x.after&&x.after.u===u.k)x.after=u.after?{u:u.after.u,cum:x.after.cum,open:x.after.open}:null;if(x.link&&x.link.u===u.k)x.link=null});G.units=G.units.filter(x=>x.k!==u.k);S.gsel=null;groupRefresh(true);window.scrollTo(0,0);break}
+ case'grpadd':{const k='c'+uid();G.units.push({k:k,div:'D2',ph:1,name:[gt('u_new'),'New unit'],invest:50e6,launch:3,ramp:12,rev:30e6,margin:40,fixed:5e6,minM:12,after:null,link:null,story:{why:'',goal:'',what:'',role:''}});S.gsel=k;groupRefresh(true);window.scrollTo(0,0);break}
  case'grpfadd':G.funding.push({id:'f'+uid(),m:24,amt:50e6,type:'equity',rate:0,months:0,label:[gt('f_new'),'New funding']});groupRefresh();break;
  case'grpfrm':G.funding=G.funding.filter(f=>f.id!==d.id);groupRefresh();break;
  case'grptadd':{const last=G.salary.tiers.reduce((m,t)=>Math.max(m,t.min),0);G.salary.tiers.push({min:last*1.5||10e6,amt:Math.round((G.salary.tiers.reduce((m,t)=>Math.max(m,t.amt),0)*1.5||2e6)/1e5)*1e5});groupRefresh();break}
@@ -6233,7 +6337,7 @@ function pjAct(a,d){
 
 /* ---------- render ---------- */
 function refresh(){
- const p=P();if(!p||S.view!=='project')return;
+ const p=P();if(!p||S.view!=='project'||(S.gp&&!GUNL))return;
  $$('[data-calc]').forEach(el=>{el.textContent=calcVal(p,el.getAttribute('data-calc'))});
  const ch=$('#scnchip');if(ch)ch.innerHTML=I('sliders')+t(scnKey(p));
  if(S.tab==='ov'){const o=$('#ovdyn');if(o)o.innerHTML=ovDyn(p)}
@@ -6243,23 +6347,26 @@ function refresh(){
 }
 function render(){
  document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ar'?'rtl':'ltr';
- const p=P();if(S.view==='project'&&!p)S.view='dash';
+ const p=P();if(S.view==='project'&&!p){S.view='dash';S.gp=false}
+ document.body.dataset.g=(S.view==='group'||(S.view==='project'&&S.gp))?'1':'0';
  renderSide();renderTop();
  const v=$('#view');
  if(S.view==='home')v.innerHTML=homeHTML();
  else if(S.view==='dash')v.innerHTML=projectsHTML();
- else if(S.view==='project')v.innerHTML=projectHTML(p);
+ else if(S.view==='project')v.innerHTML=(S.gp&&!GUNL)?gGate():projectHTML(p);
  else if(S.view==='method')v.innerHTML=methodHTML();
  else if(S.view==='group')v.innerHTML=groupHTML();
  else v.innerHTML=settingsHTML();
+  v.classList.toggle('anim',ANIM);ANIM=false;
  refresh();
 }
 function renderTab(){const p=P();const b=$('#tab');if(!p||!b){render();return}b.innerHTML=tabHTML(p);refresh()}
-function go(view){if(view!=='group'){GUNL=false;S.gsel=null}S.view=view;S.confirm=null;closeMenu();render();window.scrollTo(0,0);save()}
+let ANIM=false;
+function go(view){if(view!=='group'&&!(view==='project'&&S.gp)){GUNL=false;S.gsel=null;S.gp=false}ANIM=true;S.view=view;S.confirm=null;closeMenu();render();window.scrollTo(0,0);save()}
 function closeMenu(){$('#side').classList.remove('open');$('#scrim').classList.remove('on')}
 let tt;function toast(m){const el=$('#toast');el.firstElementChild.textContent=m;el.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),2400)}
 async function copyText(txt){try{await navigator.clipboard.writeText(txt);return true}catch(e){try{const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();return ok}catch(e2){return false}}}
-function touch(p){p.updated=Date.now();save()}
+function touch(p){p.updated=Date.now();if(p.unitRef)gSyncFrom(p);save()}
 function focusRow(list,i){const el=$('[data-bind^="'+list+'.'+i+'."]');if(el)el.focus()}
 
 /* ---------- inputs ---------- */
@@ -6358,7 +6465,7 @@ document.addEventListener('drop',e=>{const d=e.target.closest&&e.target.closest(
 /* ---------- clicks ---------- */
 const NEW={rev:()=>({id:uid(),name:'',price:null,ucost:null,qty:null,g:null}),fixed:()=>({id:uid(),name:'',amt:null,per:'m'}),invest:()=>({id:uid(),name:'',amt:null}),fund:()=>({id:uid(),name:'',amt:null}),
  hyps:()=>({id:uid(),type:'value',status:'todo',text:'',evidence:''}),comps:()=>({id:uid(),name:'',price:null,pro:'',con:''}),risks:()=>({id:uid(),cat:'commercial',text:'',prob:2,impact:2,mitig:''})};
-function openProject(id,tab){S.cid=id;S.tab=tab||'ov';go('project')}
+function openProject(id,tab){S.gp=false;S.cid=id;S.tab=tab||'ov';go('project')}
 document.addEventListener('click',async e=>{
  const b=e.target.closest('[data-act]');if(!b)return;const a=b.getAttribute('data-act'),p=P(),d=b.dataset;
  if(a.slice(0,3)==='grp'){grpAct(a,d);return}
