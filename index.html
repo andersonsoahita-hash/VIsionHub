@@ -767,6 +767,52 @@ body[data-g="1"] .bg i:nth-child(3){background:radial-gradient(closest-side,rgba
 .org ul.vl>li{padding:0}
 .org ul.vl>li::before,.org ul.vl>li::after{display:none}
 
+/* ===== Sober theme: graphite base, one muted accent per section ===== */
+:root{--bg:#F3F2EF;--surface:#FFFFFF;--surface-2:#EAE8E3;--ink:#1B1F26;--muted:#596170;--muted2:#9AA0AB;--line:#DDDAD3;--hover:rgba(30,40,60,.07);--accent-ink:#FFFFFF;--c1:#3F76A3;--c2:#B0623A;--c3:#3F8A72;--c4:#A98322;--c5:#A65C72;--c6:#6F7890;--good:#1F7A5C;--good-soft:#DAEFE6;--warn:#8F5A0A;--warn-soft:#F8EBCB;--bad:#B3283C;--bad-soft:#F8DEE2;--side-bg:#14181F;--side-active:#242B36;--side-line:#232A34;--cv-p:#F6E3E3;--cv-a:#F6EADD;--cv-r:#F4EDCB;--cv-v:#DDEFE5;--cv-l:#E1EAF4;--cv-c:#E6E6EE;--cv-s:#ECE4EE;--cv-k:#EAEAEC;--shadow:0 1px 2px rgba(20,26,40,.06),0 10px 28px rgba(20,26,40,.07);--bb1:#12161D;--bb2:#1C232D;--grid:rgba(30,40,60,.04);color-scheme:light;}
+@media all{:root:not([data-theme="light"]){--bg:#0B0E13;--surface:#141920;--surface-2:#1A2029;--ink:#E8EAEE;--muted:#A0A8B4;--muted2:#6B7480;--line:#262D37;--hover:rgba(200,205,215,.09);--accent-ink:#11141A;--c1:#5B8DB8;--c2:#C27C50;--c3:#5E9E88;--c4:#C7A24B;--c5:#B9758A;--c6:#8A93A8;--good:#5FCFA6;--good-soft:#12342B;--warn:#E3B055;--warn-soft:#3A2C10;--bad:#F0828F;--bad-soft:#3E171F;--side-bg:#080A0E;--side-active:#1C222B;--side-line:#1A2028;--cv-p:#33262A;--cv-a:#332B22;--cv-r:#312E21;--cv-v:#1C3029;--cv-l:#1F2A38;--cv-c:#272B35;--cv-s:#2C2733;--cv-k:#222730;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);--bb1:#0A0D12;--bb2:#141A22;--grid:rgba(200,205,215,.04);color-scheme:dark;}}
+:root[data-theme="dark"]{--bg:#0B0E13;--surface:#141920;--surface-2:#1A2029;--ink:#E8EAEE;--muted:#A0A8B4;--muted2:#6B7480;--line:#262D37;--hover:rgba(200,205,215,.09);--accent-ink:#11141A;--c1:#5B8DB8;--c2:#C27C50;--c3:#5E9E88;--c4:#C7A24B;--c5:#B9758A;--c6:#8A93A8;--good:#5FCFA6;--good-soft:#12342B;--warn:#E3B055;--warn-soft:#3A2C10;--bad:#F0828F;--bad-soft:#3E171F;--side-bg:#080A0E;--side-active:#1C222B;--side-line:#1A2028;--cv-p:#33262A;--cv-a:#332B22;--cv-r:#312E21;--cv-v:#1C3029;--cv-l:#1F2A38;--cv-c:#272B35;--cv-s:#2C2733;--cv-k:#222730;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);--bb1:#0A0D12;--bb2:#141A22;--grid:rgba(200,205,215,.04);color-scheme:dark;}
+body[data-sec="home"]{--accent:#7A5E24;--accent-soft:#F1EBDB;--gold:#7A5E24;--o1:rgba(120,130,150,.16);--o2:rgba(160,150,120,.10);--o3:rgba(120,130,150,.10)}
+:root:not([data-theme="light"]) body[data-sec="home"]{--accent:#CDB27A;--accent-soft:#2A2619;--gold:#CDB27A;--o1:rgba(88,108,140,.42);--o2:rgba(205,178,122,.20);--o3:rgba(58,72,96,.50)}
+:root[data-theme="dark"] body[data-sec="home"]{--accent:#CDB27A;--accent-soft:#2A2619;--gold:#CDB27A;--o1:rgba(88,108,140,.42);--o2:rgba(205,178,122,.20);--o3:rgba(58,72,96,.50)}
+body[data-sec="dash"]{--accent:#2B6B63;--accent-soft:#DDEDEA;--gold:#2B6B63;--o1:rgba(120,130,150,.16);--o2:rgba(160,150,120,.10);--o3:rgba(120,130,150,.10)}
+:root:not([data-theme="light"]) body[data-sec="dash"]{--accent:#78B0A6;--accent-soft:#17302D;--gold:#78B0A6;--o1:rgba(52,110,104,.42);--o2:rgba(120,176,166,.16);--o3:rgba(40,70,76,.50)}
+:root[data-theme="dark"] body[data-sec="dash"]{--accent:#78B0A6;--accent-soft:#17302D;--gold:#78B0A6;--o1:rgba(52,110,104,.42);--o2:rgba(120,176,166,.16);--o3:rgba(40,70,76,.50)}
+body[data-sec="group"]{--accent:#85641B;--accent-soft:#F3EAD0;--gold:#85641B;--o1:rgba(120,130,150,.16);--o2:rgba(160,150,120,.10);--o3:rgba(120,130,150,.10)}
+:root:not([data-theme="light"]) body[data-sec="group"]{--accent:#CDAA55;--accent-soft:#2B2413;--gold:#CDAA55;--o1:rgba(70,84,110,.45);--o2:rgba(205,170,85,.22);--o3:rgba(150,120,50,.22)}
+:root[data-theme="dark"] body[data-sec="group"]{--accent:#CDAA55;--accent-soft:#2B2413;--gold:#CDAA55;--o1:rgba(70,84,110,.45);--o2:rgba(205,170,85,.22);--o3:rgba(150,120,50,.22)}
+body[data-sec="project"]{--accent:#2F5A8A;--accent-soft:#DEE8F4;--gold:#2F5A8A;--o1:rgba(120,130,150,.16);--o2:rgba(160,150,120,.10);--o3:rgba(120,130,150,.10)}
+:root:not([data-theme="light"]) body[data-sec="project"]{--accent:#86A6CC;--accent-soft:#1A2738;--gold:#86A6CC;--o1:rgba(60,90,130,.42);--o2:rgba(134,166,204,.16);--o3:rgba(44,60,84,.50)}
+:root[data-theme="dark"] body[data-sec="project"]{--accent:#86A6CC;--accent-soft:#1A2738;--gold:#86A6CC;--o1:rgba(60,90,130,.42);--o2:rgba(134,166,204,.16);--o3:rgba(44,60,84,.50)}
+body[data-sec="misc"]{--accent:#4A5565;--accent-soft:#E7E9ED;--gold:#4A5565;--o1:rgba(120,130,150,.16);--o2:rgba(160,150,120,.10);--o3:rgba(120,130,150,.10)}
+:root:not([data-theme="light"]) body[data-sec="misc"]{--accent:#AAB2BE;--accent-soft:#232A33;--gold:#AAB2BE;--o1:rgba(80,90,105,.40);--o2:rgba(170,178,190,.12);--o3:rgba(50,58,70,.50)}
+:root[data-theme="dark"] body[data-sec="misc"]{--accent:#AAB2BE;--accent-soft:#232A33;--gold:#AAB2BE;--o1:rgba(80,90,105,.40);--o2:rgba(170,178,190,.12);--o3:rgba(50,58,70,.50)}
+body{background:var(--bg)}
+.bg i:nth-child(1),body[data-g="1"] .bg i:nth-child(1){background:radial-gradient(closest-side,var(--o1),transparent)}
+.bg i:nth-child(2),body[data-g="1"] .bg i:nth-child(2){background:radial-gradient(closest-side,var(--o2),transparent)}
+.bg i:nth-child(3),body[data-g="1"] .bg i:nth-child(3){background:radial-gradient(closest-side,var(--o3),transparent)}
+.bg i:nth-child(4){background:radial-gradient(closest-side,var(--o1),transparent);opacity:.6}
+.bg::after{opacity:.16}
+.brandbar::after{background:linear-gradient(90deg,transparent,var(--gold) 50%,transparent);opacity:.7}
+.bb-word em,.home-word em{background-image:linear-gradient(100deg,var(--gold),color-mix(in srgb,var(--gold) 55%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bb-nav button[aria-current="page"]{background:var(--accent);color:var(--accent-ink);box-shadow:none}
+.ghow li::before{background:var(--accent);color:var(--accent-ink)}
+.pbar>i{background:linear-gradient(90deg,var(--c,var(--accent)),color-mix(in srgb,var(--c,var(--accent)) 60%,#fff))}
+.door:hover{box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.onode.top,.onode.hq{border-top-color:var(--accent)}
+.bg{background:radial-gradient(1200px 800px at 12% -8%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 62%),linear-gradient(160deg,var(--bg),color-mix(in srgb,var(--bg) 90%,var(--accent)))}
+.brandbar{background:linear-gradient(100deg,var(--bb1),var(--bb2));border-block-end:1px solid color-mix(in srgb,var(--accent) 40%,transparent);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.gtabs{background:var(--surface);border:1px solid var(--line)}
+.gtabs button{color:var(--muted)}
+.gtabs button:hover{color:var(--ink);background:var(--hover)}
+.gtabs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.warn-box{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.bb-nav,.bb-r .bb-nav{background:color-mix(in srgb,#fff 6%,transparent)}
+.door-ic,.gate-ic{background:var(--accent-soft);color:var(--accent)}
+.uhero{background:radial-gradient(520px 260px at 95% -20%,rgba(255,255,255,.14),transparent 62%),linear-gradient(135deg,color-mix(in srgb,var(--c) 70%,#10141A),color-mix(in srgb,var(--c) 30%,#0B0E13))}
+.gate-card{background:radial-gradient(420px 220px at 90% -10%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 62%),linear-gradient(150deg,#161B22,#0C0F14);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+.cvbox{min-height:0}
+.cvbox textarea{field-sizing:content;min-height:72px;overflow:hidden;height:auto}
+
 </style>
 <div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <div class="app" id="app">
@@ -4350,7 +4396,7 @@ group:'<path d="M4 20V9l6-4v15M10 20V4l10 5v11M3 20h18M14 10h2M14 13h2M14 16h2M7
 gear:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>'
 };
 const I=(n,c)=>'<svg class="ic'+(c?' '+c:'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICONS[n]+'</svg>';
-const LOGO='<svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F83FF"/><stop offset="1" stop-color="#8A4DE8"/></linearGradient></defs><path d="M8 9l12 22L32 9" stroke="url(#lg)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
+const LOGO='<svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4CF9C"/><stop offset="1" stop-color="#B8964C"/></linearGradient></defs><path d="M8 9l12 22L32 9" stroke="url(#lg)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
 const $=(s,r)=>(r||document).querySelector(s);
 const $$=(s,r)=>[].slice.call((r||document).querySelectorAll(s));
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -4586,7 +4632,7 @@ function tile(cls,label,val,sub,sp){return'<div class="kt '+cls+'"><div class="k
 function renderSide(){
  const c=v=>(S.view===v||(v==='group'&&S.view==='project'&&S.gp))?' aria-current="page"':'';
  const nb=(v,ic,l)=>'<button data-act="view" data-v="'+v+'"'+c(v)+'>'+I(ic)+'<span>'+l+'</span></button>';
- $('#side').innerHTML='<div class="nav nav-main" aria-label="VisionHub">'+nb('home','home',gt('nav_home'))+nb('dash','folder',gt('h_proj'))+nb('group','group',gt('nav'))+nb('method','book',t('nav_method'))+nb('settings','gear',t('nav_settings'))+'</div>'+
+ $('#side').innerHTML='<div class="nav nav-main" aria-label="VisionHub">'+nb('home','home',gt('nav_home'))+nb('dash','folder',gt('h_proj'))+nb('group','group',gt('nav'))+nb('settings','gear',t('nav_settings'))+'</div>'+
  '<div class="nav"><div class="side-label">'+t('nav_projects')+'</div>'+S.projects.map(x=>'<button data-act="open" data-id="'+x.id+'"'+(S.view==='project'&&S.cid===x.id?' aria-current="page"':'')+'>'+I('folder')+'<span>'+esc(x.name)+'</span></button>').join('')+'<button class="addp" data-act="new">'+I('plus')+'<span>'+t('dash_new')+'</span></button></div>'+
  '<div class="side-foot"><p>'+t('local_note')+'</p></div>';
 }
@@ -4595,7 +4641,7 @@ function renderTop(){
  const nb=(v,ic,l)=>'<button data-act="view" data-v="'+v+'"'+c(v)+'>'+I(ic)+'<span>'+l+'</span></button>';
  $('#top').innerHTML='<div class="bb-in"><div class="bb-l"><button class="menu-btn" data-act="menu" aria-label="'+esc(t('menu'))+'">'+I('menu')+'</button><nav class="bb-nav" aria-label="VisionHub">'+nb('home','home',gt('nav_home'))+nb('dash','folder',gt('h_proj'))+nb('group','lock',gt('nav'))+'</nav></div>'+
  '<button class="bb-brand" data-act="view" data-v="home" aria-label="VisionHub">'+LOGO+'<span class="bb-word">Vision<em>Hub</em></span></button>'+
- '<div class="bb-r"><nav class="bb-nav" aria-label="VisionHub">'+nb('method','book',t('nav_method'))+nb('settings','gear',t('nav_settings'))+'</nav><label class="bb-lang">'+I('globe')+'<select id="langsel" aria-label="'+esc(t('t_lang'))+'">'+LANGS.map(l=>'<option value="'+l[0]+'"'+(l[0]===S.lang?' selected':'')+'>'+l[1]+'</option>').join('')+'</select></label></div></div>';
+ '<div class="bb-r"><nav class="bb-nav" aria-label="VisionHub">'+nb('settings','gear',t('nav_settings'))+'</nav><label class="bb-lang">'+I('globe')+'<select id="langsel" aria-label="'+esc(t('t_lang'))+'">'+LANGS.map(l=>'<option value="'+l[0]+'"'+(l[0]===S.lang?' selected':'')+'>'+l[1]+'</option>').join('')+'</select></label></div></div>';
 }
 
 /* ---------- dashboard (all projects) ---------- */
@@ -4833,7 +4879,7 @@ function methodHTML(){
 }
 function settingsHTML(){
  const bk=JSON.stringify({app:'VisionHub',v:2,projects:S.projects});
- return'<div class="stack"><div class="hello"><h1>'+t('nav_settings')+'</h1></div>'+
+ return'<div class="stack"><div class="hello"><h1>'+t('nav_settings')+'</h1><p class="hint"><button class="lnk" data-act="view" data-v="method">'+esc(t('nav_method'))+'</button></p></div>'+
  '<div class="card stack">'+head(t('t_lang'))+'<div class="langs">'+LANGS.map(l=>'<button class="lang" data-act="lang" data-l="'+l[0]+'" aria-pressed="'+(S.lang===l[0])+'"><b lang="'+l[0]+'">'+l[1]+'</b><span>'+l[0]+'</span></button>').join('')+'</div><p class="hint">'+t('t_lang_note')+'</p></div>'+
  '<div class="card stack"><div class="field" style="max-width:320px"><label for="defcur">'+t('t_cur')+'</label><select id="defcur">'+CURS.map(c=>'<option'+(c===S.cur?' selected':'')+'>'+c+'</option>').join('')+'</select></div></div>'+
  '<div class="card stack">'+head(t('t_backup'))+'<p class="hint">'+t('t_backup_h')+'</p><textarea class="mono" id="bk" readonly aria-label="'+esc(t('t_backup'))+'">'+esc(bk)+'</textarea><div class="row"><button class="btn" data-act="copybk">'+I('copy')+t('t_copy')+'</button></div>'+
@@ -5797,7 +5843,7 @@ function gHQpay(G,open){let s=0,c=0;(G.hqRoster||[]).forEach(r=>{if(r.acc&&!G.sh
 
 /* ---------- Stephen Group: portfolio of units launched in phases, funded by the group's own profits ---------- */
 const M=1e6;
-const GDIV={D1:['Immobilier','Real estate','#2563EB'],D2:['Services B2B','B2B services','#0E9F9A'],D3:['Retail maison','Home retail','#E39B0B'],D4:['Mode','Fashion','#DB2777'],D5:['Art oratoire','Public speaking','#7C3AED'],D6:['Beauté','Beauty','#F06CA8'],D7:['Photographie','Photography','#64748B'],D8:['Fitness et healthy','Fitness and healthy','#16A34A'],D9:['Mobilité','Mobility','#EA580C'],D10:['École','School','#C9A24B'],D0:['Technologie','Technology','#38A8E8']};
+const GDIV={D1:['Immobilier','Real estate','#4F7CAC'],D2:['Services B2B','B2B services','#4E9A94'],D3:['Retail maison','Home retail','#C79A4B'],D4:['Mode','Fashion','#B7637F'],D5:['Art oratoire','Public speaking','#7C86A8'],D6:['Beauté','Beauty','#C98BA3'],D7:['Photographie','Photography','#7A8594'],D8:['Fitness et healthy','Fitness and healthy','#5E9A6E'],D9:['Mobilité','Mobility','#C0714A'],D10:['École','School','#BFA05A'],D0:['Technologie','Technology','#5BA0C4']};
 const GPH=[['Phase 1 · Lancement du cœur','Phase 1 · Launch the core'],['Phase 2 · Revenus récurrents','Phase 2 · Recurring income'],['Phase 3 · Lifestyle','Phase 3 · Lifestyle'],['Phase 4 · Hôtels et mobilité','Phase 4 · Hotels and mobility'],['Phase 5 · École','Phase 5 · School']];
 /* u: k,div,ph(0..4),name[fr,en],invest,launch(months before opening),ramp(months to maturity),rev(monthly at maturity),margin(%),fixed(monthly),minM,after:{u,cum,open},link:{u,pct},par(parallel) */
 const GUNITS0=()=>[
@@ -6199,7 +6245,7 @@ Object.assign(GT.en,{
 const GSTORY={
  diaspora:{why:"Beaucoup de Malgaches vivant à l'étranger veulent acheter un terrain ou faire construire au pays, mais ils ont peur des arnaques et ne peuvent pas surveiller sur place. Cette peur est ton point d'entrée : celui qui la lève gagne leur confiance.",goal:"Devenir le tiers de confiance de la diaspora : vérifier les titres, suivre les chantiers à distance, et amener les premiers clients vers le reste du groupe.",what:"Agence de services : recherche et vérification de terrains, suivi de chantier avec photos et rapports réguliers, paiements par étapes. Très peu d'investissement, marge élevée, mais la réputation se construit client après client.",role:"Première société du groupe : elle coûte peu, gagne vite et finance la suivante. Elle apporte aussi les clients de la construction."},
  vr:{why:"Un acheteur à l'étranger ne peut pas visiter. Une visite virtuelle remplace le voyage et rassure avant de payer.",goal:"Vendre l'image avant la brique : maquettes 3D et visites immersives pour la construction, la location et plus tard l'hôtel.",what:"Studio 3D et salle de visite virtuelle : plans en 3D, visites immersives, et services vendus aussi à d'autres promoteurs.",role:"Vitrine commerciale du groupe : elle aide la construction à convaincre, et vend aussi à l'extérieur."},
- build:{why:"Construire est le cœur du groupe : c'est la plus grosse source de revenus, mais elle demande de la confiance et de la trésorerie.",goal:"Construire des maisons par étapes payées par le client, sans immobiliser tout le capital d'avance.",what:"Maisons livrées par phases ; le client paie à chaque étape. Marge plus faible (autour de 15 %) mais gros volumes.",role:"Moteur du groupe : elle alimente en clients et en cash le commerce, le B2B, le centre commercial et la salle de sport."},
+ build:{why:"Construire est le cœur du groupe : c'est la plus grosse source de revenus, mais elle demande de la confiance et de la trésorerie.",goal:"Construire des maisons par étapes payées par le client, sans immobiliser tout le capital d'avance.",what:"Maisons livrées par phases ; le client paie à chaque étape. Marge plus faible (autour de 20 %) mais gros volumes.",role:"Moteur du groupe : elle alimente en clients et en cash le commerce, le B2B, le centre commercial et la salle de sport."},
  retail:{why:"Chaque maison construite doit être meublée et équipée : les clients sont déjà là, il suffit de leur proposer.",goal:"Capter les dépenses d'équipement des clients de la construction.",what:"Magasin de meubles et d'électroménager. Une part de son chiffre d'affaires vient directement des clients de la construction.",role:"Financée par la construction ; elle ouvre la voie à la mode et à l'univers lifestyle."},
  b2b:{why:"Les entreprises ont besoin de bureaux rénovés et entretenus, avec des contrats réguliers qui lissent les hauts et les bas de la construction.",goal:"Obtenir des contrats B2B récurrents et des références solides.",what:"Réhabilitation et aménagement de bureaux pour des entreprises.",role:"Financée par la construction ; elle débloque la résidence locative et la salle événementielle."},
  rental:{why:"Un appartement loué rapporte tous les mois, sans dépendre des chantiers.",goal:"Créer un revenu récurrent stable adossé à un actif immobilier.",what:"Résidence d'appartements en location. Gros investissement, marge forte, rentabilité lente mais sûre.",role:"Actif de patrimoine qui sécurise le groupe ; financé par les bénéfices du B2B."},
@@ -6225,7 +6271,7 @@ function gProjMake(u){
   fund:[{id:uid(),name:fr?'Financé par le groupe':'Funded by the group',amt:Math.round(u.invest)}],
   fixed:[{id:uid(),name:fr?'Charges fixes (salaires chargés + autres)':'Fixed costs (loaded payroll + other)',amt:Math.round(gFixTot(S.group,u)),per:'m'}],
   rev:[{id:uid(),name:gun(u),price:Math.round(u.rev),ucost:Math.round(u.rev*(1-u.margin/100)),qty:1,g:0}]});
- p.cv.value=gstory(u,'goal');u.proj=p;return p;
+ u.proj=p;gBmcFill(u);return p;
 }
 function gSyncFrom(p){
  const G=S.group,u=G&&G.units.find(x=>x.k===p.unitRef);if(!u)return;
@@ -6244,7 +6290,7 @@ function gSyncTo(u){
  if(p.rev.length){const rv=sum(p.rev.map(r=>num(r.price)*num(r.qty)));
   if(rv>0){const r=u.rev/rv;p.rev.forEach(x=>{x.price=Math.round(num(x.price)*r)})}else{p.rev[0].price=Math.round(u.rev);p.rev[0].qty=1}
   p.rev.forEach(x=>{x.ucost=Math.round(num(x.price)*(1-u.margin/100))})}
- p.launch=Math.round(u.launch);p.name=gun(u);p.problem=gstory(u,'why');p.cv.value=gstory(u,'goal');p.updated=Date.now();
+ p.launch=Math.round(u.launch);p.name=gun(u);p.problem=gstory(u,'why');p.updated=Date.now();
 }
 function gProg(u){
  const p=u.proj;if(!p)return{pct:0,a:0,t:0,h:0,n:0,on:false};
@@ -6380,7 +6426,7 @@ async function grpAct(a,d){
  case'grptab':S.gtab=d.v;S.gsel=null;groupRefresh(true);window.scrollTo(0,0);break;
  case'grpsel':S.gsel=d.k;groupRefresh(true);window.scrollTo(0,0);break;
  case'grpclose':S.gsel=null;groupRefresh(true);window.scrollTo(0,0);break;
- case'grpproj':{const u=G.units.find(x=>x.k===d.k);if(!u)break;if(!u.proj)gProjMake(u);S.gp=true;S.gsel=u.k;S.cid=null;S.tab='ov';save();go('project');window.scrollTo(0,0);break}
+ case'grpproj':{const u=G.units.find(x=>x.k===d.k);if(!u)break;if(!u.proj)gProjMake(u);else gBmcFill(u);S.gp=true;S.gsel=u.k;S.cid=null;S.tab='ov';save();go('project');window.scrollTo(0,0);break}
  case'grpbackp':S.gp=false;S.view='group';ANIM=true;render();window.scrollTo(0,0);break;
  case'grprm':{const u=G.units.find(x=>x.k===d.k);if(!u)break;G.units.forEach(x=>{if(x.after&&x.after.u===u.k)x.after=u.after?{u:u.after.u,cum:x.after.cum,open:x.after.open}:null;if(x.link&&x.link.u===u.k)x.link=null});G.units=G.units.filter(x=>x.k!==u.k);S.gsel=null;groupRefresh(true);window.scrollTo(0,0);break}
  case'grpadd':{const k='c'+uid();G.units.push({k:k,div:'D2',ph:1,name:[gt('u_new'),'New unit'],invest:50e6,launch:3,ramp:12,rev:30e6,margin:40,oth:3e6,roster:gMkRoster('x'),minM:12,after:null,link:null,story:{why:'',goal:'',what:'',role:''}});S.gsel=k;groupRefresh(true);window.scrollTo(0,0);break}
@@ -6505,12 +6551,184 @@ function gRosterDel(u,i){
 
 function gCenterOrg(){requestAnimationFrame(()=>document.querySelectorAll('.orgw').forEach(w=>{w.scrollLeft=Math.max(0,(w.scrollWidth-w.clientWidth)/2)}))}
 
+/* ---------- Business model (canevas) de chaque société du groupe. Textes de départ : à corriger avec la réalité du terrain. ---------- */
+const GBMC={
+ diaspora:{partners:"Notaires et géomètres agréés ; service des domaines et conservation foncière ; banques et opérateurs de transfert d'argent ; la société de construction du groupe ; correspondants de confiance dans chaque région.",
+  activities:"Recherche de terrains ; vérification des titres et de l'état civil du vendeur ; visites filmées et rapports ; suivi de chantier à distance avec photos datées ; gestion des paiements par étapes.",
+  resources:"Réseau de notaires et de géomètres ; agents de terrain formés ; dossier-type de vérification ; plateforme de suivi avec photos et comptes rendus ; réputation et avis clients.",
+  value:"« Achetez et construisez au pays sans avoir peur d'être trompé. » Un tiers de confiance qui vérifie, suit et rend compte, avec des paiements libérés seulement quand l'étape est validée.",
+  relations:"Un interlocuteur dédié par client ; rapport mensuel avec photos ; appel vidéo à chaque étape clé ; bouche-à-oreille au sein des communautés de la diaspora.",
+  channels:"Réseaux sociaux (Facebook, TikTok) ; associations et églises de la diaspora en France ; recommandation entre familles ; salons et événements de la diaspora ; site avec formulaire de demande.",
+  segments:"Malgaches de la diaspora (France, Canada, Maurice, La Réunion) qui veulent acheter un terrain ou faire construire au pays pour leur famille ou leur retraite.",
+  costs:"Salaires des agents de terrain et du conseiller ; déplacements ; frais de vérification et de notaire avancés ; outil de suivi ; marketing en ligne.",
+  revenue:"Commission sur chaque terrain vérifié ; forfait de suivi de chantier (mensuel ou par étape) ; apport de clients à la société de construction et à la société de meubles."},
+ vr:{partners:"Promoteurs et agences immobilières ; société de construction du groupe ; architectes et dessinateurs ; fournisseurs de matériel de réalité virtuelle.",
+  activities:"Modélisation 3D de plans ; visites virtuelles de maisons, hôtels et appartements ; présentation en salle de visite ; production d'images pour la vente.",
+  resources:"Postes graphiques et logiciels 3D ; casques de réalité virtuelle ; infographistes ; bibliothèque de modèles réutilisables.",
+  value:"Voir avant de payer : le client, même à l'étranger, visite sa maison avant qu'elle existe. Moins de doutes, plus de ventes pour le groupe.",
+  relations:"Prestation sur devis avec retours de modifications ; abonnement pour les promoteurs réguliers ; démonstration gratuite en salle.",
+  channels:"Salle de visite dans la ville ; démonstrations vidéo sur les réseaux ; liens envoyés aux clients de la diaspora ; prospection directe des promoteurs.",
+  segments:"Clients de la construction et de la diaspora ; promoteurs et agences qui veulent mieux vendre sur plan ; hôtels et commerces qui veulent présenter un projet.",
+  costs:"Matériel et licences ; salaires des infographistes ; loyer de la salle ; électricité et connexion ; marketing.",
+  revenue:"Prix par visite ou maquette 3D ; contrats avec les promoteurs extérieurs ; visite virtuelle intégrée aux offres du groupe."},
+ build:{partners:"Fournisseurs de matériaux (ciment, fer, bois) ; artisans et équipes de chantier sous-traitants ; bureaux d'études et architectes ; banques pour les avances ; agence diaspora et studio 3D du groupe.",
+  activities:"Études et devis ; achats groupés de matériaux ; conduite de chantier par étapes ; contrôle qualité ; livraison, réception et garantie.",
+  resources:"Ingénieur et conducteurs de travaux ; chefs de chantier ; stock de matériel ; fournisseurs négociés ; plans-types de maisons ; trésorerie pour le démarrage de chaque chantier.",
+  value:"Une maison livrée par étapes payées au fur et à mesure, au prix annoncé, avec un suivi transparent. Le client sait toujours où va son argent.",
+  relations:"Contrat clair par étape ; visites de chantier ; photos et rapports hebdomadaires ; garantie après livraison.",
+  channels:"Agence diaspora ; studio 3D ; réseaux sociaux ; maisons témoins ; recommandation des clients satisfaits.",
+  segments:"Familles de la classe moyenne locale ; diaspora ; petits investisseurs qui construisent pour louer.",
+  costs:"Matériaux et sous-traitance (coûts variables) ; salaires de l'encadrement ; engins et outillage ; assurances ; avance de trésorerie par chantier.",
+  revenue:"Paiements échelonnés du client par étape ; marge sur les matériaux et la main-d'œuvre ; contrats d'entretien après livraison."},
+ retail:{partners:"Fabricants de meubles locaux et importateurs ; fournisseurs d'électroménager ; transporteurs ; société de construction pour les packs « maison livrée ».",
+  activities:"Achat et mise en rayon ; vente en magasin et en ligne ; livraison et installation ; service après-vente ; crédit par mensualités encadré.",
+  resources:"Local commercial ; stock ; vendeurs et responsable de boutique ; véhicule de livraison ; fichier clients issu de la construction.",
+  value:"Équiper sa maison en une seule fois : meubles et électroménager choisis, livrés et installés, au moment où le client emménage.",
+  relations:"Offre dédiée aux clients de la construction ; conseil en magasin ; garantie et SAV réactif.",
+  channels:"Magasin ; page Facebook et WhatsApp ; remise de fin de chantier ; catalogue remis avec les clés.",
+  segments:"Clients des maisons du groupe ; ménages qui s'installent ; petites entreprises qui équipent leurs bureaux.",
+  costs:"Achat des marchandises ; loyer ; salaires ; livraison ; stock immobilisé ; électricité.",
+  revenue:"Marge sur la vente de meubles et d'électroménager ; frais de livraison et d'installation ; extensions de garantie."},
+ b2b:{partners:"Entreprises clientes et syndics ; fournisseurs de matériaux ; artisans spécialisés (électricité, plomberie, climatisation) ; société de construction du groupe.",
+  activities:"Diagnostic et devis ; réhabilitation et aménagement de bureaux ; maintenance programmée ; suivi des contrats.",
+  resources:"Conducteur de travaux ; équipes d'artisans fidèles ; références de chantiers ; procédures de sécurité.",
+  value:"Des bureaux remis à neuf sans arrêter l'activité, avec des délais tenus et un contrat de maintenance qui évite les mauvaises surprises.",
+  relations:"Responsable de compte par client ; contrats pluriannuels ; rapports d'intervention.",
+  channels:"Prospection directe ; références d'anciens clients ; réseaux professionnels ; appels d'offres privés.",
+  segments:"PME et banques ; organisations internationales ; hôtels et cliniques ; propriétaires d'immeubles de bureaux.",
+  costs:"Main-d'œuvre et matériaux ; salaires de l'encadrement ; véhicules ; assurances.",
+  revenue:"Prix des travaux ; contrats de maintenance annuels ; aménagements complémentaires."},
+ rental:{partners:"Société de construction pour la réalisation ; agence de gestion locative ; assureurs ; banques ; entreprises qui logent leur personnel.",
+  activities:"Construction ou achat d'un immeuble ; mise en location ; entretien ; gestion des loyers et des impayés.",
+  resources:"Immeuble et terrain ; gestionnaire locatif ; agent d'entretien et de sécurité ; contrats de location.",
+  value:"Des logements propres et sûrs, avec un propriétaire sérieux et un entretien rapide, pour les expatriés, cadres et familles.",
+  relations:"Bail clair ; interlocuteur unique ; réponse rapide aux pannes.",
+  channels:"Panneaux sur place ; annonces en ligne ; entreprises partenaires ; bouche-à-oreille.",
+  segments:"Cadres et expatriés ; couples et familles de la classe moyenne supérieure ; entreprises qui logent leurs équipes.",
+  costs:"Remboursement de l'investissement ; entretien ; taxes foncières ; gardiennage ; salaires du gestionnaire.",
+  revenue:"Loyers mensuels ; charges refacturées ; dépôts de garantie ; valeur de l'immeuble qui prend de la valeur dans le temps."},
+ mall:{partners:"Commerçants et enseignes locales ; collectivités et mairie ; sociétés de sécurité et de nettoyage ; société de construction du groupe.",
+  activities:"Construction du centre ; recherche et sélection des commerçants ; animation du lieu ; maintenance et sécurité.",
+  resources:"Terrain et bâtiment ; gestionnaire de centre ; équipes de sécurité et d'entretien ; parking.",
+  value:"Un lieu moderne et sûr en province où l'on trouve commerces, services et loisirs au même endroit, sans aller à la capitale.",
+  relations:"Baux commerciaux ; animations régulières ; relation de proximité avec les commerçants.",
+  channels:"Panneaux ; réseaux sociaux ; événements d'ouverture ; partenariats avec les commerçants.",
+  segments:"Habitants de la ville et des environs ; commerçants et franchises ; familles et jeunes.",
+  costs:"Remboursement de la construction ; sécurité et nettoyage ; énergie ; entretien ; salaires.",
+  revenue:"Loyers des boutiques ; part sur le chiffre d'affaires ; publicité et espaces d'animation ; parking."},
+ events:{partners:"Traiteurs, décorateurs, sonorisation, photographes ; société de photo et production du groupe ; entreprises et associations ; agences d'événementiel.",
+  activities:"Location de la salle ; organisation de mariages, séminaires et conférences ; gestion du coworking ; promotion.",
+  resources:"Salle équipée ; espace coworking ; équipe d'accueil et de technique ; réseau de prestataires.",
+  value:"Un lieu élégant pour les grands moments et un espace de travail calme avec internet fiable.",
+  relations:"Conseiller dédié par événement ; abonnements pour le coworking ; fidélisation des entreprises.",
+  channels:"Réseaux sociaux ; site de réservation ; partenariats avec les agences ; recommandations.",
+  segments:"Familles pour les mariages ; entreprises pour les séminaires ; indépendants et startups pour le coworking.",
+  costs:"Remboursement du bâtiment ; énergie ; entretien ; équipe ; assurance ; marketing.",
+  revenue:"Location de la salle ; forfaits services (décoration, son) ; abonnements coworking ; commission sur les prestataires."},
+ mode:{partners:"Créateurs et couturiers locaux ; fournisseurs de tissus ; marques importées ; société de photo pour les visuels.",
+  activities:"Sélection et création des collections ; vente en boutique et en ligne ; retouches ; animation sur les réseaux.",
+  resources:"Boutique ; stock ; styliste-acheteur ; vendeurs ; identité de marque.",
+  value:"Une mode soignée à prix accessibles, avec une identité malgache moderne et un conseil personnalisé.",
+  relations:"Conseil en boutique ; fichier clients ; offres privées ; communauté sur les réseaux.",
+  channels:"Boutique ; Instagram et TikTok ; défilés et événements ; influenceurs.",
+  segments:"Jeunes actifs ; femmes et hommes de la classe moyenne ; clients du lifestyle du groupe.",
+  costs:"Achat des collections ; loyer ; salaires ; marketing ; stock invendu.",
+  revenue:"Marge sur les vêtements et accessoires ; retouches ; collaborations de marque."},
+ beauty:{partners:"Fournisseurs de produits professionnels ; formateurs ; marques de cosmétiques locales ; société de mode et de photo du groupe.",
+  activities:"Soins du visage et du corps ; coiffure ; vente de produits ; formation des équipes.",
+  resources:"Local aménagé ; esthéticiennes et coiffeuses formées ; produits ; agenda de réservation.",
+  value:"Un salon propre et agréable où la qualité des soins et l'accueil sont constants.",
+  relations:"Prise de rendez-vous simple ; carte de fidélité ; suivi des clientes.",
+  channels:"Réservation par message ; réseaux sociaux ; partenariat avec le centre commercial et la salle de sport.",
+  segments:"Femmes actives ; mariées ; clientèle d'événements.",
+  costs:"Salaires ; produits ; loyer ; eau et électricité ; marketing.",
+  revenue:"Prestations de soins et de coiffure ; vente de produits ; forfaits mariage."},
+ photo:{partners:"Salle événementielle et société de mode du groupe ; marques et agences ; imprimeurs ; vidéastes indépendants.",
+  activities:"Séances photo ; reportages d'événements ; production vidéo ; contenu pour les sociétés du groupe.",
+  resources:"Studio ; matériel photo et vidéo ; photographes et monteur ; banque d'images.",
+  value:"Des images et des vidéos de qualité professionnelle qui donnent une identité forte aux marques et aux événements.",
+  relations:"Brief clair, devis rapide, retours inclus ; contrats récurrents pour les marques.",
+  channels:"Portfolio en ligne ; Instagram ; recommandations ; sociétés du groupe comme premiers clients.",
+  segments:"Entreprises et marques ; mariés et familles ; hôtels et restaurants.",
+  costs:"Matériel ; salaires ; loyer du studio ; logiciels ; déplacements.",
+  revenue:"Séances et reportages ; contrats de contenu mensuel ; location du studio."},
+ gym:{partners:"Fournisseurs d'équipement ; nutritionnistes ; restaurant healthy du groupe ; assureurs.",
+  activities:"Accueil des adhérents ; cours collectifs ; coaching personnel ; entretien du matériel.",
+  resources:"Local et équipements ; coachs diplômés ; programme d'entraînement ; application de suivi.",
+  value:"Un lieu propre, encadré et motivant pour se mettre en forme durablement.",
+  relations:"Bilan à l'inscription ; suivi des résultats ; communauté et défis.",
+  channels:"Réseaux sociaux ; portes ouvertes ; entreprises partenaires ; parrainage.",
+  segments:"Jeunes actifs ; cadres ; entreprises qui offrent le sport à leurs équipes.",
+  costs:"Équipement et entretien ; salaires ; loyer ; énergie ; assurance.",
+  revenue:"Abonnements mensuels et annuels ; coaching personnel ; vente de boissons et compléments."},
+ resto:{partners:"Producteurs locaux ; salle de sport du groupe ; livreurs ; nutritionnistes.",
+  activities:"Achat de produits frais ; préparation ; service sur place et livraison ; animation de la carte.",
+  resources:"Cuisine équipée ; chef et équipe ; fournisseurs locaux ; chaîne du froid.",
+  value:"Une cuisine saine, savoureuse et abordable, avec des produits locaux.",
+  relations:"Service attentif ; menu du jour ; abonnements repas pour les entreprises.",
+  channels:"Restaurant ; livraison ; réseaux sociaux ; entreprises voisines.",
+  segments:"Actifs du quartier ; adhérents de la salle de sport ; entreprises.",
+  costs:"Achat de produits ; salaires ; loyer ; énergie ; pertes alimentaires.",
+  revenue:"Repas sur place et livrés ; formules entreprises ; traiteur."},
+ coach:{partners:"Écoles et universités ; clubs d'anglais ; entreprises ; associations étudiantes.",
+  activities:"Ateliers de prise de parole ; coaching individuel ; stages ; production de contenus pédagogiques.",
+  resources:"Méthode « Art Oratoire » ; formateurs ; salle ; supports et vidéos.",
+  value:"Apprendre à parler en public avec confiance, grâce à une méthode éprouvée et un entraînement régulier.",
+  relations:"Suivi personnalisé ; communauté d'élèves ; retours détaillés.",
+  channels:"Réseaux sociaux ; interventions en écoles ; bouche-à-oreille ; vidéos.",
+  segments:"Étudiants ; jeunes cadres ; entrepreneurs ; équipes commerciales.",
+  costs:"Salaires ; salle ; supports ; marketing.",
+  revenue:"Stages et ateliers ; coaching individuel ; ventes de supports ; interventions en entreprise."},
+ training:{partners:"Entreprises partenaires ; organismes de certification ; formateurs experts ; coaching art oratoire du groupe.",
+  activities:"Diagnostic des besoins ; formations sur mesure (communication, management, anglais) ; évaluation.",
+  resources:"Catalogue de formations ; formateurs ; salle ; plateforme de suivi.",
+  value:"Des équipes qui progressent vite avec des formations concrètes, adaptées au contexte malgache.",
+  relations:"Contrats annuels ; responsable de compte ; bilans de progression.",
+  channels:"Prospection directe ; réseau professionnel ; références ; webinaires.",
+  segments:"PME ; grandes entreprises ; organisations internationales ; administrations.",
+  costs:"Formateurs ; salle ; supports ; commerciaux.",
+  revenue:"Formations facturées par jour ou par programme ; contrats annuels ; certification."},
+ cars:{partners:"Concessionnaires ; garages ; assureurs ; hôtel et société de voyages du groupe.",
+  activities:"Location de véhicules ; transferts aéroport ; entretien ; gestion des réservations.",
+  resources:"Flotte ; chauffeurs ; atelier partenaire ; outil de réservation.",
+  value:"Des déplacements fiables et sécurisés, avec des chauffeurs sérieux et des véhicules propres.",
+  relations:"Réservation simple ; service client réactif ; contrats pour les entreprises.",
+  channels:"Hôtel du groupe ; réseaux sociaux ; partenariats avec les agences ; bouche-à-oreille.",
+  segments:"Touristes et expatriés ; entreprises ; clients de l'hôtel et de la diaspora.",
+  costs:"Achat et entretien des véhicules ; carburant ; assurances ; chauffeurs.",
+  revenue:"Locations à la journée ; transferts ; contrats mensuels."},
+ hotel:{partners:"Agences de voyage et plateformes de réservation ; fournisseurs ; société de mobilité et restaurant du groupe ; école hôtelière.",
+  activities:"Hébergement ; restauration ; réception ; gestion commerciale ; entretien.",
+  resources:"Bâtiment de 20 chambres ; directeur d'hôtel ; équipes d'accueil et de ménage ; marque et image.",
+  value:"Un séjour confortable et soigné, avec un service chaleureux et une vraie qualité d'accueil.",
+  relations:"Accueil personnalisé ; fidélisation ; avis en ligne ; gestion des réclamations.",
+  channels:"Plateformes de réservation ; site ; agences ; réseaux sociaux.",
+  segments:"Voyageurs d'affaires ; touristes ; groupes et séminaires ; familles de la diaspora.",
+  costs:"Salaires ; énergie ; entretien ; commissions de plateformes ; remboursement de l'investissement.",
+  revenue:"Nuitées ; restauration ; séminaires ; services annexes."},
+ school:{partners:"Universités étrangères ; entreprises (stages, emplois) ; ministère de l'enseignement supérieur ; hôtel et formation du groupe.",
+  activities:"Enseignement ; accompagnement ; stages ; vie de campus ; accréditation.",
+  resources:"Campus ; équipe pédagogique ; accréditations ; réseau d'entreprises partenaires.",
+  value:"Une formation supérieure reconnue, à Madagascar, avec des débouchés réels et un lien fort avec les entreprises.",
+  relations:"Suivi des étudiants ; réseau d'anciens ; événements avec les entreprises.",
+  channels:"Salons étudiants ; lycées ; réseaux sociaux ; réseau d'anciens.",
+  segments:"Bacheliers ; familles ; entreprises qui recrutent.",
+  costs:"Salaires du corps enseignant ; campus ; accréditations ; équipement.",
+  revenue:"Frais de scolarité ; formations continues ; partenariats d'entreprises ; restauration et hébergement sur le campus."}
+};
+const GBMCK=['partners','activities','resources','value','relations','channels','segments','costs','revenue'];
+/* Fill only the empty boxes (never overwrite what Stephen wrote). The "value" box also replaces the old copy of the goal. */
+function gBmcFill(u){
+ const p=u.proj,b=GBMC[u.k];if(!p||!b)return;
+ GBMCK.forEach(k=>{const cur=(p.cv[k]||'').trim();if(!cur||(k==='value'&&cur===(gstory(u,'goal')||'').trim()))p.cv[k]=b[k]});
+}
+
 /* ---------- Home (centred VisionHub) and one-project-at-a-time view ---------- */
 function homeHTML(){
  const n=S.projects.length;
  const door=(act,v,ic,title,sub,badge)=>'<button class="door" data-act="'+act+'"'+(v?' data-v="'+v+'"':'')+'><span class="door-ic">'+I(ic)+'</span><b>'+esc(title)+'</b><small>'+esc(sub)+'</small>'+(badge?'<span class="door-n">'+badge+'</span>':'')+'</button>';
  return'<div class="home"><div class="home-hero"><div class="home-logo">'+LOGO+'</div><h1 class="home-word">Vision<em>Hub</em></h1><p class="home-by">by Stephen</p><p class="home-tag">'+esc(gt('h_tag'))+'</p></div>'+
- '<div class="doors">'+door('view','dash','folder',gt('h_proj'),gt('h_proj_s'),esc(gt('h_cnt',{n:n})))+door('new','','plus',gt('h_new'),gt('h_new_s'),'')+door('view','group','lock',gt('h_group'),gt('h_group_s'),'')+door('view','method','book',gt('h_method'),gt('h_method_s'),'')+'</div></div>';
+ '<div class="doors">'+door('view','dash','folder',gt('h_proj'),gt('h_proj_s'),esc(gt('h_cnt',{n:n})))+door('new','','plus',gt('h_new'),gt('h_new_s'),'')+door('view','group','lock',gt('h_group'),gt('h_group_s'),'')+'</div></div>';
 }
 function projectsHTML(){
  const ps=S.projects;
@@ -6550,6 +6768,7 @@ function refresh(){
 function render(){
  document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ar'?'rtl':'ltr';
  const p=P();if(S.view==='project'&&!p){S.view='dash';S.gp=false}
+ document.body.dataset.sec=S.view==='group'||(S.view==='project'&&S.gp)?'group':S.view==='project'?'project':S.view==='dash'?'dash':S.view==='home'?'home':'misc';
  document.body.dataset.g=(S.view==='group'||(S.view==='project'&&S.gp))?'1':'0';
  renderSide();renderTop();
  const v=$('#view');
