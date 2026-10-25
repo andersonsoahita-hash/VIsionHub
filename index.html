@@ -3830,7 +3830,10 @@ ex_warn=These figures are starting estimates, not verified data. Before spending
 
 (function(){
 const T=(l,s)=>{const o={};s.split('\n').forEach(x=>{const i=x.indexOf('=');if(i>0)o[x.slice(0,i).trim()]=x.slice(i+1).trim()});Object.assign(I18N[l],o)};
-T('fr',`gate_title=Validation du projet
+T('fr',`b_launch=Phase de préparation
+b_launch_l=Mois de préparation avant la première vente
+b_launch_h=Pendant ces mois, tu paies les charges fixes mais tu ne vends rien : équipe, statut, prototype, scans, déplacements, pilote. Les scénarios s'ajoutent à ce délai.
+gate_title=Validation du projet
 gate_n={n}/{m} solides
 gate_ok=Projet validé : les 7 dimensions sont solides. Tu peux l'envoyer au Suivi.
 gate_no=Projet pas encore validé : corrige les dimensions non solides avant de dépenser. Tu peux quand même l'envoyer au Suivi pour tester.
@@ -3840,7 +3843,10 @@ gate_h=Le bouton copie tout le dossier : chiffres mois par mois, produits, charg
 ex_valid_t=Projet validé complet (exemple)
 ex_valid_h=Un projet dont les 7 dimensions sont solides, avec preuves, tests, actions et prévisionnel. Les preuves sont fictives : remplace-les par les tiennes.
 ex_valid_go=Charger le projet validé`);
-T('en',`gate_title=Project validation
+T('en',`b_launch=Preparation phase
+b_launch_l=Months of preparation before the first sale
+b_launch_h=During these months you pay fixed costs but sell nothing: team, legal setup, prototype, scans, travel, pilot. Scenarios add to this delay.
+gate_title=Project validation
 gate_n={n}/{m} solid
 gate_ok=Validated project: all 7 dimensions are solid. You can send it to the Tracker.
 gate_no=Not validated yet: fix the non-solid dimensions before spending. You can still send it to the Tracker to try it.
@@ -3927,7 +3933,7 @@ function stdRows(){
  fund:[{id:uid(),name:t('ln_own'),amt:null}]};
 }
 function newProject(name,cur){const r=stdRows();return{id:uid(),name:name,created:Date.now(),updated:Date.now(),example:false,cur:cur||S.cur,
- country:'',sector:'',problem:'',customer:'',
+ launch:0,country:'',sector:'',problem:'',customer:'',
  invest:r.invest,fund:r.fund,loan:{amt:null,rate:null,months:null},rev:r.rev,fixed:r.fixed,tax:null,horizon:12,
  scn:{pf:100,vf:100,cf:100,ff:100,delay:0},
  cv:{partners:'',activities:'',resources:'',value:'',relations:'',channels:'',segments:'',costs:'',revenue:''},
@@ -3947,7 +3953,7 @@ function loanPay(p){const L=num(p.loan.amt),n=Math.round(num(p.loan.months)),r=n
 const hasModel=p=>p.rev.some(r=>num(r.price)>0&&num(r.qty)>0);
 function gmOf(p){const a=sum(p.rev.map(r=>num(r.qty)*num(r.price))),b=sum(p.rev.map(r=>num(r.qty)*(num(r.price)-num(r.ucost))));return a>0?b/a:null}
 function sim(p,sc){
- sc=sc||p.scn;const pf=num(sc.pf)/100,vf=num(sc.vf)/100,cf=num(sc.cf)/100,ff=num(sc.ff)/100,dl=Math.max(0,Math.round(num(sc.delay)));
+ sc=sc||p.scn;const pf=num(sc.pf)/100,vf=num(sc.vf)/100,cf=num(sc.cf)/100,ff=num(sc.ff)/100,dl=Math.max(0,Math.round(num(sc.delay)))+Math.max(0,Math.round(num(p.launch)));
  const H=H_(p),inv=invTotal(p),own=ownTotal(p),La=num(p.loan.amt),n=Math.round(num(p.loan.months)),r=num(p.loan.rate)/1200,pay=loanPay(p),tx=num(p.tax)/100,fxm=fixedMonthly(p)*ff;
  let bal=La,cash=own+La-inv,cum=0,cumR=0,cumC=inv,op=0;
  const o={H:H,inv:inv,start:cash,rev:[],cogs:[],fixed:[],interest:[],tax:[],net:[],cash:[cash],cumRev:[0],cumCost:[inv],units:[]};
@@ -4212,7 +4218,8 @@ function tabBud(p){
   '<div class="quads">'+['E','S','D','I'].map(q=>'<button class="quad" data-act="quad" data-v="'+q+'" aria-pressed="'+(me.quad===q)+'"><span class="big">'+q+'</span><b>'+t('y_'+q)+'</b></button>').join('')+'</div>'+
   '<div class="tests">'+[1,2,3].map(n=>'<label class="chk"><input type="checkbox" data-bind="me.q'+n+'" data-kind="chk"'+(me['q'+n]?' checked':'')+'><span>'+t('y_q'+n)+'</span></label>').join('')+'</div>'+
   (dep?'<div class="row"><span class="muted">'+t('y_dep')+'</span><span class="pill '+(dep==='hi'?'p-fragile':dep==='mid'?'p-verify':'p-solid')+'">'+t('y_dep_'+dep)+'</span></div>':'')+'</div>';
- return'<div class="split"><div class="stack">'+revT+fixT+invT+funT+you+'</div><aside class="bsum" id="bsum"></aside></div>';
+ const lchT='<div class="card">'+head(t('b_launch'))+'<div class="grid2"><div class="field"><label>'+t('b_launch_l')+'</label>'+cell('launch',p.launch,'int')+'</div></div><p class="hint">'+t('b_launch_h')+'</p></div>';
+ return'<div class="split"><div class="stack">'+lchT+revT+fixT+invT+funT+you+'</div><aside class="bsum" id="bsum"></aside></div>';
 }
 function depLevel(me){if(me.q1==null&&me.q2==null&&me.q3==null)return null;const y=[me.q1,me.q2,me.q3].filter(Boolean).length;return y===0?'hi':y===3?'lo':'mid'}
 function calcVal(p,k){
@@ -4319,7 +4326,7 @@ function csvExport(p){
  if(num(p.loan.amt)>0)L.push('loan;'+t('b_loan')+';'+q(p.loan.amt)+';'+q(p.loan.rate)+';'+q(p.loan.months));return L.join('\n');
 }
 function tabFile(p){
- const cols=[['invest',t('c_invest'),'v1 = '+t('col_amt')],['fixed',t('b_fixed'),'v1 = '+t('col_amt')+' · v2 = m / y'],['revenue',t('b_revenue'),'v1 = '+t('col_price')+' · v2 = '+t('col_ucost')+' · v3 = '+t('col_qty')+' · v4 = '+t('col_g')],['own',t('b_funding'),'v1 = '+t('col_amt')],['loan',t('b_loan'),'v1 = '+t('col_amt')+' · v2 = '+t('b_rate')+' · v3 = '+t('b_months')]];
+ const cols=[['invest',t('c_invest'),'v1 = '+t('col_amt')],['fixed',t('b_fixed'),'v1 = '+t('col_amt')+' · v2 = m / y'],['revenue',t('b_revenue'),'v1 = '+t('col_price')+' · v2 = '+t('col_ucost')+' · v3 = '+t('col_qty')+' · v4 = '+t('col_g')],['own',t('b_funding'),'v1 = '+t('col_amt')],['launch',t('b_launch'),'v1 = '+t('unit_m')],['horizon',t('c_horizon'),'v1 = 12 / 24 / 36'],['action',t('a_title'),'v1 = '+t('unit_m')+' · v2 = '+t('col_amt')],['loan',t('b_loan'),'v1 = '+t('col_amt')+' · v2 = '+t('b_rate')+' · v3 = '+t('b_months')]];
  return'<div class="stack"><div class="grid2"><div class="card stack">'+head(t('fi_title'))+
  '<label class="drop" id="drop" for="fileIn">'+I('upload')+'<b>'+t('fi_drop')+'</b><span class="hint">CSV · Excel (.xlsx, .xls) · TXT</span></label><input type="file" id="fileIn" accept=".csv,.tsv,.txt,.xlsx,.xls" hidden>'+
  '<div class="field"><label for="paste">'+t('fi_paste')+'</label><textarea class="mono" id="paste" placeholder="'+esc(csvTemplate())+'"></textarea></div><div class="row"><button class="btn primary" data-act="fimport">'+I('upload')+t('fi_import')+'</button></div><p class="hint">'+t('fi_note')+'</p></div>'+
@@ -5086,7 +5093,7 @@ function suiviPayload(p){
   risks:p.risks.map(r=>({text:r.text,prob:num(r.prob),impact:num(r.impact),mitig:r.mitig||''})),
   actions:p.actions.map(a=>({text:a.text,due:a.due||'',cost:num(a.cost),st:a.st})),
   comps:p.comps.map(c=>({name:c.name,price:num(c.price)})),
-  decision:p.decision};
+  decision:p.decision,launch:num(p.launch)};
 }
 
 /* ---------- render ---------- */
@@ -5175,17 +5182,23 @@ function secOf(c){c=nrm(c);
  if(/^(fix|frais|charge|cout|cost|rent|loyer)/.test(c))return'fixed';
  if(/^(rev|vente|ca$|produit|sale|income|recette|service)/.test(c))return'rev';
  if(/^(own|apport|fonds|fund|capital|epargne)/.test(c))return'fund';
- if(/^(loan|emprunt|pret|credit)/.test(c))return'loan';return null}
+ if(/^(loan|emprunt|pret|credit)/.test(c))return'loan';
+ if(/^(launch|lancement|prepa|phase)/.test(c))return'launch';
+ if(/^(horizon|duree|duration)/.test(c))return'horizon';
+ if(/^(action|etape|task|tache)/.test(c))return'action';return null}
 function importRows(p,rows){
- const got={invest:[],fixed:[],rev:[],fund:[],loan:null};let n=0;
+ const got={invest:[],fixed:[],rev:[],fund:[],loan:null,launch:null,horizon:null,actions:[]};let n=0;
  rows.forEach(r=>{const sec=secOf(r[0]);if(!sec)return;const nm=r[1]||'',a=parseNum(r[2]),b=parseNum(r[3]),c=parseNum(r[4]),d=parseNum(r[5]);
   if(sec==='invest'){got.invest.push({id:uid(),name:nm,amt:a});n++}
   else if(sec==='fund'){got.fund.push({id:uid(),name:nm,amt:a});n++}
   else if(sec==='fixed'){got.fixed.push({id:uid(),name:nm,amt:a,per:/^(y|a|an|ans|year|annee|annuel|yr)/.test(nrm(r[3]))?'y':'m'});n++}
   else if(sec==='rev'){got.rev.push({id:uid(),name:nm,price:a,ucost:b,qty:c,g:d});n++}
-  else if(sec==='loan'&&!got.loan){got.loan={amt:a,rate:b,months:c};n++}});
+  else if(sec==='loan'&&!got.loan){got.loan={amt:a,rate:b,months:c};n++}
+  else if(sec==='launch'){got.launch=Math.max(0,Math.round(a||0));n++}
+  else if(sec==='horizon'){const h=Math.round(a||0);got.horizon=h<=12?12:h<=24?24:36;n++}
+  else if(sec==='action'){got.actions.push({id:uid(),text:nm,due:addDays(Math.round((a||0)*30)),cost:b||0,st:'todo'});n++}});
  if(!n)return 0;
- ['invest','fixed','rev','fund'].forEach(k=>{if(got[k].length)p[k]=got[k]});if(got.loan)p.loan=got.loan;touch(p);return n;
+ ['invest','fixed','rev','fund'].forEach(k=>{if(got[k].length)p[k]=got[k]});if(got.loan)p.loan=got.loan;if(got.launch!=null)p.launch=got.launch;if(got.horizon)p.horizon=got.horizon;if(got.actions.length)p.actions=got.actions;touch(p);return n;
 }
 function loadXLSX(){return new Promise((res,rej)=>{if(window.XLSX)return res(window.XLSX);const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=()=>window.XLSX?res(window.XLSX):rej();s.onerror=()=>rej();document.head.appendChild(s)})}
 function doImport(rows){
