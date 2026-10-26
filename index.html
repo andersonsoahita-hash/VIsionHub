@@ -816,6 +816,22 @@ body{background:var(--bg)}
 .doors .door{flex:1 1 240px;max-width:280px;min-width:0}
 .home-hero{text-align:center;align-items:center;margin-inline:auto}
 
+/* ===== Entry animation ===== */
+#splash{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;cursor:pointer;
+ background:radial-gradient(600px 400px at 50% 42%,rgba(205,178,122,.16),transparent 70%),#0B0E13;transition:opacity .55s ease,transform .55s ease}
+#splash.out{opacity:0;transform:scale(1.04);pointer-events:none}
+.sp-in{display:flex;flex-direction:column;align-items:center;gap:14px;color:#EDEFF3}
+.sp-v{overflow:visible}
+.sp-v path{stroke-dasharray:1;stroke-dashoffset:1;animation:spdraw 1s .15s cubic-bezier(.6,0,.2,1) forwards}
+.sp-w{font-family:var(--font-display);font-weight:800;font-size:clamp(38px,9vw,60px);letter-spacing:-.03em;opacity:0;transform:translateY(14px);animation:sprise .7s .85s cubic-bezier(.2,.7,.2,1) forwards}
+.sp-w em{font-style:normal;color:#CDB27A}
+.sp-line{width:0;height:1.5px;background:linear-gradient(90deg,transparent,#CDB27A,transparent);animation:spline .8s 1.2s ease forwards}
+.sp-by{font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#9AA3AF;opacity:0;animation:spfade .6s 1.4s ease forwards}
+@keyframes spdraw{to{stroke-dashoffset:0}}
+@keyframes sprise{to{opacity:1;transform:none}}
+@keyframes spline{to{width:min(240px,60vw)}}
+@keyframes spfade{to{opacity:1}}
+
 </style>
 <div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <div class="app" id="app">
@@ -6933,6 +6949,14 @@ document.addEventListener('click',async e=>{
 });
 
 /* ---------- boot ---------- */
+function gSplash(){
+ try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return}catch(e){}
+ const el=document.createElement('div');el.id='splash';el.setAttribute('aria-hidden','true');
+ el.innerHTML='<div class="sp-in"><svg class="sp-v" width="92" height="92" viewBox="0 0 40 40"><defs><linearGradient id="spg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4CF9C"/><stop offset="1" stop-color="#B8964C"/></linearGradient></defs><path d="M8 9l12 22L32 9" pathLength="1" stroke="url(#spg)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><div class="sp-w">Vision<em>Hub</em></div><div class="sp-line"></div><div class="sp-by">by Stephen</div></div>';
+ document.body.appendChild(el);
+ let done=false;const end=()=>{if(done)return;done=true;el.classList.add('out');setTimeout(()=>el.remove(),600)};
+ el.addEventListener('click',end);setTimeout(end,2300);
+}
 (function init(){
  const saved=load(),nav=((navigator.language||'fr').slice(0,2)).toLowerCase();
  S=Object.assign({budget:300000,goal:0,gmode:'rev',lang:LANGS.some(l=>l[0]===nav)?nav:'fr',cur:null,view:'home',tab:'ov',cid:null,projects:[]},saved||{});
@@ -6943,6 +6967,7 @@ document.addEventListener('click',async e=>{
  if(!saved){S.projects=makeExamples();save()}
  S.view='home';
  render();
+ gSplash();
 })();
 })();
 
