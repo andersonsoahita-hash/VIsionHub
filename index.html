@@ -4437,7 +4437,7 @@ let S;
 /* ---------- storage ---------- */
 function load(){try{const r=localStorage.getItem(LS);if(r)return JSON.parse(r)}catch(e){}return null}
 let saveT;
-function persist(){return{lang:S.lang,cur:S.cur,view:S.view,tab:S.tab,cid:S.cid,budget:S.budget,goal:S.goal,exCur:S.exCur,exCity:S.exCity,exBud:S.exBud,exGl:S.exGl,gmode:S.gmode,group:S.group,gpw:S.gpw,projects:S.projects}}
+function persist(){return{lang:S.lang,cur:S.cur,view:S.view,tab:S.tab,cid:S.cid,budget:S.budget,goal:S.goal,exCur:S.exCur,impMode:S.impMode,exCity:S.exCity,exBud:S.exBud,exGl:S.exGl,gmode:S.gmode,group:S.group,gpw:S.gpw,projects:S.projects}}
 function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(LS,JSON.stringify(persist()))}catch(e){}},200)}
 
 /* ---------- i18n + formatting ---------- */
@@ -4875,7 +4875,7 @@ function csvExport(p){
 function tabFile(p){
  const cols=[['invest',t('c_invest'),'v1 = '+t('col_amt')],['fixed',t('b_fixed'),'v1 = '+t('col_amt')+' · v2 = m / y'],['revenue',t('b_revenue'),'v1 = '+t('col_price')+' · v2 = '+t('col_ucost')+' · v3 = '+t('col_qty')+' · v4 = '+t('col_g')],['own',t('b_funding'),'v1 = '+t('col_amt')],['launch',t('b_launch'),'v1 = '+t('unit_m')],['horizon',t('c_horizon'),'v1 = 12 / 24 / 36'],['goal',t('go_title'),'v1 = '+t('go_month')+' · v2 = '+t('go_rev')+' · v3 = '+t('go_net')],['action',t('a_title'),'v1 = '+t('unit_m')+' · v2 = '+t('col_amt')],['loan',t('b_loan'),'v1 = '+t('col_amt')+' · v2 = '+t('b_rate')+' · v3 = '+t('b_months')]];
  return'<div class="stack"><div class="grid2"><div class="card stack">'+head(t('fi_title'))+
- '<label class="drop" id="drop" for="fileIn">'+I('upload')+'<b>'+t('fi_drop')+'</b><span class="hint">CSV · Excel (.xlsx, .xls) · TXT</span></label><input type="file" id="fileIn" accept=".csv,.tsv,.txt,.xlsx,.xls" hidden>'+
+ '<div class="seg" role="group" style="margin-bottom:10px">'+[['add',stFr()?'Ajouter à mes données':'Add to my data'],['replace',stFr()?'Remplacer':'Replace']].map(m=>'<button data-act="impmode" data-v="'+m[0]+'" aria-pressed="'+((S.impMode||'add')===m[0])+'">'+m[1]+'</button>').join('')+'</div>'+(S.impMode==='replace'?'<p class="hint">'+(stFr()?'Attention : les sections présentes dans le fichier remplacent tes données actuelles.':'Warning: sections present in the file replace your current data.')+'</p>':'<p class="hint">'+(stFr()?'Tes lignes actuelles sont conservées ; seules les nouvelles lignes sont ajoutées (les doublons sont ignorés).':'Your current rows are kept; only new rows are added (duplicates are ignored).')+'</p>')+'<label class="drop" id="drop" for="fileIn">'+I('upload')+'<b>'+t('fi_drop')+'</b><span class="hint">CSV · Excel (.xlsx, .xls) · TXT</span></label><input type="file" id="fileIn" accept=".csv,.tsv,.txt,.xlsx,.xls" hidden>'+
  '<div class="field"><label for="paste">'+t('fi_paste')+'</label><textarea class="mono" id="paste" placeholder="'+esc(csvTemplate())+'"></textarea></div><div class="row"><button class="btn primary" data-act="fimport">'+I('upload')+t('fi_import')+'</button></div><p class="hint">'+t('fi_note')+'</p></div>'+
  '<div class="card stack">'+head(t('fi_cols'))+'<div class="tablewrap"><table class="sheet"><tbody>'+cols.map(c=>'<tr><td><code>'+c[0]+'</code></td><td>'+esc(c[1])+'</td><td class="muted">'+esc(c[2])+'</td></tr>').join('')+'</tbody></table></div>'+
  '<div class="row"><button class="btn" data-act="ftemplate">'+I('copy')+t('fi_template')+'</button><button class="btn" data-act="fexport">'+I('copy')+t('fi_export')+'</button><button class="btn" data-act="fplan">'+I('copy')+t('fi_plan')+'</button></div><p class="hint">'+t('fi_hint')+'</p></div></div></div>';
@@ -7318,12 +7318,21 @@ function importRows(p,rows){
   else if(sec==='goal'){const m=Math.round(a||0);if(m>=1&&m<=36){got.goals[m-1]=b||0;got.goalsN[m-1]=c==null?null:c;n++}}
   else if(sec==='action'){got.actions.push({id:uid(),text:nm,due:addDays(Math.round((a||0)*30)),cost:b||0,st:'todo'});n++}});
  if(!n)return 0;
+ if(S.impMode!=='replace'){
+  let add=0;const blank=x=>!(x.name||num(x.amt)||num(x.price)),key=(k,x)=>nrm(x.name)+'|'+(k==='rev'?num(x.price)+'|'+num(x.qty):num(x.amt));
+  ['invest','fixed','rev','fund'].forEach(k=>{const ex=p[k].filter(x=>!blank(x)),seen=new Set(ex.map(x=>key(k,x))),nw=got[k].filter(x=>!seen.has(key(k,x)));add+=nw.length;if(nw.length)p[k]=ex.concat(nw)});
+  if(got.loan&&!num(p.loan&&p.loan.amt)){p.loan=got.loan;add++}
+  if(got.launch!=null&&!num(p.launch)){p.launch=got.launch;add++}
+  if(got.actions.length){const old=new Set((p.actions||[]).map(x=>nrm(x.text)));const nw=got.actions.filter(x=>!old.has(nrm(x.text)));add+=nw.length;p.actions=(p.actions||[]).concat(nw)}
+  if(got.goals.length){p.goals=p.goals||[];p.goalsN=p.goalsN||[];got.goals.forEach((v,i)=>{if(v!=null&&!num(p.goals[i])){p.goals[i]=v;p.goalsN[i]=got.goalsN[i];add++}})}
+  touch(p);return add;
+ }
  ['invest','fixed','rev','fund'].forEach(k=>{if(got[k].length)p[k]=got[k]});if(got.loan)p.loan=got.loan;if(got.launch!=null)p.launch=got.launch;if(got.horizon)p.horizon=got.horizon;if(got.actions.length)p.actions=got.actions;if(got.goals.length){p.goals=Array.from(got.goals,x=>x==null?null:x);p.goalsN=Array.from(got.goalsN,x=>x==null?null:x)}touch(p);return n;
 }
 function loadXLSX(){return new Promise((res,rej)=>{if(window.XLSX)return res(window.XLSX);const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=()=>window.XLSX?res(window.XLSX):rej();s.onerror=()=>rej();document.head.appendChild(s)})}
 function doImport(rows){
  const p=P();if(!p)return;const n=importRows(p,rows);
- if(n){toast(t('fi_ok',{n:n}));S.tab='bud';render();window.scrollTo(0,0)}else toast(t('fi_err'));
+ if(n){toast(t('fi_ok',{n:n}));S.tab='bud';render();window.scrollTo(0,0)}else toast(S.impMode!=='replace'&&rows.some(r=>secOf(r[0]))?(stFr()?'Rien de nouveau : toutes les lignes existent déjà.':'Nothing new: all rows already exist.'):t('fi_err'));
 }
 function readFile(f){
  const ext=(f.name.split('.').pop()||'').toLowerCase(),fr=new FileReader();
@@ -7359,6 +7368,7 @@ document.addEventListener('click',async e=>{
  case'tab':if(!p)break;S.tab=d.tab;S.view='project';closeMenu();render();window.scrollTo(0,0);save();break;
  case'stpick':if(!p)break;stEnsure(p);p.st.s=d.s;touch(p);renderTab();break;
  case'stloan':if(!p)break;stApply(p,d.d);break;
+ case'impmode':S.impMode=d.v;save();renderTab();break;
  case'hz':if(!p)break;p.horizon=+d.h;touch(p);render();break;
  case'quad':p.me.quad=d.v;touch(p);renderTab();break;
  case'rowadd':{if(!p||!NEW[d.list])break;p[d.list].push(NEW[d.list]());touch(p);renderTab();focusRow(d.list,p[d.list].length-1);break}
