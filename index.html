@@ -816,21 +816,26 @@ body{background:var(--bg)}
 .doors .door{flex:1 1 240px;max-width:280px;min-width:0}
 .home-hero{text-align:center;align-items:center;margin-inline:auto}
 
-/* ===== Entry animation ===== */
-#splash{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;cursor:pointer;
- background:radial-gradient(600px 400px at 50% 42%,rgba(205,178,122,.16),transparent 70%),#0B0E13;transition:opacity .55s ease,transform .55s ease}
-#splash.out{opacity:0;transform:scale(1.04);pointer-events:none}
-.sp-in{display:flex;flex-direction:column;align-items:center;gap:14px;color:#EDEFF3}
+/* ===== Entry gate ===== */
+#splash{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#0B0E13;transition:opacity .6s ease,transform .6s ease;overflow:hidden}
+#splash.out{opacity:0;transform:scale(1.05);pointer-events:none}
+.sp-rain{position:absolute;inset:0;width:100%;height:100%;opacity:.85}
+.sp-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;color:#EDEFF3;padding:44px clamp(28px,6vw,72px);border-radius:28px;text-align:center;
+ background:radial-gradient(closest-side,rgba(11,14,19,.94) 55%,rgba(11,14,19,0));opacity:0;animation:spfade .8s .2s ease forwards}
 .sp-v{overflow:visible}
-.sp-v path{stroke-dasharray:1;stroke-dashoffset:1;animation:spdraw 1s .15s cubic-bezier(.6,0,.2,1) forwards}
-.sp-w{font-family:var(--font-display);font-weight:800;font-size:clamp(38px,9vw,60px);letter-spacing:-.03em;opacity:0;transform:translateY(14px);animation:sprise .7s .85s cubic-bezier(.2,.7,.2,1) forwards}
+.sp-v path{stroke-dasharray:1;stroke-dashoffset:1;animation:spdraw 1s .5s cubic-bezier(.6,0,.2,1) forwards}
+.sp-w{margin:0;font-family:var(--font-display);font-weight:800;font-size:clamp(40px,9vw,66px);letter-spacing:-.03em;opacity:0;transform:translateY(14px);animation:sprise .7s 1.1s cubic-bezier(.2,.7,.2,1) forwards}
 .sp-w em{font-style:normal;color:#CDB27A}
-.sp-line{width:0;height:1.5px;background:linear-gradient(90deg,transparent,#CDB27A,transparent);animation:spline .8s 1.2s ease forwards}
-.sp-by{font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#9AA3AF;opacity:0;animation:spfade .6s 1.4s ease forwards}
+.sp-line{width:0;height:1.5px;background:linear-gradient(90deg,transparent,#CDB27A,transparent);animation:spline .8s 1.4s ease forwards}
+.sp-by{font-family:var(--font-display);font-size:clamp(15px,3.2vw,19px);font-weight:700;letter-spacing:.5em;text-indent:.5em;text-transform:uppercase;color:#D9C38E;opacity:0;animation:spfade .7s 1.6s ease forwards}
+.sp-go{margin-top:12px;border:1px solid #CDB27A;background:linear-gradient(135deg,#E4CF9C,#BFA05A);color:#17130A;font:700 15px var(--font-body);letter-spacing:.06em;padding:13px 44px;border-radius:999px;cursor:pointer;opacity:0;animation:spfade .6s 2s ease forwards;transition:transform .2s,box-shadow .2s}
+.sp-go:hover,.sp-go:focus-visible{transform:translateY(-2px);box-shadow:0 10px 30px rgba(205,178,122,.35);outline:none}
+.sp-hint{font-size:12px;color:#8A93A0;opacity:0;animation:spfade .6s 2.2s ease forwards}
 @keyframes spdraw{to{stroke-dashoffset:0}}
 @keyframes sprise{to{opacity:1;transform:none}}
-@keyframes spline{to{width:min(240px,60vw)}}
+@keyframes spline{to{width:min(260px,60vw)}}
 @keyframes spfade{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.sp-in,.sp-w,.sp-by,.sp-go,.sp-hint{animation:none;opacity:1;transform:none}.sp-v path{animation:none;stroke-dashoffset:0}.sp-line{animation:none;width:min(260px,60vw)}}
 
 </style>
 <div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
@@ -6950,12 +6955,25 @@ document.addEventListener('click',async e=>{
 
 /* ---------- boot ---------- */
 function gSplash(){
- try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return}catch(e){}
- const el=document.createElement('div');el.id='splash';el.setAttribute('aria-hidden','true');
- el.innerHTML='<div class="sp-in"><svg class="sp-v" width="92" height="92" viewBox="0 0 40 40"><defs><linearGradient id="spg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4CF9C"/><stop offset="1" stop-color="#B8964C"/></linearGradient></defs><path d="M8 9l12 22L32 9" pathLength="1" stroke="url(#spg)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><div class="sp-w">Vision<em>Hub</em></div><div class="sp-line"></div><div class="sp-by">by Stephen</div></div>';
+ const fr=S.lang==='fr'||S.lang==='mg',red=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+ const el=document.createElement('div');el.id='splash';
+ el.innerHTML='<canvas class="sp-rain" aria-hidden="true"></canvas><div class="sp-in"><svg class="sp-v" width="84" height="84" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="spg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4CF9C"/><stop offset="1" stop-color="#B8964C"/></linearGradient></defs><path d="M8 9l12 22L32 9" pathLength="1" stroke="url(#spg)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><h1 class="sp-w">Vision<em>Hub</em></h1><div class="sp-line"></div><div class="sp-by">by Stephen</div><button class="sp-go" type="button">'+(fr?'Entrer':'Enter')+'</button><div class="sp-hint">'+(fr?'ou appuie sur Entrée':'or press Enter')+'</div></div>';
  document.body.appendChild(el);
- let done=false;const end=()=>{if(done)return;done=true;el.classList.add('out');setTimeout(()=>el.remove(),600)};
- el.addEventListener('click',end);setTimeout(end,2300);
+ const cv=el.querySelector('canvas'),cx=cv.getContext('2d'),go=el.querySelector('.sp-go');
+ const TOK=['0','1','2','3','4','5','6','7','8','9','%','€','Ar','M','+12%','×3','ROI','CA','24','18','100','▲','◆','↗','■','BTP','MODE','GYM','VR','B2B','+8%','2 M','70 M','20%','+5%'];
+ let W=0,H=0,cols=[],raf=0,last=0,alive=true;const FS=15,STEP=70;
+ const size=()=>{const d=Math.min(2,window.devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);cx.fillStyle='#0B0E13';cx.fillRect(0,0,W,H);const n=Math.ceil(W/(FS*3.3));cols=Array.from({length:n},(_,i)=>({x:i*FS*3.3+4,y:-Math.random()*H/FS|0,s:.6+Math.random()*.9,t:0}))};
+ const tick=ts=>{if(!alive)return;raf=requestAnimationFrame(tick);
+  if(ts-last<STEP/1.6)return;last=ts;
+  cx.fillStyle='rgba(11,14,19,.14)';cx.fillRect(0,0,W,H);cx.font='600 '+FS+'px ui-monospace,SFMono-Regular,Menlo,monospace';cx.textBaseline='top';
+  cols.forEach(c=>{c.t+=c.s;if(c.t<1)return;c.t=0;const tk=TOK[Math.random()*TOK.length|0],yy=c.y*FS;
+   if(yy>=-FS&&yy<H){cx.fillStyle=Math.random()<.14?'#F2E3B6':'rgba(205,178,122,.78)';cx.fillText(tk,c.x,yy)}
+   c.y++;if(c.y*FS>H+FS&&Math.random()>.975)c.y=-(Math.random()*20|0)})};
+ size();addEventListener('resize',size);
+ if(red){for(let k=0;k<70;k++)cols.forEach(c=>{c.t=1});tick(1e5);alive=false;cancelAnimationFrame(raf)}else raf=requestAnimationFrame(tick);
+ let done=false;const end=()=>{if(done)return;done=true;alive=false;cancelAnimationFrame(raf);removeEventListener('resize',size);document.removeEventListener('keydown',key,true);el.classList.add('out');setTimeout(()=>el.remove(),700)};
+ const key=e=>{if(e.key==='Enter'||e.key===' '||e.key==='Escape'){e.preventDefault();end()}};
+ document.addEventListener('keydown',key,true);go.addEventListener('click',end);setTimeout(()=>{try{go.focus({preventScroll:true})}catch(e){}},1600);
 }
 (function init(){
  const saved=load(),nav=((navigator.language||'fr').slice(0,2)).toLowerCase();
