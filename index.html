@@ -4434,7 +4434,7 @@ let S;
 /* ---------- storage ---------- */
 function load(){try{const r=localStorage.getItem(LS);if(r)return JSON.parse(r)}catch(e){}return null}
 let saveT;
-function persist(){return{lang:S.lang,cur:S.cur,view:S.view,tab:S.tab,cid:S.cid,budget:S.budget,goal:S.goal,gmode:S.gmode,group:S.group,gpw:S.gpw,projects:S.projects}}
+function persist(){return{lang:S.lang,cur:S.cur,view:S.view,tab:S.tab,cid:S.cid,budget:S.budget,goal:S.goal,exCur:S.exCur,exCity:S.exCity,exBud:S.exBud,exGl:S.exGl,gmode:S.gmode,group:S.group,gpw:S.gpw,projects:S.projects}}
 function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(LS,JSON.stringify(persist()))}catch(e){}},200)}
 
 /* ---------- i18n + formatting ---------- */
@@ -5538,15 +5538,26 @@ const IDEAS=[
  cv:{value:['Imprimé, relié et rendu le jour même','Printed, bound and returned same day'],channels:['Sur place\nGroupes WhatsApp de promo','On site\nClass WhatsApp groups'],segments:['Étudiants en fin de cycle','Final-year students']}}
 ];
 
+/* ---------- market (currency) + city selection ---------- */
+const EX_CURS=['EUR','MGA'];
+const exC=()=>EX_CURS.includes(S.exCur)?S.exCur:(EX_CURS.includes(S.cur)?S.cur:'EUR');
+const exMk=()=>exC()==='MGA'?'MG':'EU';
+const exCity=()=>EU_CITIES.find(c=>c.k===S.exCity)||EU_CITIES[0];
+const exFr=()=>S.lang==='fr'||S.lang==='mg';
+const exBud=()=>{const c=exC(),v=S.exBud&&S.exBud[c];return v!=null?v:(c==='MGA'?(num(S.budget)||300000):2000)};
+const exGoal=()=>{const c=exC(),v=S.exGl&&S.exGl[c];return v!=null?v:(c==='MGA'?num(S.goal):0)};
+const exAll=()=>IDEAS.concat(IDEAS_EU);
+function exPool(mk){mk=mk||exMk();const tg=exCity().tags;return exAll().filter(i=>(i.mk||'MG')===mk&&(mk!=='EU'||(i.need||[]).every(x=>tg.includes(x))))}
+function exIdea(k){const i=exAll().find(x=>x.k===k);if(!i)return null;if((i.mk||'MG')!=='EU')return i;const f=exCity().f;return Object.assign({},i,{rev:i.rev.map(r=>Object.assign({},r,{price:Math.round(r.price*f*100)/100}))})}
 function ideaProject(k,budget){
- const id=IDEAS.find(x=>x.k===k);if(!id)return null;const fr=S.lang==='fr',L=a=>fr?a[0]:a[1];
- const p=newProject(L(id.name),'MGA');
- Object.assign(p,{launch:id.launch||0,example:true,country:'Madagascar',sector:L(id.sector),problem:L(id.problem),customer:L(id.customer),horizon:id.horizon||12,
+ const id=exIdea(k);if(!id)return null;const fr=S.lang==='fr',L=a=>fr?a[0]:a[1],eu=id.mk==='EU',CU=eu?'EUR':'MGA';
+ const p=newProject(L(id.name),CU);
+ Object.assign(p,{launch:id.launch||0,example:true,country:eu?'France':'Madagascar',sector:L(id.sector),problem:L(id.problem),customer:L(id.customer),horizon:id.horizon||12,
   invest:id.invest.map(x=>({id:uid(),name:L(x),amt:x[2]})),
   fund:[{id:uid(),name:t('ln_own'),amt:Math.max(budget||0,sum(id.invest.map(x=>x[2])))}],
   fixed:id.fixed.map(x=>({id:uid(),name:L(x),amt:x[2],per:'m'})),
   rev:id.rev.map(r=>({id:uid(),name:L(r.n),price:r.price,ucost:r.ucost,qty:r.qty,g:r.g})),
-  cv:Object.assign(newProject('','MGA').cv,{value:L(id.cv.value),channels:L(id.cv.channels),segments:L(id.cv.segments)}),
+  cv:Object.assign(newProject('',CU).cv,{value:L(id.cv.value),channels:L(id.cv.channels),segments:L(id.cv.segments)}),
   hyps:id.hyps.map(h=>({id:uid(),type:h[0],status:'todo',text:fr?h[1]:h[2],evidence:''})),
   comps:id.comps.map(c=>({id:uid(),name:L(c),price:c[2],pro:fr?c[3]:c[4],con:fr?c[5]:c[6]})),
   risks:id.risks.map(r=>({id:uid(),cat:r[0],text:fr?r[1]:r[2],prob:r[3],impact:r[4],mitig:fr?r[5]:r[6]})),
@@ -5559,27 +5570,27 @@ function ideaMetrics(id){
  const cap=need+sp.need,cls=ly(sc)<=0?3:(ly(sp)/cap>=0.2&&sp.pbM!==null)?1:2;
  return{id:id,p:p,need:need,H:H,sc:sc,sp:sp,sa:sa,wc:sp.need,cap:cap,ly:ly(sp),lyc:ly(sc),ret:ly(sp)/cap,cls:cls};
 }
-function ideaRank(budget){
- return IDEAS.map(id=>{const m=ideaMetrics(id);m.ok=m.cap<=budget;return m}).sort((a,b)=>(b.ok-a.ok)||(a.ok?((a.cls-b.cls)||(b.ret-a.ret)):(a.cap-b.cap)));
+function ideaRank(budget,mk){
+ return exPool(mk).map(id=>{const m=ideaMetrics(id);m.ok=m.cap<=budget;return m}).sort((a,b)=>(b.ok-a.ok)||(a.ok?((a.cls-b.cls)||(b.ret-a.ret)):(a.cap-b.cap)));
 }
 const durPill=c=>'<span class="pill p-'+(c===1?'solid':c===2?'verify':'fragile')+'">'+t('ex_dur'+c)+'</span>';
 function exList(){
- const b=num(S.budget),r=ideaRank(b),ok=r.filter(x=>x.ok),no=r.filter(x=>!x.ok),fr=S.lang==='fr',nm=x=>fr?x.id.name[0]:x.id.name[1];
+ const b=exBud(),r=ideaRank(b),ok=r.filter(x=>x.ok),no=r.filter(x=>!x.ok),fr=S.lang==='fr',nm=x=>fr?x.id.name[0]:x.id.name[1];
  if(b<=0)return'<p class="muted">'+t('ex_zero')+'</p>';
  let h='';
- if(!ok.length)h+='<p class="muted">'+t('ex_none',{n:fm(Math.min.apply(null,no.map(x=>x.cap)),'MGA')})+'</p>';
+ if(!ok.length)h+='<p class="muted">'+t('ex_none',{n:fm(Math.min.apply(null,no.map(x=>x.cap)),exC())})+'</p>';
  else h+='<div class="projects">'+ok.map((x,i)=>'<article class="pcard" data-act="exdet" data-id="'+x.id.k+'" style="cursor:pointer"><div class="row"><h3>'+esc(nm(x))+'</h3>'+(i===0?'<span class="tag">'+t('ex_best')+'</span>':'')+(x.id.tier?'<span class="tag">'+t('ex_scale')+'</span>':'')+durPill(x.cls)+'</div>'+
   '<p class="hint">'+esc(fr?x.id.problem[0]:x.id.problem[1])+'</p>'+
-  '<div class="kv"><div><span>'+t('ex_d_cap')+'</span><b>'+esc(fmk(x.cap,'MGA'))+'</b></div><div><span>'+t('ex_net')+'</span><b class="'+(x.ly<0?'neg':'')+'">'+esc(fmk(x.ly,'MGA'))+'</b></div></div>'+
+  '<div class="kv"><div><span>'+t('ex_d_cap')+'</span><b>'+esc(fmk(x.cap,exC()))+'</b></div><div><span>'+t('ex_net')+'</span><b class="'+(x.ly<0?'neg':'')+'">'+esc(fmk(x.ly,exC()))+'</b></div></div>'+
   '<div class="row"><button class="btn sm" data-act="exdet" data-id="'+x.id.k+'">'+t('ex_det')+'</button><button class="btn primary sm" data-act="exgo" data-id="'+x.id.k+'">'+t('ex_load')+I('arrow','flip')+'</button></div></article>').join('')+'</div>';
- if(no.length)h+='<div class="hint" style="margin-top:12px"><b>'+t('ex_above')+'</b><br>'+no.map(x=>esc(nm(x))+' : '+t('ex_short',{n:fm(x.cap-b,'MGA')})).join('<br>')+'</div>';
+ if(no.length)h+='<div class="hint" style="margin-top:12px"><b>'+t('ex_above')+'</b><br>'+no.map(x=>esc(nm(x))+' : '+t('ex_short',{n:fm(x.cap-b,exC())})).join('<br>')+'</div>';
  return h;
 }
 
 /* ---------- goal -> ideas: what would it take to reach a monthly target ---------- */
 function goalRank(goal,mode,budget){
  const fr=S.lang==='fr';
- return IDEAS.map(id=>{
+ return exPool().map(id=>{
   const x=ideaMetrics(id),H=x.H,s=x.sc,m=mode==='net'?s.net[H-1]:s.rev[H-1],u=s.units[H-1];
   const n=m>0?goal/m:Infinity,nn=Math.max(1,n);
   return Object.assign(x,{n:n,m:m,units:u*nn,capital:nn*x.cap,unit:fr?id.rev[0].n[0]:id.rev[0].n[1]});
@@ -5587,29 +5598,29 @@ function goalRank(goal,mode,budget){
 }
 const goalLevel=n=>n<=1.5?1:n<=6?2:n<=20?3:4;
 function goalList(){
- const g=num(S.goal),b=num(S.budget);
+ const g=exGoal(),b=exBud();
  if(g<=0)return'<p class="muted">'+t('ex_g_zero')+'</p>';
  const r=goalRank(g,S.gmode,b).filter(x=>isFinite(x.n)).slice(0,6);
  if(!r.length)return'<p class="muted">'+t('ex_g_none')+'</p>';
  const fr=S.lang==='fr',nm=x=>fr?x.id.name[0]:x.id.name[1],best=r[0];
- let h='<div class="warn-box" style="margin-bottom:10px">'+(best.n>1.5?t('ex_g_real',{g:fmk(g,'MGA'),n:(best.n<10?best.n.toFixed(1):Math.round(best.n))}):t('ex_g_ok',{g:fmk(g,'MGA')}))+'</div><div class="projects">';
+ let h='<div class="warn-box" style="margin-bottom:10px">'+(best.n>1.5?t('ex_g_real',{g:fmk(g,exC()),n:(best.n<10?best.n.toFixed(1):Math.round(best.n))}):t('ex_g_ok',{g:fmk(g,exC())}))+'</div><div class="projects">';
  h+=r.map(x=>{const lv=goalLevel(x.n),nn=Math.max(1,x.n);
   return'<article class="pcard" data-act="exdet" data-id="'+x.id.k+'" data-g="1" style="cursor:pointer"><div class="row"><h3>'+esc(nm(x))+'</h3><span class="pill p-'+(lv===1?'solid':lv<=3?'verify':'fragile')+'">'+t('ex_lv'+lv)+'</span>'+(x.id.tier?'<span class="tag">'+t('ex_scale')+'</span>':'')+durPill(x.cls)+'</div>'+
-  '<div class="kv"><div><span>'+t('ex_g_n')+'</span><b>× '+(nn<10?nn.toFixed(1):Math.round(nn))+'</b></div><div><span>'+t('ex_g_cap')+'</span><b>'+esc(fmk(x.capital,'MGA'))+'</b></div></div>'+
+  '<div class="kv"><div><span>'+t('ex_g_n')+'</span><b>× '+(nn<10?nn.toFixed(1):Math.round(nn))+'</b></div><div><span>'+t('ex_g_cap')+'</span><b>'+esc(fmk(x.capital,exC()))+'</b></div></div>'+
   '<p class="hint">'+t('ex_g_day',{u:fn(Math.round(x.units)),unit:esc(x.unit)})+'</p>'+
   '<div class="row"><button class="btn sm" data-act="exdet" data-id="'+x.id.k+'" data-g="1">'+t('ex_det')+'</button></div></article>'}).join('')+'</div>';
  return h;
 }
 /* ---------- full detail of one idea: capital, costs, margins, break-even, scenarios, durability ---------- */
 function exDetail(){
- const d=S.exDet,id=IDEAS.find(x=>x.k===d.k);if(!id)return'';
+ const d=S.exDet,id=exIdea(d.k);if(!id)return'';
  const fr=S.lang==='fr',L=a=>fr?a[0]:a[1],M=ideaMetrics(id),need=M.need,sc=M.sc,sp=M.sp,sa=M.sa,H=M.H,cap=M.cap,
-  fixT=sum(id.fixed.map(x=>x[2])),cu='MGA',row=(a,b)=>'<tr><td>'+esc(a)+'</td><td style="text-align:right">'+b+'</td></tr>',
+  fixT=sum(id.fixed.map(x=>x[2])),cu=exC(),row=(a,b)=>'<tr><td>'+esc(a)+'</td><td style="text-align:right">'+b+'</td></tr>',
   kp=(l,v)=>'<div class="kpi"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>',R=x=>'style="text-align:right"';
  let h='<div class="stack">';
  h+='<div class="row between"><div><span class="tag">'+esc(L(id.sector))+'</span> '+(id.tier?'<span class="tag">'+t('ex_scale')+'</span> ':'')+durPill(M.cls)+'<h3 style="margin-top:6px">'+esc(L(id.name))+'</h3></div><button class="btn sm ghost" data-act="exback">'+t('ex_back')+'</button></div>';
  h+='<p class="hint">'+esc(L(id.problem))+'<br><b>'+esc(L(id.customer))+'</b></p><p class="hint">'+t('ex_dur_h',{h:H})+'</p>';
- if(d.g){const g=num(S.goal),m=S.gmode==='net'?sc.net[H-1]:sc.rev[H-1],n=m>0?g/m:0,nn=Math.max(1,n),u=sc.units[H-1]*nn;
+ if(d.g){const g=exGoal(),m=S.gmode==='net'?sc.net[H-1]:sc.rev[H-1],n=m>0?g/m:0,nn=Math.max(1,n),u=sc.units[H-1]*nn;
   h+='<div class="warn-box"><b>'+t('ex_d_goal',{g:fmk(g,cu)})+'</b><br>'+(m>0?t('ex_d_goal_n',{n:(nn<10?nn.toFixed(1):Math.round(nn)),h:H,u:fn(Math.round(u)),unit:esc(L(id.rev[0].n)),c:fmk(nn*cap,cu)}):t('ex_g_none'))+'</div>'}
  h+='<div class="kpis">'+kp(t('ex_d_inv'),esc(fm(need,cu)))+kp(t('ex_d_wc'),esc(fm(sp.need,cu)))+kp(t('ex_d_cap'),'<span style="color:var(--accent)">'+esc(fm(cap,cu))+'</span>')+
   kp(t('ex_d_rev12',{h:H}),esc(fm(sc.rev[H-1],cu)))+kp(t('ex_d_net12',{h:H}),'<span class="'+(sc.net[H-1]<0?'neg':'')+'">'+esc(fm(sc.net[H-1],cu))+'</span>')+
@@ -5632,21 +5643,33 @@ function exDetail(){
 function exPanel(){
  if(S.exDet)return'<div class="card stack" id="expanel">'+head(t('ex_title'),'<button class="btn sm ghost" data-act="exclose">'+t('dash_cancel')+'</button>')+exDetail()+'</div>';
  return'<div class="card stack" id="expanel">'+head(t('ex_title'),'<button class="btn sm ghost" data-act="exclose">'+t('dash_cancel')+'</button>')+
- '<div class="field" style="max-width:360px"><label for="exbud">'+t('ex_budget')+'</label><input id="exbud" type="text" inputmode="numeric" value="'+fn(num(S.budget))+'" autocomplete="off"></div>'+
- '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_valid_t')+'</b><p class="hint">'+t('ex_valid_h')+'</p><div class="row"><button class="btn primary sm" data-act="exvalid">'+t('ex_valid_go')+'</button></div></div>'+'<p class="hint">'+t('ex_budget_h')+'</p><div id="exlist">'+exList()+'</div>'+
- '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_goal_t')+'</b><div class="row"><div class="field" style="min-width:220px;flex:1"><label for="exgoal">'+t('ex_goal')+'</label><input id="exgoal" type="text" inputmode="numeric" value="'+(num(S.goal)?fn(num(S.goal)):'')+'" placeholder="15 000 000" autocomplete="off"></div><div class="field"><label for="exgm">'+t('ex_gm')+'</label><select id="exgm"><option value="rev"'+(S.gmode!=='net'?' selected':'')+'>'+t('ex_gm_rev')+'</option><option value="net"'+(S.gmode==='net'?' selected':'')+'>'+t('ex_gm_net')+'</option></select></div></div><p class="hint">'+t('ex_goal_h')+'</p><div id="exgl">'+goalList()+'</div></div><p class="hint">'+t('ex_warn')+'</p></div>';
+ exMarket()+'<div class="field" style="max-width:360px"><label for="exbud">'+esc(exFr()?'Mon budget de départ':'My starting budget')+' ('+exC()+')</label><input id="exbud" type="text" inputmode="numeric" value="'+fn(exBud())+'" autocomplete="off"></div>'+
+ (exMk()==='MG'?'<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_valid_t')+'</b><p class="hint">'+t('ex_valid_h')+'</p><div class="row"><button class="btn primary sm" data-act="exvalid">'+t('ex_valid_go')+'</button></div></div>':'')+'<p class="hint">'+esc(exHint())+'</p><div id="exlist">'+exList()+'</div>'+
+ '<div class="card stack" style="background:var(--surface-2)"><b>'+t('ex_goal_t')+'</b><div class="row"><div class="field" style="min-width:220px;flex:1"><label for="exgoal">'+esc(exFr()?'Objectif à atteindre par mois':'Monthly target')+' ('+exC()+')</label><input id="exgoal" type="text" inputmode="numeric" value="'+(exGoal()?fn(exGoal()):'')+'" placeholder="'+(exC()==='MGA'?'15 000 000':'2 000')+'" autocomplete="off"></div><div class="field"><label for="exgm">'+t('ex_gm')+'</label><select id="exgm"><option value="rev"'+(S.gmode!=='net'?' selected':'')+'>'+t('ex_gm_rev')+'</option><option value="net"'+(S.gmode==='net'?' selected':'')+'>'+t('ex_gm_net')+'</option></select></div></div><p class="hint">'+t('ex_goal_h')+'</p><div id="exgl">'+goalList()+'</div></div><p class="hint">'+t('ex_warn')+'</p>'+exNote()+'</div>';
 }
 function exAct(a,d){
  if(a==='exclose'){S.exOpen=false;S.exDet=null;render();return}
  if(a==='exdet'){S.exDet={k:d.id,g:d.g==='1'};render();const el=$('#expanel');if(el&&el.scrollIntoView)el.scrollIntoView({block:'start'});return}
  if(a==='exback'){S.exDet=null;render();return}
  if(a==='exvalid'){const p=validatedProject('cake');if(!p)return;S.projects.unshift(p);S.exOpen=false;save();openProject(p.id,'rep');toast(t('tag_example'));return}
- if(a==='exgo'){const p=ideaProject(d.id,num(S.budget));if(!p)return;S.projects.unshift(p);S.exOpen=false;S.exDet=null;save();openProject(p.id,'ov');toast(t('tag_example'))}
+ if(a==='exgo'){const p=ideaProject(d.id,exBud());if(!p)return;S.projects.unshift(p);S.exOpen=false;S.exDet=null;save();openProject(p.id,'ov');toast(t('tag_example'))}
 }
-document.addEventListener('input',e=>{if(e.target.id==='exbud'){const v=parseNum(e.target.value);S.budget=v==null?0:v;save();const l=$('#exlist');if(l)l.innerHTML=exList();const g=$('#exgl');if(g)g.innerHTML=goalList()}
- if(e.target.id==='exgoal'){const v=parseNum(e.target.value);S.goal=v==null?0:v;save();const g=$('#exgl');if(g)g.innerHTML=goalList()}});
+document.addEventListener('input',e=>{if(e.target.id==='exbud'){const v=parseNum(e.target.value);S.exBud=S.exBud||{};S.exBud[exC()]=v==null?0:v;save();const l=$('#exlist');if(l)l.innerHTML=exList();const g=$('#exgl');if(g)g.innerHTML=goalList()}
+ if(e.target.id==='exgoal'){const v=parseNum(e.target.value);S.exGl=S.exGl||{};S.exGl[exC()]=v==null?0:v;save();const g=$('#exgl');if(g)g.innerHTML=goalList()}});
 document.addEventListener('change',e=>{if(e.target.id==='exgm'){S.gmode=e.target.value==='net'?'net':'rev';save();const g=$('#exgl');if(g)g.innerHTML=goalList()}});
-function makeExamples(){const b=300000,r=ideaRank(b).filter(x=>x.ok)[0];return r?[ideaProject(r.id.k,b)]:[]}
+function makeExamples(){const b=300000,r=ideaRank(b,'MG').filter(x=>x.ok)[0];return r?[ideaProject(r.id.k,b)]:[]}
+
+function exHint(){const fr=exFr();
+ return exMk()==='MG'?(fr?'Écris ce que tu peux vraiment mettre (capital de départ + trésorerie nécessaire). Les idées sont classées par durabilité : rentabilité de la dernière année même en cas prudent, puis rendement du capital.':'Enter what you can really put in (starting capital + cash needed). Ideas are ranked by durability: last-year profitability even in the cautious case, then return on capital.')
+ :(fr?'Écris ce que tu peux vraiment mettre (capital de départ + trésorerie nécessaire). Seules les idées faisables dans la ville choisie sont proposées, avec des prix européens ajustés à cette ville. Elles sont classées par durabilité, puis par rendement du capital.':'Enter what you can really put in (starting capital + cash needed). Only ideas feasible in the chosen city are offered, with European prices adjusted to that city. They are ranked by durability, then return on capital.')}
+function exNote(){if(exMk()==='MG')return'';const fr=exFr();return'<p class="hint">'+esc(fr?'Pour l\'Europe : les cotisations sociales et les impôts ne sont pas déduits dans ces chiffres. Si tu es en micro-entreprise, ils représentent une part du chiffre d\'affaires à vérifier auprès de l\'URSSAF ou d\'un comptable. Les règles d\'autorisation (plage, marché, alimentation, location courte durée) dépendent de la commune.':'For Europe: social contributions and taxes are not deducted in these figures. If you are a micro-business, they take a share of revenue to verify with your tax office or an accountant. Permit rules (beach, market, food, short-term rental) depend on the town.')+'</p>'}
+function exMarket(){const fr=exFr(),c=exC(),city=exCity();
+ return'<div class="row" style="gap:12px;align-items:flex-end;flex-wrap:wrap"><div class="field" style="min-width:210px"><label for="excur">'+esc(fr?'Devise et pays':'Currency and country')+'</label><select id="excur"><option value="EUR"'+(c==='EUR'?' selected':'')+'>EUR · '+(fr?'Europe (France)':'Europe (France)')+'</option><option value="MGA"'+(c==='MGA'?' selected':'')+'>MGA · Madagascar</option></select></div>'+
+ (c==='EUR'?'<div class="field" style="min-width:240px"><label for="excity">'+esc(fr?'Ville ou zone':'City or area')+'</label><select id="excity">'+EU_CITIES.map(x=>'<option value="'+x.k+'"'+(x.k===city.k?' selected':'')+'>'+esc(fr?x.n[0]:x.n[1])+'</option>').join('')+'</select></div>':'')+'</div>'+
+ '<p class="hint">'+esc(fr?'Le catalogue est disponible pour l\'Europe (euro) et Madagascar (ariary). Les autres devises arrivent plus tard : ce qui marche dans un pays ne marche pas forcément dans un autre.':'The catalogue covers Europe (euro) and Madagascar (ariary). Other currencies come later: what works in one country does not always work in another.')+'</p>'}
+document.addEventListener('change',e=>{
+ if(e.target.id==='excur'){S.exCur=e.target.value;save();render()}
+ if(e.target.id==='excity'){S.exCity=e.target.value;save();render()}});
 
 /* ---------- larger-scale ideas (tier 'scale'). Order-of-magnitude estimates for Madagascar: verify with 3 real quotes each ---------- */
 IDEAS.push(
@@ -5739,6 +5762,142 @@ IDEAS.push(
  comps:[['Boissons industrielles','Industrial drinks',2000,'Partout','Everywhere','Très sucrées','Very sugary']],
  cv:{value:['Un vrai jus local, conservé, disponible partout','Real local juice, preserved, available everywhere'],channels:['Distributeurs\nÉpiceries\nÉcoles','Distributors\nGroceries\nSchools'],segments:['Épiceries, supérettes, restaurants','Groceries, mini-markets, restaurants']}}
 );
+
+/* ---------- Catalogue EUROPE (devise EUR). Montants = estimations de départ à vérifier avec 3 devis ou 3 clients réels.
+   need = conditions de lieu : 'big' grande ville, 'tourist' ville touristique, 'beach' littoral/plage. Les prix sont ajustés selon la ville choisie. ---------- */
+const IDEAS_EU=[
+{k:'eu_tutor',mk:'EU',need:[],min:300,name:['Cours particuliers et soutien scolaire','Private tutoring'],sector:['Services','Services'],
+ problem:['Des parents cherchent un répétiteur fiable pour le collège, le lycée ou les langues, sans passer par un gros organisme.','Parents look for a reliable tutor for school subjects or languages, without a big provider.'],
+ customer:['Parents d\'élèves de 6e à terminale et étudiants en prépa ou en licence autour de chez toi.','Parents of pupils and students around you.'],
+ invest:[['Profil sur plateformes et flyers','Platform profile and flyers',60],['Fournitures et ardoise numérique','Supplies and digital board',90]],
+ fixed:[['Internet et téléphone','Internet and phone',25],['Transport','Transport',40]],
+ rev:[{n:['Heure de cours','Hour of tutoring'],price:26,ucost:2,qty:20,g:3}],
+ hyps:[['value','Des parents paient 26 € de l\'heure pour une matière que je maîtrise.','Parents will pay €26 an hour for a subject I master.'],['growth','Je trouve 5 élèves en 2 mois par plateformes et bouche-à-oreille.','I find 5 pupils in 2 months via platforms and word of mouth.']],
+ risks:[['commercial','Les plateformes écrasent les prix et gardent une commission.','Platforms push prices down and take a commission.',3,2,'Viser le bouche-à-oreille et les écoles du quartier, garder 2 canaux.','Aim for word of mouth and local schools; keep 2 channels.'],['legal','Il faut déclarer l\'activité (micro-entreprise) pour être en règle.','The activity must be declared (micro-business) to be legal.',2,3,'Déclarer l\'activité avant le premier paiement et noter les cotisations à payer.','Declare before the first payment and set aside social contributions.']],
+ acts:[['Demander à 5 parents leur tarif habituel','Ask 5 parents what they usually pay',5,0],['Faire une séance d\'essai gratuite','Give one free trial session',10,0]],
+ comps:[['Plateforme de cours en ligne','Online tutoring platform',24,'Beaucoup de clients','Many clients','Commission et concurrence','Commission and competition']],
+ cv:{value:['Un cours sur mesure, proche et à prix juste','A tailored, close, fair-priced lesson'],channels:['Plateformes de cours\nBouche-à-oreille\nÉcoles du quartier','Tutoring platforms\nWord of mouth\nLocal schools'],segments:['Parents d\'élèves et étudiants','Parents and students']}},
+{k:'eu_cm',mk:'EU',need:[],min:600,name:['Gestion des réseaux sociaux pour commerces locaux','Social media for local businesses'],sector:['Marketing digital','Digital marketing'],
+ problem:['Les restaurants, salons et boutiques ont un compte Instagram sans photos soignées ni publications régulières.','Restaurants, salons and shops have an Instagram account without good photos or regular posts.'],
+ customer:['Commerçants, restaurateurs et salons de ton quartier.','Shopkeepers, restaurateurs and salons in your area.'],
+ invest:[['Outils de création (abonnement annuel)','Creation tools (annual)',150],['Budget publicité de test','Test ad budget',200],['Matériel (trépied, micro)','Gear (tripod, mic)',150]],
+ fixed:[['Forfait téléphone et internet','Phone and internet',25],['Outils de planification','Scheduling tools',30]],
+ rev:[{n:['Client : gestion mensuelle','Client: monthly management'],price:350,ucost:30,qty:2,g:8}],
+ hyps:[['value','Un commerçant paie 350 € par mois pour des publications régulières et soignées.','A shopkeeper pays €350 a month for regular, polished posts.'],['growth','Je convaincs 2 commerces avec 3 exemples avant/après.','I win 2 businesses with 3 before/after examples.']],
+ risks:[['commercial','Le client attend des ventes immédiates.','The client expects instant sales.',3,2,'Écrire ce que je livre (publications, visuels), pas les ventes.','Write what I deliver (posts, visuals), not sales.'],['operational','Un client mécontent fait baisser ma réputation locale.','An unhappy client hurts my local reputation.',2,2,'Contrat d\'un mois renouvelable et point mensuel.','One-month renewable contract and a monthly review.']],
+ acts:[['Refaire gratuitement le compte d\'un commerce proche','Rework a nearby business\'s account for free',7,0],['Présenter 3 exemples à 5 commerçants','Show 3 examples to 5 shopkeepers',14,0]],
+ comps:[['Petite agence de communication','Small communication agency',700,'Équipe complète','Full team','Prix élevé','High price'],['Freelance sur plateforme','Platform freelancer',150,'Peu cher','Cheap','Qualité variable','Variable quality']],
+ cv:{value:['Un compte vivant, régulier et soigné, géré par quelqu\'un du quartier','A lively, regular, polished account run by someone local'],channels:['Prospection en boutique\nInstagram\nBouche-à-oreille','In-shop prospecting\nInstagram\nWord of mouth'],segments:['Restaurants, salons, boutiques','Restaurants, salons, shops']}},
+{k:'eu_photore',mk:'EU',need:[],min:800,name:['Photo immobilière et logements de location','Real-estate and rental photography'],sector:['Photographie','Photography'],
+ problem:['Les agences et les propriétaires publient des annonces avec des photos sombres qui se vendent moins bien.','Agencies and owners post dark photos that sell less.'],
+ customer:['Agences immobilières, propriétaires de locations de vacances et hôtes de plateformes.','Estate agencies, holiday-rental owners and platform hosts.'],
+ invest:[['Objectif grand-angle','Wide-angle lens',400],['Trépied et flash','Tripod and flash',150],['Logiciel de retouche','Editing software',100],['Site portfolio','Portfolio site',50]],
+ fixed:[['Assurance responsabilité professionnelle','Professional liability insurance',25],['Transport','Transport',40],['Hébergement des photos','Photo hosting',12]],
+ rev:[{n:['Shooting d\'un logement','Property shoot'],price:120,ucost:10,qty:12,g:5}],
+ hyps:[['value','Une agence paie 120 € pour un logement livré en 48 h.','An agency pays €120 for a property delivered in 48h.'],['growth','Je signe 2 agences après un test gratuit de 3 logements.','I sign 2 agencies after a free test of 3 properties.']],
+ risks:[['commercial','Les agences ont déjà un photographe habituel.','Agencies already have a regular photographer.',3,2,'Proposer un tarif de test et un délai plus rapide.','Offer a test price and faster turnaround.'],['operational','La retouche prend plus de temps que prévu.','Editing takes longer than expected.',2,2,'Créer des préréglages et un modèle de livraison.','Build presets and a delivery template.']],
+ acts:[['Photographier gratuitement un logement et le montrer à 5 agences','Shoot one property for free and show 5 agencies',10,0],['Lister 20 agences et hôtes de la zone','List 20 agencies and hosts nearby',5,0]],
+ comps:[['Photographe immobilier établi','Established property photographer',150,'Réputation','Reputation','Délais plus longs','Longer lead times']],
+ cv:{value:['Des photos nettes livrées en 48 h','Sharp photos delivered in 48h'],channels:['Prospection directe des agences\nInstagram\nGroupes d\'hôtes','Direct agency outreach\nInstagram\nHost groups'],segments:['Agences et propriétaires de locations','Agencies and rental owners']}},
+{k:'eu_concierge',mk:'EU',need:['tourist'],min:1500,name:['Conciergerie de locations courte durée','Short-stay rental concierge'],sector:['Services','Services'],
+ problem:['Les propriétaires de logements loués aux touristes n\'ont pas le temps d\'accueillir, nettoyer et répondre aux voyageurs.','Owners of tourist rentals have no time to welcome guests, clean and answer travellers.'],
+ customer:['Propriétaires de studios et d\'appartements loués en courte durée dans les villes touristiques.','Owners of studios and flats rented short-term in tourist cities.'],
+ invest:[['Boîtes à clés et serrures','Key boxes and locks',250],['Stock de linge','Linen stock',500],['Outils et site','Tools and site',250],['Assurance de lancement','Launch insurance',150]],
+ fixed:[['Téléphone et logiciel de réservations','Phone and booking software',60],['Transport','Transport',80]],
+ rev:[{n:['Logement géré (par mois)','Managed property (per month)'],price:300,ucost:120,qty:3,g:10}],
+ hyps:[['value','Un propriétaire laisse 20 % de ses revenus pour ne plus s\'en occuper.','An owner gives up 20% of revenue to stop handling it.'],['growth','Je gère 3 logements en 4 mois via mon réseau.','I manage 3 properties within 4 months through my network.']],
+ risks:[['legal','Les règles locales de location courte durée peuvent changer ou limiter le nombre de nuits.','Local short-stay rules may change or cap nights.',3,3,'Vérifier la règle de la ville avant de signer un propriétaire.','Check the city rule before signing an owner.'],['operational','Un dégât ou un client difficile engage ma responsabilité.','Damage or a difficult guest engages my liability.',2,3,'Contrat clair, assurance et état des lieux photo à chaque séjour.','Clear contract, insurance and photo check at each stay.']],
+ acts:[['Lire la règle de la ville sur la location courte durée','Read the city rule on short-term rentals',3,0],['Contacter 10 propriétaires d\'annonces existantes','Contact 10 owners of existing listings',14,0]],
+ comps:[['Grande conciergerie nationale','National concierge company',0,'Marque connue','Known brand','Commission élevée','High commission']],
+ cv:{value:['Votre logement tourne sans que vous ne vous en occupiez','Your property runs without you handling it'],channels:['Annonces existantes\nBouche-à-oreille\nGroupes de propriétaires','Existing listings\nWord of mouth\nOwner groups'],segments:['Propriétaires de locations touristiques','Tourist rental owners']}},
+{k:'eu_oral',mk:'EU',need:['big'],min:500,name:['Coaching prise de parole et anglais pour étudiants et jeunes actifs','Public speaking and English coaching for students and young professionals'],sector:['Éducation','Education'],
+ problem:['Beaucoup d\'étudiants et de jeunes actifs ont des idées mais perdent leurs moyens à l\'oral, en entretien ou en soutenance.','Many students and young professionals have ideas but freeze when speaking in interviews or presentations.'],
+ customer:['Étudiants en master, candidats à l\'alternance et jeunes cadres des grandes villes.','Master students, work-study candidates and young professionals in big cities.'],
+ invest:[['Supports et exercices','Materials and exercises',60],['Flyers et profil en ligne','Flyers and online profile',80],['Matériel d\'enregistrement','Recording gear',60]],
+ fixed:[['Téléphone et internet','Phone and internet',25],['Salle louée à l\'heure','Room rented by the hour',60],['Transport','Transport',30]],
+ rev:[{n:['Séance individuelle (1 h)','Individual session (1h)'],price:45,ucost:3,qty:14,g:5},{n:['Atelier de groupe (par participant)','Group workshop (per participant)'],price:25,ucost:4,qty:16,g:4}],
+ hyps:[['value','Un étudiant paie 45 € pour préparer un oral important avec un retour précis.','A student pays €45 to prepare an important talk with precise feedback.'],['growth','Je remplis un atelier de 8 personnes via les associations d\'étudiants.','I fill an 8-person workshop via student associations.']],
+ risks:[['commercial','Beaucoup de contenus gratuits en ligne concurrencent les cours.','Lots of free online content competes.',3,2,'Vendre le retour personnalisé et l\'entraînement en direct.','Sell personalised feedback and live practice.'],['personal','Je dois rester crédible : mon propre niveau doit être solide et visible.','I must stay credible: my own level must be strong and visible.',2,2,'Montrer des vidéos de mes interventions et des témoignages.','Show videos of my talks and testimonials.']],
+ acts:[['Animer un atelier gratuit dans une association d\'étudiants','Run a free workshop for a student association',14,0],['Recueillir 5 témoignages écrits','Collect 5 written testimonials',30,0]],
+ comps:[['Coach de prise de parole établi','Established speaking coach',90,'Réputation','Reputation','Prix élevé','High price']],
+ cv:{value:['Parler avec assurance grâce à un entraînement concret','Speak with confidence through hands-on training'],channels:['Associations d\'étudiants\nLinkedIn\nBouche-à-oreille','Student associations\nLinkedIn\nWord of mouth'],segments:['Étudiants et jeunes actifs','Students and young professionals']}},
+{k:'eu_video',mk:'EU',need:[],min:700,name:['Vidéos courtes pour restaurants et commerces','Short videos for restaurants and shops'],sector:['Contenu','Content'],
+ problem:['Les restaurants et boutiques savent qu\'il faut de la vidéo, mais n\'ont ni le temps ni les compétences pour la produire.','Restaurants and shops know they need video but lack time and skills to make it.'],
+ customer:['Restaurants, salons, boutiques et hôtels indépendants.','Independent restaurants, salons, shops and hotels.'],
+ invest:[['Stabilisateur et micro','Stabiliser and microphone',250],['Logiciel de montage (annuel)','Editing software (annual)',120],['Budget de test','Test budget',100]],
+ fixed:[['Téléphone et internet','Phone and internet',25],['Stockage et outils','Storage and tools',25],['Transport','Transport',30]],
+ rev:[{n:['Pack mensuel de 4 vidéos','Monthly pack of 4 videos'],price:240,ucost:20,qty:3,g:8}],
+ hyps:[['value','Un restaurant paie 240 € par mois pour 4 vidéos qui donnent envie.','A restaurant pays €240 a month for 4 videos that make people hungry.'],['growth','Je signe 3 clients après 3 vidéos de démonstration.','I sign 3 clients after 3 demo videos.']],
+ risks:[['commercial','Le client ne voit pas tout de suite l\'effet sur ses ventes.','The client does not see an immediate effect on sales.',3,2,'Suivre les vues et les réservations et les montrer chaque mois.','Track views and bookings and show them monthly.'],['operational','Le tournage dépend des horaires du client.','Shooting depends on the client\'s schedule.',2,2,'Fixer 1 demi-journée de tournage par mois.','Fix 1 half-day of shooting per month.']],
+ acts:[['Tourner une vidéo gratuite pour un restaurant proche','Shoot one free video for a nearby restaurant',7,0],['Présenter 3 vidéos à 5 commerçants','Show 3 videos to 5 shopkeepers',14,0]],
+ comps:[['Agence de production vidéo','Video production agency',1200,'Qualité','Quality','Prix','Price']],
+ cv:{value:['Des vidéos courtes qui donnent envie de venir','Short videos that make people want to visit'],channels:['Prospection en boutique\nInstagram et TikTok\nBouche-à-oreille','In-shop outreach\nInstagram and TikTok\nWord of mouth'],segments:['Restaurants et commerces indépendants','Independent restaurants and shops']}},
+{k:'eu_thrift',mk:'EU',need:[],min:700,name:['Revente de vêtements de seconde main','Second-hand clothing resale'],sector:['Commerce','Retail'],
+ problem:['La seconde main progresse, mais trier, photographier et vendre prend du temps que beaucoup de gens n\'ont pas.','Second-hand is growing but sorting, photographing and selling takes time many people lack.'],
+ customer:['Acheteurs de 18-35 ans sur les plateformes de seconde main.','Buyers aged 18-35 on second-hand platforms.'],
+ invest:[['Stock de départ (friperies, dépôts-ventes)','Starting stock (thrift shops)',400],['Photos, cintres, emballages','Photos, hangers, packaging',100]],
+ fixed:[['Emballages et envois non refacturés','Packaging and unbilled shipping',30],['Transport pour s\'approvisionner','Transport for sourcing',40]],
+ rev:[{n:['Article revendu','Item resold'],price:18,ucost:8,qty:90,g:2}],
+ hyps:[['value','Je revends un lot à 18 € par article en moyenne, achats compris à 8 €.','I resell at an average €18 per item, bought at €8.'],['growth','Je vends 60 articles par mois au bout de 3 mois.','I sell 60 items a month after 3 months.']],
+ risks:[['legal','Revendre régulièrement devient une activité à déclarer.','Regular reselling becomes an activity that must be declared.',3,3,'Déclarer l\'activité dès que les ventes deviennent régulières.','Declare the activity once sales become regular.'],['supplier','Les bons lots se raréfient quand tout le monde s\'y met.','Good lots get scarce as more people join.',2,2,'Avoir 3 sources d\'approvisionnement différentes.','Keep 3 different sourcing channels.']],
+ acts:[['Acheter 20 pièces et les revendre en 3 semaines','Buy 20 pieces and resell them within 3 weeks',21,200],['Noter les prix de revente de 30 articles similaires','Note resale prices of 30 similar items',5,0]],
+ comps:[['Boutique de friperie','Thrift shop',22,'Visible','Visible','Loyer et horaires','Rent and hours']],
+ cv:{value:['Du style sélectionné à petit prix','Selected style at a small price'],channels:['Plateformes de seconde main\nInstagram','Second-hand platforms\nInstagram'],segments:['Acheteurs de 18 à 35 ans','Buyers aged 18-35']}},
+{k:'eu_market',mk:'EU',need:[],min:1000,name:['Bougies et objets artisanaux sur les marchés','Handmade candles and objects at markets'],sector:['Artisanat','Craft'],
+ problem:['Les marchés et boutiques en ligne manquent de petites séries soignées, fabriquées localement.','Markets and online shops lack carefully made small local batches.'],
+ customer:['Visiteurs de marchés, acheteurs de cadeaux et boutiques de décoration.','Market visitors, gift buyers and decoration shops.'],
+ invest:[['Matières premières et moules','Raw materials and moulds',400],['Stand, table et parasol','Stall, table and parasol',300],['Étiquetage et emballages','Labelling and packaging',150]],
+ fixed:[['Emplacements de marché','Market pitches',120],['Transport','Transport',40]],
+ rev:[{n:['Bougie vendue','Candle sold'],price:14,ucost:5,qty:150,g:2}],
+ hyps:[['value','Un visiteur achète une bougie à 14 € parce que l\'histoire et l\'odeur lui plaisent.','A visitor buys a €14 candle because the story and scent appeal.'],['growth','Je vends 150 pièces par mois avec 2 marchés par semaine.','I sell 150 pieces a month with 2 markets a week.']],
+ risks:[['legal','L\'étiquetage et la sécurité des bougies sont réglementés.','Candle labelling and safety are regulated.',2,3,'Vérifier les obligations d\'étiquetage avant la première vente.','Check labelling obligations before the first sale.'],['commercial','Les emplacements de marché sont limités et saisonniers.','Market pitches are limited and seasonal.',3,2,'Demander plusieurs marchés et ajouter une vente en ligne.','Apply to several markets and add online sales.']],
+ acts:[['Fabriquer 30 bougies et les tester sur un marché','Make 30 candles and test them at a market',21,100],['Demander 3 emplacements de marché','Apply for 3 market pitches',7,0]],
+ comps:[['Boutique de décoration','Decoration shop',18,'Visible','Visible','Prix plus élevé','Higher price']],
+ cv:{value:['Une bougie locale avec une histoire','A local candle with a story'],channels:['Marchés\nBoutique en ligne\nRéseaux sociaux','Markets\nOnline shop\nSocial media'],segments:['Acheteurs de cadeaux et de décoration','Gift and decoration buyers']}},
+{k:'eu_phototour',mk:'EU',need:['tourist'],min:600,name:['Séances photo souvenirs pour touristes et couples','Souvenir photo sessions for tourists and couples'],sector:['Photographie','Photography'],
+ problem:['Les touristes veulent des photos soignées de leur séjour, mais personne ne veut perdre du temps à demander à un inconnu.','Tourists want polished photos of their stay but do not want to ask strangers.'],
+ customer:['Couples, familles et groupes d\'amis en séjour dans les villes touristiques.','Couples, families and groups of friends staying in tourist cities.'],
+ invest:[['Objectif portrait','Portrait lens',350],['Réflecteur et accessoires','Reflector and accessories',120],['Site de réservation','Booking site',100]],
+ fixed:[['Assurance responsabilité','Liability insurance',20],['Publicité en ligne','Online ads',50],['Transport','Transport',40]],
+ rev:[{n:['Séance de 45 minutes','45-minute session'],price:90,ucost:8,qty:14,g:4}],
+ hyps:[['value','Un couple paie 90 € pour 20 photos retouchées de leur séjour.','A couple pays €90 for 20 retouched photos of their stay.'],['growth','Je fais 10 séances par mois en saison grâce aux avis.','I do 10 sessions a month in season thanks to reviews.']],
+ risks:[['commercial','L\'activité est surtout saisonnière.','The activity is mostly seasonal.',3,3,'Prévoir une activité de complément hors saison (portraits, entreprises).','Plan complementary off-season work (portraits, businesses).'],['legal','Photographier à titre professionnel dans certains lieux demande une autorisation.','Professional shooting at some sites needs permission.',2,2,'Choisir des lieux publics autorisés et vérifier les règles de la ville.','Pick permitted public places and check city rules.']],
+ acts:[['Faire 3 séances gratuites contre avis et photos de démonstration','Do 3 free sessions in exchange for reviews and demo photos',14,0],['Déposer 3 annonces sur des plateformes d\'expériences','List 3 offers on experience platforms',10,0]],
+ comps:[['Photographe de rue local','Local street photographer',100,'Réputation','Reputation','Peu disponible','Hardly available']],
+ cv:{value:['Des souvenirs soignés de votre séjour, en 45 minutes','Polished memories of your stay in 45 minutes'],channels:['Plateformes d\'expériences\nInstagram\nHôtels partenaires','Experience platforms\nInstagram\nPartner hotels'],segments:['Couples, familles et touristes','Couples, families and tourists']}},
+{k:'eu_beach',mk:'EU',need:['beach'],min:2500,name:['Stand de jus frais, glaces et snacks en bord de mer','Fresh juice, ice cream and snack stand by the sea'],sector:['Restauration','Food service'],
+ problem:['En été, les plages et les fronts de mer manquent de boissons fraîches et de snacks de qualité à prix correct.','In summer, beaches and seafronts lack quality cold drinks and snacks at fair prices.'],
+ customer:['Baigneurs, familles et touristes sur les plages et fronts de mer.','Swimmers, families and tourists on beaches and seafronts.'],
+ invest:[['Stand mobile ou vélo-cargo','Mobile stand or cargo bike',1800],['Formation hygiène et équipement de froid','Food-hygiene course and cooling gear',500],['Stock de départ','Starting stock',300]],
+ fixed:[['Autorisation d\'occupation (moyenne annuelle)','Occupation permit (annual average)',150],['Assurance','Insurance',40],['Transport','Transport',60]],
+ rev:[{n:['Boisson ou glace vendue','Drink or ice cream sold'],price:4.5,ucost:1.4,qty:900,g:0}],
+ hyps:[['value','Un passant paie 4,5 € pour un jus frais ou une glace de qualité.','A passer-by pays €4.5 for a fresh juice or good ice cream.'],['growth','Je vends 40 articles par jour en pleine saison.','I sell 40 items a day in peak season.']],
+ risks:[['legal','L\'autorisation d\'occuper la plage est souvent attribuée par la commune et limitée.','The permit to operate on the beach is often allocated by the town and limited.',3,3,'Contacter la mairie avant tout achat et demander les conditions écrites.','Contact the town hall before buying anything and get conditions in writing.'],['commercial','Les ventes dépendent de la météo et de la saison : le chiffre est lissé sur l\'année.','Sales depend on weather and season: the figure is averaged over the year.',3,3,'Prévoir une trésorerie pour l\'hiver et une activité de complément.','Keep cash for winter and a complementary activity.']],
+ acts:[['Demander à la mairie les conditions d\'autorisation','Ask the town hall about permit conditions',5,0],['Tester 2 week-ends sur un marché ou un événement','Test 2 weekends at a market or event',21,150]],
+ comps:[['Buvette de plage existante','Existing beach bar',5,'Emplacement fixe','Fixed spot','Prix élevés','High prices']],
+ cv:{value:['Une boisson fraîche de qualité, à deux pas de la plage','A quality cold drink steps from the beach'],channels:['Sur place\nInstagram\nÉvénements locaux','On site\nInstagram\nLocal events'],segments:['Baigneurs, familles, touristes','Swimmers, families, tourists']}},
+{k:'eu_mealprep',mk:'EU',need:['big'],min:1500,name:['Repas healthy préparés et livrés','Healthy prepared meals, delivered'],sector:['Restauration','Food service'],
+ problem:['Les actifs et les sportifs veulent manger sainement mais n\'ont pas le temps de cuisiner chaque jour.','Busy professionals and athletes want to eat well but have no time to cook daily.'],
+ customer:['Actifs, sportifs et salles de sport des grandes villes.','Professionals, athletes and gyms in big cities.'],
+ invest:[['Formation hygiène alimentaire','Food-hygiene course',300],['Contenants et emballages','Containers and packaging',250],['Matériel de cuisine','Kitchen equipment',600]],
+ fixed:[['Cuisine partagée louée','Shared kitchen rental',250],['Assurance','Insurance',40],['Transport de livraison','Delivery transport',60]],
+ rev:[{n:['Repas livré','Delivered meal'],price:9.5,ucost:4.5,qty:200,g:5}],
+ hyps:[['value','Un actif paie 9,5 € par repas sain livré à son travail.','A professional pays €9.5 per healthy meal delivered at work.'],['growth','Je livre 200 repas par mois avec 15 clients réguliers.','I deliver 200 meals a month with 15 regular clients.']],
+ risks:[['legal','La production alimentaire est réglementée (hygiène, déclaration, traçabilité).','Food production is regulated (hygiene, registration, traceability).',3,3,'Se former et déclarer l\'activité avant la première vente ; utiliser une cuisine agréée.','Train and register before the first sale; use a licensed kitchen.'],['operational','Les pertes alimentaires peuvent manger la marge.','Food waste can eat the margin.',2,2,'Produire seulement sur commande à l\'avance.','Produce only on pre-orders.']],
+ acts:[['Faire 20 repas tests pour 5 clients','Make 20 test meals for 5 clients',14,100],['Contacter 5 salles de sport et entreprises','Contact 5 gyms and companies',10,0]],
+ comps:[['Service de plats préparés','Prepared-meal service',11,'Pratique','Convenient','Moins personnalisé','Less personalised']],
+ cv:{value:['Des repas sains prêts à manger, sans y penser','Healthy ready meals without thinking about it'],channels:['Salles de sport\nEntreprises\nInstagram','Gyms\nCompanies\nInstagram'],segments:['Actifs et sportifs urbains','Urban professionals and athletes']}}
+];
+/* Where each city sits: tags decide which ideas make sense; priceF adjusts selling prices (rough estimate). */
+const EU_CITIES=[
+ {k:'paris',n:['Paris et Île-de-France','Paris and Île-de-France'],tags:['big','tourist'],f:1.15},
+ {k:'metro',n:['Lyon, Lille, Toulouse, Nantes','Lyon, Lille, Toulouse, Nantes'],tags:['big'],f:1},
+ {k:'bordeaux',n:['Bordeaux','Bordeaux'],tags:['big','tourist'],f:1},
+ {k:'marseille',n:['Marseille (Méditerranée)','Marseille (Mediterranean)'],tags:['big','tourist','beach'],f:.95},
+ {k:'nice',n:['Nice et Côte d\'Azur','Nice and Riviera'],tags:['big','tourist','beach'],f:1.1},
+ {k:'resort',n:['Station balnéaire','Seaside resort'],tags:['tourist','beach'],f:1},
+ {k:'mid',n:['Ville moyenne','Mid-size town'],tags:[],f:.85}
+];
 
 /* ---------- validated project (worked example) + gate + send to Suivi ---------- */
 function validatedProject(k){
